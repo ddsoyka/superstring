@@ -1,6 +1,12 @@
 {
-  "short_name": "Superstring",
   "name": "Superstring",
+  "description": "A web application for generating and manipulating strings.",
+  "dir": "ltr",
+  "lang": "en-US",
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff",
   "icons": [
     {
       "src": "favicon.ico",
@@ -17,9 +23,5 @@
       "type": "image/png",
       "sizes": "512x512"
     }
-  ],
-  "start_url": ".",
-  "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  ]
 }
