@@ -11,10 +11,14 @@ import './About.css';
 function About() {
     return (
         <>
-            <header id="about">
+            <header>
                 <Container as="section">
-                    <Images.Group height="15rem" title="About" />
-                    <h1 id="title">About</h1>
+                    <Row className="justify-content-center">
+                        <Images.Group className="header-image" title="About" />
+                    </Row>
+                    <Row className="justify-content-center">
+                        <h1 className="header-title">About</h1>
+                    </Row>
                 </Container>
             </header>
             <Container id="contact" className="segment" as="section">

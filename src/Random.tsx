@@ -8,6 +8,7 @@ import {
 from 'react-router-dom';
 import {
     Container,
+    Row,
     Button,
     Card,
     CardDeck
@@ -19,13 +20,19 @@ class Random extends Component {
     render() {
         return (
             <>
-                <header id="random">
+                <header>
                     <Container as="section">
-                        <Images.Random height="15rem" title="Random" />
-                        <h1 className="title">Random</h1>
-                        <p className="description">
-                            Tools for creating random data
-                        </p>
+                        <Row className="justify-content-center">
+                            <Images.Random className="header-image" title="Random" />
+                        </Row>
+                        <Row className="justify-content-center">
+                            <h1 className="header-title">Random</h1>
+                        </Row>
+                        <Row className="justify-content-center">
+                            <p className="header-description">
+                                Tools for creating random data
+                            </p>
+                        </Row>
                     </Container>
                 </header>
                 <Container id="random-tools" className="segment" as="section">

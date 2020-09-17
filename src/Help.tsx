@@ -4,6 +4,7 @@ import React, {
 from 'react';
 import {
     Container,
+    Row,
     ListGroup
 }
 from 'react-bootstrap';
@@ -13,13 +14,19 @@ class Help extends Component {
     render() {
         return (
             <>
-                <header id="help">
+                <header>
                     <Container as="section">
-                        <Images.Help height="15rem" title="Help" />
-                        <h1 className="title">Help</h1>
-                        <p className="description">
-                            Find information and guidance here
-                        </p>
+                        <Row className="justify-content-center">
+                            <Images.Help className="header-image" title="Help" />
+                        </Row>
+                        <Row className="justify-content-center">
+                            <h1 className="header-title">Help</h1>
+                        </Row>
+                        <Row className="justify-content-center">
+                            <p className="header-description">
+                                Find information and guidance here.
+                            </p>
+                        </Row>
                     </Container>
                 </header>
                 <Container id="table-of-contents" className="segment" as="section">

@@ -40,10 +40,14 @@ const RandomString: React.FC = () => {
 
     return (
         <>
-            <header id="random-string">
+            <header>
                 <Container as="section">
-                    <Images.Password height="15rem" title="Random String" />
-                    <h1 className="title">Create a Random String</h1>
+                    <Row className="justify-content-center">
+                        <Images.Password className="header-image" title="Random String" />
+                    </Row>
+                    <Row className="justify-content-center">
+                        <h1 className="header-title">Random String</h1>
+                    </Row>
                 </Container>
             </header>
             <Container id="generate-random-string" className="segment" as="section">

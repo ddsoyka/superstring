@@ -1,5 +1,5 @@
-header > .container {
-    padding-top: 2rem;
+header {
+    margin-top: 2rem;
     border-bottom: .1rem solid #d1d1d1;
 }
 
@@ -22,4 +22,9 @@ form > .row {
 .icon {
     height: 1.5rem;
     width: 1.5rem;
+}
+
+.header-image {
+    height: 15rem;
+    width: 15rem;
 }

@@ -27,7 +27,6 @@ from './Thunks';
 import State from './State';
 import Language from './Language'
 import Images from './Images';
-import Header from './Header';
 import MissingDictionary from './MissingDictionary';
 
 const mapStateToProps = (state: State) => {
@@ -72,7 +71,16 @@ const RandomWords: React.FC<Properties> = (props: Properties) => {
 
     return (
         <>
-            <Header id="random-words" title="Random Words" image={<Images.Word height="15rem" title="Random Words" />}/>
+            <header>
+                <Container as="section">
+                    <Row className="justify-content-center">
+                        <Images.Word className="header-image" title="Random Words" />
+                    </Row>
+                    <Row className="justify-content-center">
+                        <h1 className="header-title">Random Words</h1>
+                    </Row>
+                </Container>
+            </header>
             <Container className="segment" as="section">
                 {
                     !props.dictionary &&
