@@ -1,26 +1,37 @@
 import React from 'react';
-import logo from './logo.svg';
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route
+}
+from 'react-router-dom';
+import Navigation from './Navigation';
+import Home from './Home';
+import About from './About';
+import Help from './Help';
+import Random from './Random';
+import RandomString from './RandomString';
+import RandomWords from './RandomWords';
+import LanguageSelector from './LanguageSelector';
+import NotFound from './NotFound';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const App: React.FC = () => {
+    return (
+        <Router>
+            <LanguageSelector />
+            <Navigation />
+            <Switch>
+                <Route path="/about" component={About} />
+                <Route path="/help" component={Help} />
+                <Route path="/random" exact component={Random}/>
+                <Route path="/random/string" component={RandomString} />
+                <Route path="/random/words" component={RandomWords} />
+                <Route path="/" exact component={Home}/>
+                <Route component={NotFound}/>
+            </Switch>
+        </Router>
+    );
 }
 
 export default App;

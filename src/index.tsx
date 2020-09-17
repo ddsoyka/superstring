@@ -1,17 +1,53 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import {
+    createStore,
+    applyMiddleware
+}
+from 'redux';
+import {
+    Provider
+}
+from 'react-redux';
+import thunk from 'redux-thunk';
+import {
+    ReduxLoggerOptions,
+    createLogger
+}
+from 'redux-logger';
+import {
+    setLanguage
+}
+from './Actions';
 import * as serviceWorker from './serviceWorker';
+import App from './App';
+import Reducers from './Reducers';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './index.css';
+import Language from './Language';
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+const options: ReduxLoggerOptions = {
+    collapsed: true,
+    duration: true
+};
+const logger = createLogger(options);
+
+const store = createStore(
+    Reducers,
+    process.env.NODE_ENV === 'development' ?
+    applyMiddleware(thunk, logger) :
+    applyMiddleware(thunk)
 );
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
+const language = localStorage.getItem('language');
+
+if (language) store.dispatch(setLanguage(language as Language))
+
+ReactDOM.render(
+    <Provider store={store}>
+        <App />
+    </Provider>,
+    document.getElementById('root')
+);
+
 serviceWorker.unregister();

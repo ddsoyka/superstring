@@ -13,7 +13,7 @@ function Home() {
                 <p>
                     A collection of tools for generating and manipulating strings
                     <br />
-                    <i><small>v0.1.0</small></i>
+                    <i><small>{process.env.NPM_PACKAGE_VERSION}</small></i>
                 </p>
             </Header>
             <Container id="tool-list" className="segment" as="section">
