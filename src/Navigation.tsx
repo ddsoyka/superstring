@@ -29,7 +29,7 @@ import './Navigation.css';
 
 const mapStateToProps = (state: State) => {
     return {
-        language: state.language
+        language: state.i18n?.language
     };
 };
 

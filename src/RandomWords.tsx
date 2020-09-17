@@ -12,7 +12,8 @@ import {
     Form,
     Button,
     Row,
-    Col
+    Col,
+    Spinner
 }
 from 'react-bootstrap';
 import {
@@ -31,8 +32,9 @@ import MissingDictionary from './MissingDictionary';
 
 const mapStateToProps = (state: State) => {
     return {
-        language: state.language,
-        dictionary: state.dictionary
+        language: state.i18n?.language,
+        dictionary: state.dictionary,
+        error: state.error
     };
 };
 
@@ -49,16 +51,7 @@ type Properties = ConnectedProps<typeof connector>
 const RandomWords: React.FC<Properties> = (props: Properties) => {
     const [length, setLength] = useState(10);
     const [separator, setSeparator] = useState("");
-
-    if (props.language) {
-        if (!props.dictionary) {
-            props.load(props.language);
-        }
-    }
-    else {
-        return <MissingDictionary />;
-    }
-
+    const [retry, setRetry] = useState(true);
     const onSubmit = (event: any) => {
         if (props.dictionary) {
             const output = document.getElementById("output") as HTMLInputElement;
@@ -68,67 +61,86 @@ const RandomWords: React.FC<Properties> = (props: Properties) => {
         event.preventDefault();
     };
 
+    if (!retry) {
+        return <MissingDictionary />;
+    }
+    if (props.error || !props.language) {
+        setRetry(false);
+        return <MissingDictionary />;
+    }
+    if (retry && props.language && !props.dictionary) props.load(props.language);
+
     return (
         <>
             <Header id="random-words" title="Random Words" image={<Images.Word height="15rem" title="Random Words" />}/>
             <Container className="segment" as="section">
-                <Form id="random-words-generator" onSubmit={(e) => onSubmit(e)}>
-                    <fieldset>
-                        <legend>Options</legend>
-                        <Row>
+                {
+                    !props.dictionary &&
+                    <>
+                        <Spinner animation="border"/>
+                        <h3>Loading dictionary...</h3>
+                    </>
+                }
+                {
+                    props.dictionary &&
+                    <Form id="random-words-generator" onSubmit={(e) => onSubmit(e)}>
+                        <fieldset>
+                            <legend>Options</legend>
+                            <Row>
+                                <Col>
+                                    <Form.Label>Length</Form.Label>
+                                    <Form.Control
+                                        type="number"
+                                        min="1"
+                                        max="1000"
+                                        value={length}
+                                        onChange={(e) => setLength(parseInt(e.target.value))}
+                                    />
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col>
+                                    <Form.Check
+                                        id="none"
+                                        type="radio"
+                                        label="None"
+                                        checked={separator === ""}
+                                        onChange={() => setSeparator("")}
+                                    />
+                                </Col>
+                                <Col>
+                                    <Form.Check
+                                        id="space"
+                                        type="radio"
+                                        label="Space"
+                                        checked={separator === " "}
+                                        onChange={() => setSeparator(" ")}
+                                    />
+                                </Col>
+                                <Col>
+                                    <Form.Check
+                                        id="newline"
+                                        type="radio"
+                                        label="New Line"
+                                        checked={separator === "\n"}
+                                        onChange={() => setSeparator("\n")}
+                                    />
+                                </Col>
+                            </Row>
+                            <Row>
                             <Col>
-                                <Form.Label>Length</Form.Label>
-                                <Form.Control
-                                    type="number"
-                                    min="1"
-                                    max="1000"
-                                    value={length}
-                                    onChange={(e) => setLength(parseInt(e.target.value))}
-                                />
+                                <Button variant="primary" type="submit">Generate</Button>
                             </Col>
-                        </Row>
-                        <Row>
-                            <Col>
-                                <Form.Check
-                                    id="none"
-                                    type="radio"
-                                    label="None"
-                                    checked={separator === ""}
-                                    onChange={() => setSeparator("")}
-                                />
-                            </Col>
-                            <Col>
-                                <Form.Check
-                                    id="space"
-                                    type="radio"
-                                    label="Space"
-                                    checked={separator === " "}
-                                    onChange={() => setSeparator(" ")}
-                                />
-                            </Col>
-                            <Col>
-                                <Form.Check
-                                    id="newline"
-                                    type="radio"
-                                    label="New Line"
-                                    checked={separator === "\n"}
-                                    onChange={() => setSeparator("\n")}
-                                />
-                            </Col>
-                        </Row>
-                    </fieldset>
-                    <Row>
-                        <Col>
-                            <Button variant="primary" type="submit">Generate</Button>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col>
-                            <Form.Label>Output</Form.Label>
-                            <Form.Control id="output" as="textarea" rows={5} readOnly />
-                        </Col>
-                    </Row>
-                </Form>
+                            </Row>
+                            <Row>
+                                <Col>
+                                    <Form.Label>Output</Form.Label>
+                                    <Form.Control id="output" as="textarea" rows={5} readOnly />
+                                </Col>
+                            </Row>
+                        </fieldset>
+                    </Form>
+                }
             </Container>
         </>
     );

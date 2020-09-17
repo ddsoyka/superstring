@@ -14,6 +14,7 @@ import RandomString from './RandomString';
 import RandomWords from './RandomWords';
 import LanguageSelector from './LanguageSelector';
 import NotFound from './NotFound';
+import Errors from './Errors';
 import './App.css';
 
 const App: React.FC = () => {
@@ -30,6 +31,7 @@ const App: React.FC = () => {
                 <Route path="/" exact component={Home}/>
                 <Route component={NotFound}/>
             </Switch>
+            <Errors />
         </Router>
     );
 }

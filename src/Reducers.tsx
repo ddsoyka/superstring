@@ -6,35 +6,33 @@ from 'redux';
 import {
     Actions,
     SetLanguageAction,
-    SetDictionaryAction
+    SetDictionaryAction,
+    ShowErrorAction
 }
 from './Actions';
 import Language from './Language';
 
-interface Visibility {
-    select_language: boolean
+interface i18n {
+    show?: boolean
+    language?: Language
 }
 
-const language = (state: Language | null = null, action: SetLanguageAction) => {
+const i18n = (state: i18n | null = null, action: Action & SetLanguageAction) => {
     switch (action.type) {
         case Actions.SET_LANGUAGE:
-            return action.language;
-        default:
-            return state;
-    }
-};
-
-const visibility = (state: Visibility | null = null, action: Action) => {
-    switch (action.type) {
+            return {
+                ...state,
+                language: action.language
+            };
         case Actions.SHOW_LANGUAGES:
             return {
                 ...state,
-                select_language: true
+                show: true
             };
         case Actions.HIDE_LANGUAGES:
             return {
                 ...state,
-                select_language: false
+                show: false
             };
         default:
             return state;
@@ -48,12 +46,25 @@ const dictionary = (state: Array<string> | null = null, action: SetDictionaryAct
         default:
             return state;
     }
-}
-
-const reducers = {
-    language,
-    visibility,
-    dictionary
 };
 
-export default combineReducers(reducers);
+const error = (state: Error | null = null, action: Action & ShowErrorAction) => {
+    switch (action.type) {
+        case Actions.SHOW_ERROR:
+            return action.error;
+        case Actions.HIDE_ERROR:
+            return null;
+        default:
+            return state;
+    }
+};
+
+const reducers = {
+    i18n,
+    dictionary,
+    error
+};
+
+const root = combineReducers(reducers);
+
+export default root;

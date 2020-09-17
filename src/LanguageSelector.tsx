@@ -25,8 +25,8 @@ import './LanguageSelector.css';
 
 const mapStateToProps = (state: State) => {
     return {
-        language: state.language,
-        visible: state.visibility?.select_language
+        language: state.i18n?.language,
+        visible: state.i18n?.show
     };
 };
 
