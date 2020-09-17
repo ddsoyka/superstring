@@ -18,3 +18,8 @@ form > fieldset > .row,
 form > .row {
     margin-bottom: 2.5rem;
 }
+
+.icon {
+    height: 1.5rem;
+    width: 1.5rem;
+}

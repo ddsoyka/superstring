@@ -42,7 +42,7 @@ const RandomString: React.FC = () => {
         <>
             <header id="random-string">
                 <Container as="section">
-                    <Images.Password className="icon" height="15rem" title="Random String" />
+                    <Images.Password height="15rem" title="Random String" />
                     <h1 className="title">Create a Random String</h1>
                 </Container>
             </header>

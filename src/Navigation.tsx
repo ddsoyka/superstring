@@ -48,13 +48,13 @@ class Navigation extends Component<Properties> {
         const getImage = () => {
             switch (this.props.language) {
                 case Language.EN_US:
-                    return <Images.US className="icon" height="1.5rem" width="1.5rem" title="United States of America"/>;
+                    return <Images.US className="icon" title="United States of America"/>;
                 case Language.EN_GB:
-                    return <Images.GB className="icon" height="1.5rem" width="1.5rem" title="United Kingdom"/>;
+                    return <Images.GB className="icon" title="United Kingdom"/>;
                 case Language.EN_CA:
-                    return <Images.CA className="icon" height="1.5rem" width="1.5rem" title="Canada"/>;
+                    return <Images.CA className="icon" title="Canada"/>;
                 default:
-                    return <Images.Language className="icon" height="1.5rem" width="1.5rem" title="Unknown"/>;
+                    return <Images.Language className="icon" title="Unknown"/>;
             }
         };
 
@@ -63,7 +63,7 @@ class Navigation extends Component<Properties> {
                 <Container as="section">
                     <Link to="/">
                         <Navbar.Brand>
-                            <Images.Logo className="logo" height="2rem" title="The logo for this web application" />
+                            <Images.Logo className="d-inline-block align-top mr-2" height="30" width="30" title="Superstring"/>
                             Superstring
                         </Navbar.Brand>
                     </Link>
@@ -90,7 +90,7 @@ class Navigation extends Component<Properties> {
                             </Nav.Item>
                             <Nav.Item>
                                 <Nav.Link href="https://github.com/ddsoyka/superstring">
-                                    <Images.GitHub className="icon" height="1.5rem" title="GitHub" />
+                                    <Images.GitHub className="icon" title="GitHub"/>
                                 </Nav.Link>
                             </Nav.Item>
                         </Nav>

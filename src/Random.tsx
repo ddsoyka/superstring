@@ -21,7 +21,7 @@ class Random extends Component {
             <>
                 <header id="random">
                     <Container as="section">
-                        <Images.Random className="icon" height="15rem" title="Random" />
+                        <Images.Random height="15rem" title="Random" />
                         <h1 className="title">Random</h1>
                         <p className="description">
                             Tools for creating random data

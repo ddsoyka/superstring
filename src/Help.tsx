@@ -15,7 +15,7 @@ class Help extends Component {
             <>
                 <header id="help">
                     <Container as="section">
-                        <Images.Help className="icon" height="15rem" title="Help" />
+                        <Images.Help height="15rem" title="Help" />
                         <h1 className="title">Help</h1>
                         <p className="description">
                             Find information and guidance here

@@ -13,7 +13,7 @@ function About() {
         <>
             <header id="about">
                 <Container as="section">
-                    <Images.Group className="icon" height="15rem" title="About" />
+                    <Images.Group height="15rem" title="About" />
                     <h1 id="title">About</h1>
                 </Container>
             </header>
