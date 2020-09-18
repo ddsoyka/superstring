@@ -16,10 +16,7 @@ import {
     Spinner
 }
 from 'react-bootstrap';
-import {
-    selectWords
-}
-from './api/random';
+import * as random from './api/random';
 import {
     loadDictionary
 }
@@ -54,7 +51,7 @@ const RandomWords: React.FC<Properties> = (props: Properties) => {
     const onSubmit = (event: any) => {
         if (props.dictionary) {
             const output = document.getElementById("output") as HTMLInputElement;
-            output.value = selectWords(length, props.dictionary, separator);
+            output.value = random.selectRandom(length, props.dictionary).join(separator);
         }
 
         event.preventDefault();

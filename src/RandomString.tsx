@@ -10,10 +10,7 @@ import {
     Col
 }
 from 'react-bootstrap';
-import {
-    selectCharacters
-}
-from './api/random';
+import * as random from './api/random';
 import Images from './Images';
 
 const RandomString: React.FC = () => {
@@ -31,9 +28,7 @@ const RandomString: React.FC = () => {
         if (uppercase) characters += "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         if (digits) characters += "0123456789";
         if (symbols) characters += "~`!@#$%^&*()-_=+[{]}\\|;:'\",<.>/?";
-
-        if (characters !== "")
-            output.value = selectCharacters(length, characters);
+        if (characters !== "") output.value = random.selectRandom(length, characters.split('')).join('');
 
         event.preventDefault();
     };
