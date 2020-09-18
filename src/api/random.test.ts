@@ -13,8 +13,6 @@ describe('words', () => {
         const dictionary = ['one', 'two', 'three'];
         const words = random.selectRandom(3, dictionary);
 
-        console.log(words);
-
         expect(dictionary).toContain(words[0]);
         expect(dictionary).toContain(words[1]);
         expect(dictionary).toContain(words[2]);
