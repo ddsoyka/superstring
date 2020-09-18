@@ -1,7 +1,7 @@
 version: 2.1
 
 jobs:
-  install:
+  test:
     docker:
       - image: node:14.11.0
     steps:
@@ -17,23 +17,6 @@ jobs:
           key: dependency-cache-{{ checksum "package-lock.json" }}
           paths:
             - node_modules
-  build:
-    docker:
-      - image: node:14.11.0
-    steps:
-      - checkout
-      - restore_cache:
-          key: dependency-cache-{{ checksum "package-lock.json" }}
-      - run:
-          name: Build
-          command: npm run build
-  test:
-    docker:
-      - image: node:14.11.0
-    steps:
-      - checkout
-      - restore_cache:
-          key: dependency-cache-{{ checksum "package-lock.json" }}
       - run:
           name: Test
           command: npm test
@@ -43,7 +26,21 @@ jobs:
     steps:
       - checkout
       - restore_cache:
+          keys:
+            - dependency-cache-{{ checksum "package-lock.json" }}
+            - dependency-cache-
+      - run:
+          name: Install
+          command: npm install
+      - save_cache:
           key: dependency-cache-{{ checksum "package-lock.json" }}
+          paths:
+            - node_modules
+      - run:
+          name: Build
+          command: npm run build
+      - store_artifacts:
+          path: build
       - run:
           name: Deploy
           command: npm run deploy
@@ -52,25 +49,16 @@ workflows:
   version: 2
   check:
     jobs:
-      - install:
+      - test:
           filters:
             branches:
               ignore:
                 - gh-pages
-      - test:
-          requires:
-            - install
   publish:
     jobs:
-      - install:
+      - deploy:
           filters:
             tags:
               only: /^[0-9]+\.[0-9]+\.[0-9]+$/
             branches:
               ignore: /^.*$/
-      - build:
-          requires:
-            - install
-      - deploy:
-          requires:
-            - build
