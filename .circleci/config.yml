@@ -46,7 +46,7 @@ jobs:
           path: build.tar
       - add_ssh_keys:
           fingerprints:
-            - "86:09:96:aa:80:fa:71:66:f7:a0:2b:c1:f9:c7:23:56"
+            - "4d:47:b8:ab:8f:05:69:b4:82:f7:6b:b5:30:dc:5e:f3"
       - run:
           name: Deploy
           command: |
