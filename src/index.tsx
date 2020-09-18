@@ -1,52 +1,39 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {
-    createStore,
-    applyMiddleware
-}
-from 'redux';
-import {
-    Provider
-}
-from 'react-redux';
-import thunk from 'redux-thunk';
-import {
-    ReduxLoggerOptions,
-    createLogger
-}
-from 'redux-logger';
-import {
-    setLanguage
-}
-from './Actions';
+import * as Redux from 'redux';
+import * as ReactRedux from 'react-redux';
+import Thunk from 'redux-thunk';
+import * as Logger from 'redux-logger';
+import * as Actions from './Actions';
 import * as serviceWorker from './serviceWorker';
 import App from './App';
-import Reducers from './Reducers';
+import Reducer from './Reducers';
+import Language from './Language';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
-import Language from './Language';
 
-const options: ReduxLoggerOptions = {
-    collapsed: true,
-    duration: true
-};
-const logger = createLogger(options);
+const middleware = [];
 
-const store = createStore(
-    Reducers,
-    process.env.NODE_ENV === 'development' ?
-    applyMiddleware(thunk, logger) :
-    applyMiddleware(thunk)
-);
+middleware.push(Thunk);
 
+if (process.env.NODE_ENV === `development`) {
+    const logger = Logger.createLogger({
+        collapsed: true,
+        duration: true
+    });
+
+    middleware.push(logger);
+}
+
+const store = Redux.createStore(Reducer, Redux.applyMiddleware(...middleware));
 const language = localStorage.getItem('language');
 
-if (language) store.dispatch(setLanguage(language as Language))
+if (language) store.dispatch(Actions.setLanguage(language as Language));
 
 ReactDOM.render(
-    <Provider store={store}>
+    <ReactRedux.Provider store={store}>
         <App />
-    </Provider>,
+    </ReactRedux.Provider>,
     document.getElementById('root')
 );
 
