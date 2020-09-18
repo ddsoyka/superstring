@@ -44,6 +44,9 @@ jobs:
           command: tar -cvzf build.tar build
       - store_artifacts:
           path: build.tar
+      - add_ssh_keys:
+          fingerprints:
+            - "86:09:96:aa:80:fa:71:66:f7:a0:2b:c1:f9:c7:23:56"
       - run:
           name: Deploy
           command: |
