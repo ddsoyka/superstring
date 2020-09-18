@@ -26,9 +26,7 @@ jobs:
     steps:
       - run:
           name: "Install Git LFS"
-          command: |
-            apt update
-            apt install -y git-lfs
+          command: apt update && apt install -y git-lfs
       - checkout
       - restore_cache:
           keys:
