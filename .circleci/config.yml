@@ -24,13 +24,18 @@ jobs:
     docker:
       - image: node:14.11.0
     steps:
+      - run:
+          name: "Install Git LFS"
+          command: |
+            apt update
+            apt install -y git-lfs
       - checkout
       - restore_cache:
           keys:
             - dependency-cache-{{ checksum "package-lock.json" }}
             - dependency-cache-
       - run:
-          name: Install
+          name: "Install Dependencies"
           command: npm install
       - save_cache:
           key: dependency-cache-{{ checksum "package-lock.json" }}
