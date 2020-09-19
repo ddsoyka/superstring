@@ -4,7 +4,7 @@ import {
     Row
 }
 from 'react-bootstrap';
-import Images from './Images';
+import Images from './image';
 
 function Home() {
     return (

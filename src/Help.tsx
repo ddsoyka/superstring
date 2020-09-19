@@ -8,7 +8,7 @@ import {
     ListGroup
 }
 from 'react-bootstrap';
-import Images from './Images';
+import Images from './image';
 
 class Help extends Component {
     render() {

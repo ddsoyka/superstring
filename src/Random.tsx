@@ -14,7 +14,7 @@ import {
     CardDeck
 }
 from 'react-bootstrap';
-import Images from './Images';
+import Images from './image';
 
 class Random extends Component {
     render() {

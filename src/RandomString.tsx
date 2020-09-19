@@ -11,7 +11,7 @@ import {
 }
 from 'react-bootstrap';
 import * as random from './api/random';
-import Images from './Images';
+import Images from './image';
 
 const RandomString: React.FC = () => {
     const [length, setLength] = useState(10);

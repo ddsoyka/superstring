@@ -19,7 +19,7 @@ from 'react-bootstrap';
 import * as random from './api/random';
 import * as State from './state';
 import Language from './api/Language'
-import Images from './Images';
+import Images from './image';
 import MissingDictionary from './MissingDictionary';
 
 const mapStateToProps = (state: State.RootState) => {
