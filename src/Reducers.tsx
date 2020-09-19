@@ -1,35 +1,33 @@
-import {
-    combineReducers,
-    Action
-}
-from 'redux';
-import {
-    Actions,
-    SetLanguageAction,
-    SetDictionaryAction,
-    ShowErrorAction
-}
-from './Actions';
+import * as Redux from 'redux';
+import * as Actions from './Actions';
 import Language from './Language';
 
-interface i18n {
-    show?: boolean
-    language?: Language
+interface Definitions {
+    i18n: {
+        show?: boolean,
+        language?: Language
+    }
+    // upload: {
+    //     show?: boolean
+    //     files?: FileList
+    // }
 }
 
-const i18n = (state: i18n | null = null, action: Action & SetLanguageAction) => {
-    switch (action.type) {
-        case Actions.SET_LANGUAGE:
+const i18n = (state: Definitions["i18n"] | null = null, action: any) => {
+    const { type, payload } = action;
+
+    switch (type) {
+        case Actions.Types.SET_LANGUAGE:
             return {
                 ...state,
-                language: action.language
+                language: payload
             };
-        case Actions.SHOW_LANGUAGES:
+        case Actions.Types.SHOW_LANGUAGES:
             return {
                 ...state,
                 show: true
             };
-        case Actions.HIDE_LANGUAGES:
+        case Actions.Types.HIDE_LANGUAGES:
             return {
                 ...state,
                 show: false
@@ -39,21 +37,23 @@ const i18n = (state: i18n | null = null, action: Action & SetLanguageAction) => 
     }
 };
 
-const dictionary = (state: Array<string> | null = null, action: SetDictionaryAction) => {
-    switch (action.type) {
-        case Actions.SET_DICTIONARY:
-            return action.dictionary;
+const dictionary = (state: Array<string> | null = null, action: any) => {
+    const { type, payload } = action;
+
+    switch (type) {
+        case Actions.Types.SET_DICTIONARY:
+            return payload;
         default:
             return state;
     }
 };
 
-const error = (state: Error | null = null, action: Action & ShowErrorAction) => {
-    switch (action.type) {
-        case Actions.SHOW_ERROR:
-            return action.error;
-        case Actions.HIDE_ERROR:
-            return null;
+const error = (state: Error | null = null, action: any) => {
+    const { type, payload } = action;
+
+    switch (type) {
+        case Actions.Types.SET_ERROR:
+            return payload;
         default:
             return state;
     }
@@ -65,6 +65,4 @@ const reducers = {
     error
 };
 
-const root = combineReducers(reducers);
-
-export default root;
+export default Redux.combineReducers(reducers);

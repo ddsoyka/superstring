@@ -1,68 +1,24 @@
-import {
-    Action
-}
-from "redux";
+import * as Toolkit from '@reduxjs/toolkit';
 import Language from "./Language";
 
-export interface SetLanguageAction extends Action {
-    language: Language
+export enum Types {
+    SET_LANGUAGE = 'SET_LANGUAGE',
+    SET_DICTIONARY = 'SET_DICTIONARY',
+    SET_ERROR = 'SET_ERROR',
+    SET_FILES = 'SET_FILES',
+
+    SHOW_LANGUAGES = 'SHOW_LANGUAGES',
+    HIDE_LANGUAGES = 'HIDE_LANGUAGES',
+
+    SHOW_UPLOAD = 'SHOW_UPLOAD',
+    HIDE_UPLOAD = 'HIDE_UPLOAD'
 }
 
-export interface SetDictionaryAction extends Action {
-    dictionary: Array<string>
-}
-
-export interface ShowErrorAction extends Action {
-    error: Error
-}
-
-export enum Actions {
-    SET_LANGUAGE = 'Set Language',
-
-    SHOW_LANGUAGES = 'Show Languages',
-    HIDE_LANGUAGES = 'Hide Languages',
-
-    SET_DICTIONARY = 'Set Dictionary',
-
-    SHOW_ERROR = 'Show Error',
-    HIDE_ERROR = 'Hide Error'
-}
-
-export const setLanguage = (value: Language): SetLanguageAction => {
-    return {
-        type: Actions.SET_LANGUAGE,
-        language: value
-    };
-};
-
-export const showLanguages = (): Action => {
-    return {
-        type: Actions.SHOW_LANGUAGES
-    };
-};
-
-export const hideLanguages = (): Action => {
-    return {
-        type: Actions.HIDE_LANGUAGES
-    };
-};
-
-export const setDictionary = (value: Array<string>): SetDictionaryAction => {
-    return {
-        type: Actions.SET_DICTIONARY,
-        dictionary: value
-    };
-};
-
-export const showError = (value: Error): ShowErrorAction => {
-    return {
-        type: Actions.SHOW_ERROR,
-        error: value
-    };
-};
-
-export const hideError = (): Action => {
-    return {
-        type: Actions.HIDE_ERROR
-    };
-};
+export const setLanguage = Toolkit.createAction<Language>(Types.SET_LANGUAGE);
+export const showLanguages = Toolkit.createAction(Types.SHOW_LANGUAGES);
+export const hideLanguages = Toolkit.createAction(Types.HIDE_LANGUAGES);
+export const setDictionary = Toolkit.createAction<string[]>(Types.SET_DICTIONARY);
+export const setError = Toolkit.createAction<Error | null>(Types.SET_ERROR);
+export const setFiles = Toolkit.createAction<FileList>(Types.SET_FILES);
+export const showUpload = Toolkit.createAction(Types.SHOW_UPLOAD);
+export const hideUpload = Toolkit.createAction(Types.HIDE_UPLOAD);

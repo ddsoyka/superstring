@@ -6,11 +6,7 @@ import {
     ThunkDispatch
 }
 from 'redux-thunk';
-import {
-    setDictionary,
-    showError
-}
-from './Actions';
+import * as Actions from './Actions';
 import JSZip from 'jszip';
 import Language from './Language';
 
@@ -39,10 +35,10 @@ export const loadDictionary = (language: Language) => {
 
             console.log(`Fetched language pack for ${language} with ${sorted.length} words`)
 
-            dispatch(setDictionary(sorted));
+            dispatch(Actions.setDictionary(sorted));
         }
         catch (error) {
-            dispatch(showError(error))
+            dispatch(Actions.setError(error))
         }
     };
 }

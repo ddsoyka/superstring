@@ -8,10 +8,7 @@ import {
     Alert
 }
 from 'react-bootstrap';
-import {
-    hideError
-}
-from './Actions';
+import * as Actions from './Actions';
 import State from './State';
 
 const mapStateToProps = (state: State) => {
@@ -22,7 +19,7 @@ const mapStateToProps = (state: State) => {
 
 const mapDispatchToProps = (dispatch: any) => {
     return {
-        hide: () => dispatch(hideError())
+        hide: () => dispatch(Actions.setError(null))
     };
 };
 
