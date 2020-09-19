@@ -28,17 +28,17 @@ function About() {
                     <Row>
                         <Col>
                             <a href="mailto:ddsoyka@pm.me">
-                                <Images.Mail height="2.5rem" title="Email" />
+                                <Images.Mail className="social-icon" title="Email" />
                             </a>
                         </Col>
                         <Col>
                             <a href="https://www.facebook.com/ddsoyka">
-                                <Images.Facebook height="2.5rem" title="Facebook" />
+                                <Images.Facebook className="social-icon" title="Facebook" />
                             </a>
                         </Col>
                         <Col>
                             <a href="https://www.facebook.com/ddsoyka">
-                                <Images.Twitter height="2.5rem" title="Twitter" />
+                                <Images.Twitter className="social-icon" title="Twitter" />
                             </a>
                         </Col>
                     </Row>
