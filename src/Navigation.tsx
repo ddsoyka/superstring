@@ -25,7 +25,6 @@ from './Actions';
 import State from './State';
 import Images from './Images';
 import Language from './Language';
-import './Navigation.css';
 
 const mapStateToProps = (state: State) => {
     return {
@@ -59,7 +58,7 @@ class Navigation extends Component<Properties> {
         };
 
         return (
-            <Navbar className="navigation">
+            <Navbar expand="sm" sticky="top" className="bg-light border-bottom">
                 <Container as="section">
                     <Link to="/">
                         <Navbar.Brand>
@@ -72,20 +71,24 @@ class Navigation extends Component<Properties> {
                         <Nav>
                             <Nav.Item>
                                 <NavDropdown title="Tools" id="tools">
-                                    <Link className="dropdown-item" to="/random">Random</Link>
+                                    <NavDropdown.Item as="div">
+                                        <Link to="/random">Random</Link>
+                                    </NavDropdown.Item>
                                 </NavDropdown>
                             </Nav.Item>
                             <Nav.Item>
-                                <Link className="nav-link" to="/about">About</Link>
+                                <Nav.Link as="div">
+                                    <Link to="/about">About</Link>
+                                </Nav.Link>
                             </Nav.Item>
                             <Nav.Item>
-                                <Link className="nav-link" to="/help">Help</Link>
+                                <Nav.Link as="div">
+                                    <Link to="/help">Help</Link>
+                                </Nav.Link>
                             </Nav.Item>
                             <Nav.Item>
                                 <Nav.Link onClick={this.props.show}>
-                                    {
-                                        getImage()
-                                    }
+                                    {getImage()}
                                 </Nav.Link>
                             </Nav.Item>
                             <Nav.Item>
