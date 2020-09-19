@@ -13,6 +13,8 @@ from 'react-bootstrap';
 import * as random from '../api/random';
 import Images from '../image';
 
+const MAXIMUM_LENGTH = 4294967296;
+
 const RandomString: React.FC = () => {
     const [length, setLength] = useState(10);
     const [lowercase, setLowercase] = useState(true);
@@ -54,8 +56,8 @@ const RandomString: React.FC = () => {
                                 <Form.Label>Length</Form.Label>
                                 <Form.Control
                                     type="number"
-                                    min="1"
-                                    max="1000000"
+                                    min={1}
+                                    max={MAXIMUM_LENGTH}
                                     value={length}
                                     onChange={(e) => setLength(parseInt(e.target.value))}
                                 />
@@ -108,7 +110,7 @@ const RandomString: React.FC = () => {
                     <Row>
                         <Col>
                             <Form.Label>Output</Form.Label>
-                            <Form.Control id="output" as="textarea" rows={5} readOnly />
+                            <Form.Control id="output" as="textarea" rows={5} maxLength={MAXIMUM_LENGTH} readOnly />
                         </Col>
                     </Row>
                 </Form>
