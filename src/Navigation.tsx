@@ -18,15 +18,11 @@ import {
     Container
 }
 from 'react-bootstrap';
-import {
-    showLanguages
-}
-from './Actions';
-import State from './State';
+import * as State from './state';
 import Images from './Images';
-import Language from './Language';
+import Language from './api/Language';
 
-const mapStateToProps = (state: State) => {
+const mapStateToProps = (state: State.RootState) => {
     return {
         language: state.i18n?.language
     };
@@ -34,7 +30,7 @@ const mapStateToProps = (state: State) => {
 
 const mapDispatchToProps = (dispatch: any) => {
     return {
-        show: () => dispatch(showLanguages())
+        show: () => dispatch(State.showLanguages())
     };
 };
 

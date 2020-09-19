@@ -13,17 +13,12 @@ import {
     Button
 }
 from 'react-bootstrap';
-import {
-    setLanguage,
-    hideLanguages
-}
-from './Actions';
-import State from './State';
-import Language from './Language';
+import * as State from './state';
+import Language from './api/Language';
 import Images from './Images';
 import './LanguageSelector.css';
 
-const mapStateToProps = (state: State) => {
+const mapStateToProps = (state: State.RootState) => {
     return {
         language: state.i18n?.language,
         visible: state.i18n?.show
@@ -32,8 +27,8 @@ const mapStateToProps = (state: State) => {
 
 const mapDispatchToProps = (dispatch: any) => {
     return {
-        set: (language: Language) => dispatch(setLanguage(language)),
-        hide: () => dispatch(hideLanguages())
+        set: (language: Language) => dispatch(State.setLanguage(language)),
+        hide: () => dispatch(State.hideLanguages())
     };
 };
 

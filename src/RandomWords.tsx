@@ -17,16 +17,12 @@ import {
 }
 from 'react-bootstrap';
 import * as random from './api/random';
-import {
-    loadDictionary
-}
-from './Thunks';
-import State from './State';
-import Language from './Language'
+import * as State from './state';
+import Language from './api/Language'
 import Images from './Images';
 import MissingDictionary from './MissingDictionary';
 
-const mapStateToProps = (state: State) => {
+const mapStateToProps = (state: State.RootState) => {
     return {
         language: state.i18n?.language,
         dictionary: state.dictionary,
@@ -36,7 +32,7 @@ const mapStateToProps = (state: State) => {
 
 const mapDispatchToProps = (dispatch: any) => {
     return {
-        load: (language: Language) => dispatch(loadDictionary(language))
+        load: (language: Language) => dispatch(State.loadDictionary(language))
     };
 };
 
