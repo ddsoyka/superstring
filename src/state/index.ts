@@ -13,11 +13,11 @@ interface Definitions {
 export const loadDictionary = Toolkit.createAsyncThunk('dictionary/load', async (language: Language) => {
     const response = await fetch(`${process.env.PUBLIC_URL}/english.zip`);
 
-    if (!response.ok) throw Error(`Failed to fetch dictionary from ${response.url}`)
+    if (!response.ok) throw Error(`Failed to fetch dictionary from ${response.url}`);
 
     const blob = await response.blob();
     
-    if (blob.type !== 'application/zip') throw Error(`File is not an archive (${blob.type})`)
+    if (blob.type !== 'application/zip') throw Error(`File is not an archive (${blob.type})`);
 
     const zip = await JSZip.loadAsync(blob);
 
@@ -31,7 +31,7 @@ export const loadDictionary = Toolkit.createAsyncThunk('dictionary/load', async 
     const set = new Set(dictionary);
     const sorted = Array.from(set).sort();
 
-    console.log(`Fetched language pack for ${language} with ${sorted.length} words`)
+    console.log(`Fetched language pack for ${language} with ${sorted.length} words`);
 
     return sorted;
 });
@@ -71,7 +71,7 @@ const error = Toolkit.createSlice({
         setError: (state, action) => action.payload
     },
     extraReducers: {
-        [loadDictionary.rejected.type]: (state, action) => action.payload
+        [loadDictionary.rejected.type]: (state, action) => action.error
     }
 });
 
