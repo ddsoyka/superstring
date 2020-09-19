@@ -13,9 +13,9 @@ import {
     Button
 }
 from 'react-bootstrap';
-import * as State from './state';
-import Language from './api/Language';
-import Images from './image';
+import * as State from '../state';
+import Language from '../api/Language';
+import Images from '../image';
 import './LanguageSelector.css';
 
 const mapStateToProps = (state: State.RootState) => {

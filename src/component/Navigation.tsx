@@ -18,9 +18,9 @@ import {
     Container
 }
 from 'react-bootstrap';
-import * as State from './state';
-import Images from './image';
-import Language from './api/Language';
+import * as State from '../state';
+import Images from '../image';
+import Language from '../api/Language';
 
 const mapStateToProps = (state: State.RootState) => {
     return {

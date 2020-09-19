@@ -5,7 +5,7 @@ import {
     Col
 }
 from 'react-bootstrap';
-import Images from './image';
+import Images from '../image';
 import './About.css';
 
 function About() {

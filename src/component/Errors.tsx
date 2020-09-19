@@ -5,7 +5,7 @@ import {
 }
 from 'react-redux';
 import * as Bootstrap from 'react-bootstrap';
-import * as State from './state';
+import * as State from '../state';
 
 const mapStateToProps = (state: State.RootState) => {
     return {

@@ -5,7 +5,7 @@ import * as ReactRedux from 'react-redux';
 import Thunk from 'redux-thunk';
 import * as Logger from 'redux-logger';
 import * as serviceWorker from './serviceWorker';
-import App from './App';
+import App from './component/App';
 import * as State from './state';
 import Language from './api/Language';
 import 'bootstrap/dist/css/bootstrap.min.css';

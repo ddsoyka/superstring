@@ -10,8 +10,8 @@ import {
     Col
 }
 from 'react-bootstrap';
-import * as random from './api/random';
-import Images from './image';
+import * as random from '../api/random';
+import Images from '../image';
 
 const RandomString: React.FC = () => {
     const [length, setLength] = useState(10);
