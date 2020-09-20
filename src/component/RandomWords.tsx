@@ -67,19 +67,19 @@ const RandomWords: React.FC = () => {
             </header>
             <Container className="segment" as="section">
                 <Form onSubmit={(e) => onSubmit(e)}>
+                    <Row>
+                        <Form.Label>Output</Form.Label>
+                        <Form.Control
+                            id="output"
+                            as="textarea"
+                            rows={5}
+                            maxLength={MAXIMUM_LENGTH}
+                            value={output || ''}
+                            readOnly
+                        />
+                    </Row>
                     <fieldset disabled={isLoading}>
                         <legend>Options</legend>
-                        <Row>
-                            <Form.Label>Output</Form.Label>
-                            <Form.Control
-                                id="output"
-                                as="textarea"
-                                rows={5}
-                                maxLength={MAXIMUM_LENGTH}
-                                value={output || ''}
-                                readOnly
-                            />
-                        </Row>
                         <Row>
                             <Form.Label>Length</Form.Label>
                             <Form.Control
