@@ -16,7 +16,7 @@ import Images from '../image';
 import Header from '../component/Header';
 import Segment from '../component/Segment';
 
-const MAXIMUM_LENGTH = 10000;
+const MAXIMUM_LENGTH = 10000000;
 
 const MissingDictionary: React.FC = () => {
     return (
@@ -51,6 +51,8 @@ const RandomWords: React.FC = () => {
     const onSubmit = async (event: any) => {
         event.preventDefault();
 
+        setOutput('')
+
         if (dictionary && language) {
             const arg = {
                 count: length,
@@ -83,7 +85,6 @@ const RandomWords: React.FC = () => {
                             id="output"
                             as="textarea"
                             rows={5}
-                            maxLength={MAXIMUM_LENGTH}
                             value={output || ''}
                             readOnly
                         />

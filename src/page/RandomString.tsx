@@ -15,7 +15,7 @@ import Images from '../image';
 import Header from '../component/Header';
 import Segment from '../component/Segment';
 
-const MAXIMUM_LENGTH = 4294967296;
+const MAXIMUM_LENGTH = 10000000;
 
 const RandomString: React.FC = () => {
     const [length, setLength] = React.useState(10);
@@ -31,6 +31,8 @@ const RandomString: React.FC = () => {
 
     const onSubmit = async (event: any) => {
         event.preventDefault();
+
+        setOutput('')
         
         let characters = "";
 
@@ -66,7 +68,6 @@ const RandomString: React.FC = () => {
                             id="output"
                             as="textarea"
                             rows={5}
-                            maxLength={MAXIMUM_LENGTH}
                             value={output || ''}
                             readOnly
                         />
