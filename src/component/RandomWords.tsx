@@ -23,14 +23,10 @@ const RandomWords: React.FC = () => {
     const [retry, setRetry] = React.useState(true);
     const [output, setOutput] = React.useState('');
 
-    const {language, isLoading, dictionary, error} = ReactRedux.useSelector(
-        (state: State.RootState) => ({
-            language: state.i18n.language,
-            isLoading: state.random.isLoading,
-            dictionary: state.random.dictionary,
-            error: state.error
-        })
-    );
+    const {isLoading, dictionary} = ReactRedux.useSelector((state: State.RootState) => state.random);
+    const language = ReactRedux.useSelector((state: State.RootState) => state.i18n.language);
+    const error = ReactRedux.useSelector((state: State.RootState) => state.error);
+    
     const dispatch = ReactRedux.useDispatch<typeof State.Store.dispatch>()
 
     const onSubmit = async (event: any) => {
