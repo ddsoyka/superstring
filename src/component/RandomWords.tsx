@@ -1,12 +1,6 @@
-import React, {
-    useState
-}
-from 'react';
-import {
-    connect,
-    ConnectedProps
-}
-from 'react-redux';
+import React from 'react';
+import * as ReactRedux from 'react-redux';
+import * as Toolkit from '@reduxjs/toolkit';
 import {
     Container,
     Form,
@@ -16,51 +10,48 @@ import {
     Spinner
 }
 from 'react-bootstrap';
-import * as random from '../api/random';
+import * as Thunk from '../state/thunk';
 import * as State from '../state';
-import Language from '../api/Language'
 import Images from '../image';
 import MissingDictionary from './MissingDictionary';
 
-const mapStateToProps = (state: State.RootState) => {
-    return {
-        language: state.i18n?.language,
-        dictionary: state.dictionary,
-        error: state.error
-    };
-};
+const MAXIMUM_LENGTH = 10000;
 
-const mapDispatchToProps = (dispatch: any) => {
-    return {
-        load: (language: Language) => dispatch(State.loadDictionary(language))
-    };
-};
+const RandomWords: React.FC = () => {
+    const [length, setLength] = React.useState(10);
+    const [separator, setSeparator] = React.useState("");
+    const [retry, setRetry] = React.useState(true);
+    const [output, setOutput] = React.useState('');
 
-const connector = connect(mapStateToProps, mapDispatchToProps);
+    const {language, isLoading, dictionary, error} = ReactRedux.useSelector(
+        (state: State.RootState) => ({
+            language: state.i18n.language,
+            isLoading: state.random.isLoading,
+            dictionary: state.random.dictionary,
+            error: state.error
+        })
+    );
+    const dispatch = ReactRedux.useDispatch<typeof State.Store.dispatch>()
 
-type Properties = ConnectedProps<typeof connector>
-
-const RandomWords: React.FC<Properties> = (props: Properties) => {
-    const [length, setLength] = useState(10);
-    const [separator, setSeparator] = useState("");
-    const [retry, setRetry] = useState(true);
-    const onSubmit = (event: any) => {
-        if (props.dictionary) {
-            const output = document.getElementById("output") as HTMLInputElement;
-            output.value = random.selectRandom(length, props.dictionary).join(separator);
-        }
-
+    const onSubmit = async (event: any) => {
         event.preventDefault();
+
+        if (dictionary && language) {
+            const arg = {
+                count: length,
+                separator: separator,
+                collection: dictionary
+            };
+            const action = await dispatch(Thunk.createRandomString(arg));
+            const result = Toolkit.unwrapResult(action);
+
+            setOutput(result);
+        }
     };
 
-    if (!retry) {
-        return <MissingDictionary />;
-    }
-    if (props.error || !props.language) {
-        setRetry(false);
-        return <MissingDictionary />;
-    }
-    if (retry && props.language && !props.dictionary) props.load(props.language);
+    if (error || !language) setRetry(false);
+    if (!retry) return <MissingDictionary />;
+    if (!isLoading && language && !dictionary) dispatch(Thunk.loadDictionary(language));
 
     return (
         <>
@@ -75,76 +66,87 @@ const RandomWords: React.FC<Properties> = (props: Properties) => {
                 </Container>
             </header>
             <Container className="segment" as="section">
-                {
-                    !props.dictionary &&
-                    <>
-                        <Spinner animation="border"/>
-                        <h3>Loading dictionary...</h3>
-                    </>
-                }
-                {
-                    props.dictionary &&
-                    <Form id="random-words-generator" onSubmit={(e) => onSubmit(e)}>
-                        <fieldset>
-                            <legend>Options</legend>
-                            <Row>
-                                <Col>
-                                    <Form.Label>Length</Form.Label>
-                                    <Form.Control
-                                        type="number"
-                                        min="1"
-                                        max="1000"
-                                        value={length}
-                                        onChange={(e) => setLength(parseInt(e.target.value))}
-                                    />
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col>
-                                    <Form.Check
-                                        id="none"
-                                        type="radio"
-                                        label="None"
-                                        checked={separator === ""}
-                                        onChange={() => setSeparator("")}
-                                    />
-                                </Col>
-                                <Col>
-                                    <Form.Check
-                                        id="space"
-                                        type="radio"
-                                        label="Space"
-                                        checked={separator === " "}
-                                        onChange={() => setSeparator(" ")}
-                                    />
-                                </Col>
-                                <Col>
-                                    <Form.Check
-                                        id="newline"
-                                        type="radio"
-                                        label="New Line"
-                                        checked={separator === "\n"}
-                                        onChange={() => setSeparator("\n")}
-                                    />
-                                </Col>
-                            </Row>
-                            <Row>
+                <Form onSubmit={(e) => onSubmit(e)}>
+                    <fieldset disabled={isLoading}>
+                        <legend>Options</legend>
+                        <Row>
+                            <Form.Label>Output</Form.Label>
+                            <Form.Control
+                                id="output"
+                                as="textarea"
+                                rows={5}
+                                maxLength={MAXIMUM_LENGTH}
+                                value={output || ''}
+                                readOnly
+                            />
+                        </Row>
+                        <Row>
+                            <Form.Label>Length</Form.Label>
+                            <Form.Control
+                                type="number"
+                                min={1}
+                                max={MAXIMUM_LENGTH}
+                                value={length}
+                                onChange={(e) => setLength(parseInt(e.target.value))}
+                            />
+                        </Row>
+                        <Row>
                             <Col>
-                                <Button variant="primary" type="submit">Generate</Button>
+                                <Form.Check
+                                    id="none"
+                                    type="radio"
+                                    label="None"
+                                    checked={separator === ""}
+                                    onChange={() => setSeparator("")}
+                                />
                             </Col>
-                            </Row>
-                            <Row>
-                                <Col>
-                                    <Form.Label>Output</Form.Label>
-                                    <Form.Control id="output" as="textarea" rows={5} readOnly />
-                                </Col>
-                            </Row>
-                        </fieldset>
-                    </Form>
-                }
+                            <Col>
+                                <Form.Check
+                                    id="space"
+                                    type="radio"
+                                    label="Space"
+                                    checked={separator === " "}
+                                    onChange={() => setSeparator(" ")}
+                                />
+                            </Col>
+                            <Col>
+                                <Form.Check
+                                    id="newline"
+                                    type="radio"
+                                    label="New Line"
+                                    checked={separator === "\n"}
+                                    onChange={() => setSeparator("\n")}
+                                />
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col>
+                                <Button variant="primary" type="submit">
+                                    {!isLoading && 'Generate'}
+                                    {
+                                        isLoading &&
+                                        <>
+                                            <Spinner
+                                                as="span"
+                                                animation="border"
+                                                size="sm"
+                                                role="status"
+                                                aria-hidden="true"
+                                            />
+                                            <span className="sr-only">Loading...</span>
+                                        </>
+                                    }
+                                </Button>
+                            </Col>
+                            <Col>
+                                <Button variant="secondary" onClick={() => setOutput('')}>Clear</Button>
+                            </Col>
+                        </Row>
+                    </fieldset>
+                </Form>
             </Container>
         </>
     );
 }
 
-export default connector(RandomWords);
+export default RandomWords;
