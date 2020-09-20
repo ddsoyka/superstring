@@ -5,8 +5,8 @@ import {
 }
 from 'react-bootstrap';
 import Images from '../image';
-import Header from './Header';
-import Segment from './Segment';
+import Header from '../component/Header';
+import Segment from '../component/Segment';
 import './About.css';
 
 const Social: React.FC = () => {

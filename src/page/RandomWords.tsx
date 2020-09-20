@@ -13,8 +13,8 @@ from 'react-bootstrap';
 import * as Thunk from '../state/thunk';
 import * as State from '../state';
 import Images from '../image';
-import Header from './Header';
-import Segment from './Segment';
+import Header from '../component/Header';
+import Segment from '../component/Segment';
 
 const MAXIMUM_LENGTH = 10000;
 

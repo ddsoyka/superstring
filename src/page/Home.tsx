@@ -1,7 +1,7 @@
 import React from 'react';
 import Images from '../image';
-import Header from './Header';
-import Segment from './Segment';
+import Header from '../component/Header';
+import Segment from '../component/Segment';
 
 const Home: React.FC = () => {
     return (
