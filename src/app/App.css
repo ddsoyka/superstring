@@ -1,4 +1,11 @@
-form > fieldset > .row,
-form > .row {
-    margin-bottom: 2.5rem;
+.carousel.slide {
+    background: #212529;
+}
+
+.modal > .modal-dialog {
+    max-width: 35%;
+}
+
+.modal-content > .modal-footer {
+    justify-content: center;
 }

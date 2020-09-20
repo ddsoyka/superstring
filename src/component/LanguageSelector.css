@@ -1,15 +1,3 @@
-.carousel.slide {
-    background: #212529;
-}
-
-.modal > .modal-dialog {
-    max-width: 35%;
-}
-
-.modal-content > .modal-footer {
-    justify-content: center;
-}
-
 .flag {
     margin-top: 1.5rem;
     margin-bottom: 10rem;
