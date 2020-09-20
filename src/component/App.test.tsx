@@ -6,7 +6,11 @@ import App from './App';
 
 test('renders the home page', () => {
     const store = {
-        getState: jest.fn().mockReturnValue({}),
+        getState: jest.fn().mockReturnValue({
+            i18n: {},
+            random: {},
+            error: null
+        }),
         dispatch: jest.fn(),
         subscribe: jest.fn(),
         replaceReducer: jest.fn()

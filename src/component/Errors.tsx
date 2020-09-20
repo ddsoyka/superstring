@@ -1,35 +1,29 @@
 import React from 'react';
 import {
-    connect,
-    ConnectedProps
+    Alert
 }
-from 'react-redux';
-import * as Bootstrap from 'react-bootstrap';
+from 'react-bootstrap';
+import * as ReactRedux from 'react-redux';
 import * as State from '../state';
 
-const mapStateToProps = (state: State.RootState) => {
-    return {
-        error: state.error
-    };
-};
+const Errors: React.FC = () => {
+    const error = ReactRedux.useSelector((state: State.RootState) => state.error);
 
-const mapDispatchToProps = (dispatch: any) => {
-    return {
-        hide: () => dispatch(State.setError(null))
-    };
-};
+    const dispatch = ReactRedux.useDispatch<typeof State.Store.dispatch>()
 
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-type Properties = ConnectedProps<typeof connector>
-
-const Errors: React.FC<Properties> = (props: Properties) => {
     return (
-        <Bootstrap.Alert className="fixed-bottom" show={!!props.error} dismissible={true} variant="danger" onClose={props.hide}>
-            <Bootstrap.Alert.Heading>{props.error?.name}</Bootstrap.Alert.Heading>
-            {props.error?.message}
-        </Bootstrap.Alert>
+        <Alert
+            className="fixed-bottom"
+            show={!!error}
+            dismissible={true}
+            variant="danger"
+            onClose={() => dispatch(State.setError(null))}>
+            <Alert.Heading>
+                {error?.name}
+            </Alert.Heading>
+            {error?.message}
+        </Alert>
     );
 };
 
-export default connector(Errors);
+export default Errors;

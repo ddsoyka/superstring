@@ -2,7 +2,6 @@ import React from 'react';
 import * as ReactRedux from 'react-redux';
 import * as Toolkit from '@reduxjs/toolkit';
 import {
-    Container,
     Form,
     Button,
     Row,
@@ -13,6 +12,8 @@ from 'react-bootstrap';
 import * as Thunk from '../state/thunk';
 import * as State from '../state';
 import Images from '../image';
+import Header from './Header';
+import Segment from './Segment';
 
 const MAXIMUM_LENGTH = 4294967296;
 
@@ -25,6 +26,7 @@ const RandomString: React.FC = () => {
     const [output, setOutput] = React.useState('');
 
     const isLoading = ReactRedux.useSelector((state: State.RootState) => state.random.isLoading);
+
     const dispatch = ReactRedux.useDispatch<typeof State.Store.dispatch>()
 
     const onSubmit = async (event: any) => {
@@ -52,17 +54,11 @@ const RandomString: React.FC = () => {
 
     return (
         <>
-            <header>
-                <Container as="section">
-                    <Row className="justify-content-center">
-                        <Images.Password className="header-image" title="Random String" />
-                    </Row>
-                    <Row className="justify-content-center">
-                        <h1 className="header-title">Random String</h1>
-                    </Row>
-                </Container>
-            </header>
-            <Container className="segment" as="section">
+            <Header>
+                <Header.Image src={Images.Password} title="Random String" />
+                <Header.Title>Random String</Header.Title>
+            </Header>
+            <Segment>
                 <Form onSubmit={(e) => onSubmit(e)}>
                     <Row>
                         <Form.Label>Output</Form.Label>
@@ -150,7 +146,7 @@ const RandomString: React.FC = () => {
                         </Row>
                     </fieldset>
                 </Form>
-            </Container>
+            </Segment>
         </>
     );
 }

@@ -1,12 +1,5 @@
-import React, {
-    useState
-}
-from 'react';
-import {
-    connect,
-    ConnectedProps
-}
-from 'react-redux';
+import React from 'react';
+import * as ReactRedux from 'react-redux';
 import {
     Modal,
     Carousel,
@@ -18,37 +11,25 @@ import Language from '../api/Language';
 import Images from '../image';
 import './LanguageSelector.css';
 
-const mapStateToProps = (state: State.RootState) => {
-    return {
-        language: state.i18n?.language,
-        visible: state.i18n?.show
-    };
-};
+const LanguageSelector: React.FC = () => {
+    const {show, language} = ReactRedux.useSelector((state: State.RootState) => state.i18n);
 
-const mapDispatchToProps = (dispatch: any) => {
-    return {
-        set: (language: Language) => dispatch(State.setLanguage(language)),
-        hide: () => dispatch(State.hideLanguages())
-    };
-};
+    const [index, setIndex] = React.useState(Object.keys(Language).indexOf(language || Language.EN_US));
 
-const connector = connect(mapStateToProps, mapDispatchToProps);
+    const dispatch = ReactRedux.useDispatch<typeof State.Store.dispatch>()
 
-type Properties = ConnectedProps<typeof connector>
-
-const LanguageSelector: React.FC<Properties> = (props: Properties) => {
-    const [index, setIndex] = useState(Object.keys(Language).indexOf(props.language || Language.EN_US));
     const save = () => {
-        props.hide();
+        dispatch(State.hideLanguages());
 
         const language = Object.values(Language)[index];
         
-        props.set(language);
+        dispatch(State.setLanguage(language));
+
         localStorage.setItem('language', language);
     };
 
     return (
-        <Modal show={props.visible} onHide={props.hide} centered>
+        <Modal show={show} onHide={() => dispatch(State.hideLanguages())} centered>
             <Modal.Header closeButton>
                 <Modal.Title>Language</Modal.Title>
             </Modal.Header>
@@ -84,4 +65,4 @@ const LanguageSelector: React.FC<Properties> = (props: Properties) => {
     );
 };
 
-export default connector(LanguageSelector);
+export default LanguageSelector;

@@ -1,30 +1,4 @@
-header {
-    margin-top: 2rem;
-    border-bottom: .1rem solid #d1d1d1;
-}
-
-.container {
-    text-align: center;
-}
-
-section.segment {
-    padding-top: 5rem;
-    padding-bottom: 5rem;
-    padding-left: 10rem;
-    padding-right: 10rem;
-}
-
 form > fieldset > .row,
 form > .row {
     margin-bottom: 2.5rem;
-}
-
-.icon {
-    height: 1.5rem;
-    width: 1.5rem;
-}
-
-.header-image {
-    height: 15rem;
-    width: 15rem;
 }

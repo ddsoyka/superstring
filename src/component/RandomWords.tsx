@@ -13,9 +13,28 @@ from 'react-bootstrap';
 import * as Thunk from '../state/thunk';
 import * as State from '../state';
 import Images from '../image';
-import MissingDictionary from './MissingDictionary';
+import Header from './Header';
+import Segment from './Segment';
 
 const MAXIMUM_LENGTH = 10000;
+
+const MissingDictionary: React.FC = () => {
+    return (
+        <Container>
+            <Row className="justify-content-center my-4">
+                <Images.Unknown height="20rem" title="Random String" />
+            </Row>
+            <Row className="justify-content-center">
+                <h1>Missing Dictionary</h1>
+            </Row>
+            <Row className="justify-content-center">
+                <p>
+                    A list of words is required to use this component.
+                </p>
+            </Row>
+        </Container>
+    );
+};
 
 const RandomWords: React.FC = () => {
     const [length, setLength] = React.useState(10);
@@ -38,6 +57,7 @@ const RandomWords: React.FC = () => {
                 separator: separator,
                 collection: dictionary
             };
+
             const action = await dispatch(Thunk.createRandomString(arg));
             const result = Toolkit.unwrapResult(action);
 
@@ -51,17 +71,11 @@ const RandomWords: React.FC = () => {
 
     return (
         <>
-            <header>
-                <Container as="section">
-                    <Row className="justify-content-center">
-                        <Images.Word className="header-image" title="Random Words" />
-                    </Row>
-                    <Row className="justify-content-center">
-                        <h1 className="header-title">Random Words</h1>
-                    </Row>
-                </Container>
-            </header>
-            <Container className="segment" as="section">
+            <Header>
+                <Header.Image src={Images.Word} title="Random Words" />
+                <Header.Title>Random Words</Header.Title>
+            </Header>
+            <Segment>
                 <Form onSubmit={(e) => onSubmit(e)}>
                     <Row>
                         <Form.Label>Output</Form.Label>
@@ -140,9 +154,9 @@ const RandomWords: React.FC = () => {
                         </Row>
                     </fieldset>
                 </Form>
-            </Container>
+            </Segment>
         </>
     );
-}
+};
 
 export default RandomWords;
