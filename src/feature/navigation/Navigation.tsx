@@ -11,15 +11,15 @@ import {
     Container
 }
 from 'react-bootstrap';
-import * as State from '../state';
-import Images from '../image';
-import Language from '../api/Language';
+import * as State from '../../app/store';
+import Images from '../../image';
+import Language from '../../api/Language';
 import './Navigation.css';
 
 const Navigation: React.FC = () => {
     const language = ReactRedux.useSelector((state: State.RootState) => state.i18n.language);
 
-    const dispatch = ReactRedux.useDispatch<typeof State.Store.dispatch>()
+    const dispatch = ReactRedux.useDispatch<State.AppDispatch>()
 
     const getImage = () => {
         switch (language) {

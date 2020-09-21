@@ -10,11 +10,11 @@ import {
     InputGroup
 }
 from 'react-bootstrap';
-import * as Thunk from '../state/thunk';
-import * as State from '../state';
-import Images from '../image';
-import Header from '../component/Header';
-import Segment from '../component/Segment';
+import * as State from '../../app/store';
+import * as Random from '../../api/random';
+import Images from '../../image';
+import Header from '../../component/Header';
+import Segment from '../../component/Segment';
 
 const MAXIMUM_LENGTH = 10000000;
 
@@ -28,7 +28,7 @@ const RandomString: React.FC = () => {
 
     const isLoading = ReactRedux.useSelector((state: State.RootState) => state.random.isLoading);
 
-    const dispatch = ReactRedux.useDispatch<typeof State.Store.dispatch>()
+    const dispatch = ReactRedux.useDispatch<State.AppDispatch>()
 
     const onSubmit = async (event: any) => {
         event.preventDefault();
@@ -48,7 +48,7 @@ const RandomString: React.FC = () => {
                 separator: '',
                 collection: characters.split('')
             };
-            const action = await dispatch(Thunk.createRandomString(arg));
+            const action = await dispatch(Random.createRandomString(arg));
             const result = Toolkit.unwrapResult(action);
             
             setOutput(result);

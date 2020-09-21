@@ -5,16 +5,16 @@ import {
     Route
 }
 from 'react-router-dom';
-import Navigation from '../component/Navigation';
+import Navigation from '../feature/navigation/Navigation';
 import Home from '../page/Home';
 import About from '../page/About';
 import Help from '../page/Help';
-import Random from '../page/Random';
-import RandomString from '../page/RandomString';
-import RandomWords from '../page/RandomWords';
-import LanguageSelector from '../component/LanguageSelector';
+import Random from '../feature/random/Random';
+import RandomString from '../feature/random/RandomString';
+import RandomWords from '../feature/random/RandomWords';
+import LanguageSelector from '../feature/i18n/LanguageSelector';
 import NotFound from '../page/NotFound';
-import Errors from '../component/Errors';
+import Errors from '../feature/error/Error';
 import './App.css';
 
 const App: React.FC = () => {

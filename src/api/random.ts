@@ -1,42 +1,47 @@
-const QUOTA = 16384;
+import * as Toolkit from '@reduxjs/toolkit';
+import JSZip from 'jszip';
+import Language from './Language';
+import * as Utility from './utility';
 
-function entropy(size: number): number[] {
-    const output = new Uint32Array(size);
+export const loadDictionary = Toolkit.createAsyncThunk(
+    'random/loadDictionary',
+    async (arg: Language) => {
+        const start = performance.now();
+        const response = await fetch(Utility.getPublicPath('english.zip'));
 
-    crypto.getRandomValues(output);
+        if (!response.ok) throw Error(`Failed to fetch dictionary from ${response.url}`);
 
-    return Array.from(output);
-}
+        const blob = await response.blob();
 
-export function getRandom(size: number): number[] {
-    if (size === 0) return [];
+        if (blob.type !== 'application/zip') throw Error(`File is not an archive (${blob.type})`);
 
-    const data: number[][] = [];
+        const zip = await JSZip.loadAsync(blob);
 
-    const quotient = Math.floor(size / QUOTA);
-    const remainder = size % QUOTA;
+        const file = zip.file('english.txt');
 
-    for (let index = 0; index < quotient; index++) data.push(entropy(QUOTA));
-    if (quotient === 0 || remainder > 0) data.push(entropy(remainder));
+        if (file === null) throw Error('Corrupt archive');
 
-    const output = data.flat();
+        const text = await file.async('string');
 
-    return output;
-}
+        const dictionary = text.split('\n');
+        const set = new Set(dictionary);
+        const sorted = Array.from(set).sort();
+        const end = performance.now();
 
-export function selectRandom <T extends any> (count: number, collection: readonly T[]): T[] {
-    const output = Array<T>();
-    const values = getRandom(count);
+        console.log(`Fetched language pack for ${arg} with ${sorted.length} words in ${end - start}ms`);
 
-    for (let index = 0; index < count; index++) {
-        const number = values[index] / (0xffffffff + 1);
-        const position = Math.floor(number * collection.length);
-        const item = collection[position];
-
-        output.push(item);
+        return sorted;
     }
-    
-    console.assert(output.length === count);
+);
 
-    return output;
-}
+export const createRandomString = Toolkit.createAsyncThunk(
+    'random/createRandomString',
+    (arg: { count: number, separator: string, collection: string[] }) => {
+        const worker = new Worker(Utility.getPublicPath('random.worker.js'));
+
+        return new Promise<string>(resolve => {
+            worker.onmessage = event => resolve(event.data);
+            worker.postMessage(arg);
+        });
+    }
+);

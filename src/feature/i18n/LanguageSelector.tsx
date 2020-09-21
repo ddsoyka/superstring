@@ -6,9 +6,9 @@ import {
     Button
 }
 from 'react-bootstrap';
-import * as State from '../state';
-import Language from '../api/Language';
-import Images from '../image';
+import * as State from '../../app/store';
+import Language from '../../api/Language';
+import Images from '../../image';
 import './LanguageSelector.css';
 
 const LanguageSelector: React.FC = () => {
@@ -16,7 +16,7 @@ const LanguageSelector: React.FC = () => {
 
     const [index, setIndex] = React.useState(Object.keys(Language).indexOf(language || Language.EN_US));
 
-    const dispatch = ReactRedux.useDispatch<typeof State.Store.dispatch>()
+    const dispatch = ReactRedux.useDispatch<State.AppDispatch>()
 
     const save = () => {
         dispatch(State.hideLanguages());

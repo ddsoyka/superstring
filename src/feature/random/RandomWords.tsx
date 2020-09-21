@@ -11,11 +11,11 @@ import {
     InputGroup
 }
 from 'react-bootstrap';
-import * as Thunk from '../state/thunk';
-import * as State from '../state';
-import Images from '../image';
-import Header from '../component/Header';
-import Segment from '../component/Segment';
+import * as State from '../../app/store';
+import * as Random from '../../api/random';
+import Images from '../../image';
+import Header from '../../component/Header';
+import Segment from '../../component/Segment';
 
 const MAXIMUM_LENGTH = 10000000;
 
@@ -47,7 +47,7 @@ const RandomWords: React.FC = () => {
     const language = ReactRedux.useSelector((state: State.RootState) => state.i18n.language);
     const error = ReactRedux.useSelector((state: State.RootState) => state.error);
     
-    const dispatch = ReactRedux.useDispatch<typeof State.Store.dispatch>()
+    const dispatch = ReactRedux.useDispatch<State.AppDispatch>()
 
     const onSubmit = async (event: any) => {
         event.preventDefault();
@@ -61,7 +61,7 @@ const RandomWords: React.FC = () => {
                 collection: dictionary
             };
 
-            const action = await dispatch(Thunk.createRandomString(arg));
+            const action = await dispatch(Random.createRandomString(arg));
             const result = Toolkit.unwrapResult(action);
 
             setOutput(result);
@@ -76,7 +76,7 @@ const RandomWords: React.FC = () => {
 
     if (error || !language) setRetry(false);
     if (!retry) return <MissingDictionary />;
-    if (!isLoading && language && !dictionary) dispatch(Thunk.loadDictionary(language));
+    if (!isLoading && language && !dictionary) dispatch(Random.loadDictionary(language));
 
     return (
         <>

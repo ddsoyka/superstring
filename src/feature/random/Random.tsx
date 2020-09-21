@@ -9,9 +9,9 @@ import {
     CardDeck
 }
 from 'react-bootstrap';
-import Images from '../image';
-import Header from '../component/Header';
-import Segment from '../component/Segment';
+import Images from '../../image';
+import Header from '../../component/Header';
+import Segment from '../../component/Segment';
 
 const Random: React.FC = () => {
     return (
