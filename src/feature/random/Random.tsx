@@ -31,8 +31,7 @@ const Random: React.FC = () => {
                         <Card.Body>
                             <Card.Title>String</Card.Title>
                             <Card.Text>
-                                Generate a random string from a combination of
-                                lowercase and uppercase letters, digits and symbols.
+                                Create a random string of characters.
                             </Card.Text>
                             <Link to="/random/string">
                                 <Button variant="primary">Go</Button>
@@ -46,6 +45,17 @@ const Random: React.FC = () => {
                                 Create a random string of words.
                             </Card.Text>
                             <Link to="/random/words">
+                                <Button variant="primary">Go</Button>
+                            </Link>
+                        </Card.Body>
+                    </Card>
+                    <Card>
+                        <Card.Body>
+                            <Card.Title>Image</Card.Title>
+                            <Card.Text>
+                                Generate a random image.
+                            </Card.Text>
+                            <Link to="/random/image">
                                 <Button variant="primary">Go</Button>
                             </Link>
                         </Card.Body>

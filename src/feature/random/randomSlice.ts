@@ -27,6 +27,15 @@ const randomSlice = Toolkit.createSlice({
         },
         [Random.createRandomString.rejected.type]: state => {
             state.isLoading = false;
+        },
+        [Random.createRandomImage.fulfilled.type]: (state) => {
+            state.isLoading = false;
+        },
+        [Random.createRandomImage.pending.type]: state => {
+            state.isLoading = true;
+        },
+        [Random.createRandomImage.rejected.type]: state => {
+            state.isLoading = false;
         }
     }
 });

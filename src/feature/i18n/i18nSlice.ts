@@ -8,7 +8,7 @@ const i18nSlice = Toolkit.createSlice({
         language: null as Language | null
     },
     reducers: {
-        setLanguage(state, action) {
+        setLanguage(state, action: Toolkit.PayloadAction<Language | null>) {
             state.language = action.payload
         },
         showLanguages(state) {

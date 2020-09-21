@@ -12,15 +12,16 @@ import Help from '../page/Help';
 import Random from '../feature/random/Random';
 import RandomString from '../feature/random/RandomString';
 import RandomWords from '../feature/random/RandomWords';
+import RandomImage from '../feature/random/RandomImage';
 import LanguageSelector from '../feature/i18n/LanguageSelector';
 import NotFound from '../page/NotFound';
 import Errors from '../feature/error/Error';
+import Download from '../feature/file/Download';
 import './App.css';
 
 const App: React.FC = () => {
     return (
         <Router basename={process.env.PUBLIC_URL}>
-            <LanguageSelector />
             <Navigation />
             <Switch>
                 <Route path="/about" component={About} />
@@ -28,10 +29,13 @@ const App: React.FC = () => {
                 <Route path="/random" exact component={Random}/>
                 <Route path="/random/string" component={RandomString} />
                 <Route path="/random/words" component={RandomWords} />
+                <Route path="/random/image" component={RandomImage} />
                 <Route path="/" exact component={Home}/>
                 <Route component={NotFound}/>
             </Switch>
             <Errors />
+            <Download />
+            <LanguageSelector />
         </Router>
     );
 }

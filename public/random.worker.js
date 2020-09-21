@@ -42,13 +42,18 @@ const selectRandom = (count, collection) => {
 };
 
 onmessage = (event) => {
-    const start = performance.now();
-    const {count, separator, collection} = event.data;
-    const items = selectRandom(count, collection);
-    const output = items.join(separator);
-    const end = performance.now();
+    const {type, payload} = event.data;
 
-    console.log(`Generated a random string of ${output.length} characters in ${end - start}ms`)
-
-    postMessage(output);
+    switch (type) {
+        case 'get':
+            const values = getRandom(payload);
+            postMessage(values);
+            break;
+        case 'select':
+            const items = selectRandom(payload.count, payload.collection);
+            postMessage(items);
+            break;
+        default:
+            throw Error(`Unknown task type '${type}'`);
+    }
 };

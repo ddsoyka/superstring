@@ -16,7 +16,7 @@ const LanguageSelector: React.FC = () => {
 
     const [index, setIndex] = React.useState(Object.keys(Language).indexOf(language || Language.EN_US));
 
-    const dispatch = ReactRedux.useDispatch<State.AppDispatch>()
+    const dispatch = ReactRedux.useDispatch<State.AppDispatch>();
 
     const save = () => {
         dispatch(State.hideLanguages());
