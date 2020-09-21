@@ -1,0 +1,1 @@
+export const getPublicPath = (file: string) => `${process.env.PUBLIC_URL}/${file}`;

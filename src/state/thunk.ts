@@ -1,13 +1,13 @@
 import * as Toolkit from '@reduxjs/toolkit';
 import JSZip from 'jszip';
 import Language from '../api/Language';
-import * as Random from '../api/random';
+import * as Utility from '../api/utility';
 
 export const loadDictionary = Toolkit.createAsyncThunk(
     'random/loadDictionary',
     async (arg: Language) => {
         const start = performance.now();
-        const response = await fetch(`${process.env.PUBLIC_URL}/english.zip`);
+        const response = await fetch(Utility.getPublicPath('english.zip'));
 
         if (!response.ok) throw Error(`Failed to fetch dictionary from ${response.url}`);
 
@@ -37,18 +37,11 @@ export const loadDictionary = Toolkit.createAsyncThunk(
 export const createRandomString = Toolkit.createAsyncThunk(
     'random/createRandomString',
     (arg: { count: number, separator: string, collection: string[] }) => {
+        const worker = new Worker(Utility.getPublicPath('random.worker.js'));
+
         return new Promise<string>(resolve => {
-            setTimeout(() => {
-                const start = performance.now();
-                const { count, separator, collection } = arg;
-                const items = Random.selectRandom(count, collection);
-                const output = items.join(separator);
-                const end = performance.now();
-
-                console.log(`Generated a random string of ${output.length} characters in ${end - start}ms`)
-
-                resolve(output);
-            });
+            worker.onmessage = event => resolve(event.data);
+            worker.postMessage(arg);
         });
     }
 );
