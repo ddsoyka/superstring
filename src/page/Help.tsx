@@ -34,8 +34,8 @@ const Help: React.FC = () => {
                 </Header.Body>
             </Header>
             <TableofContents />
-            <Segment id="security">
-                <h3>Security</h3>
+            <Segment>
+                <h3 id="security">Security</h3>
                 <br />
                 <p>
                     All code with a cryptographic function is provided solely by the client machine,

@@ -33,9 +33,7 @@ const Random: React.FC = () => {
                             <Card.Text>
                                 Create a random string of characters.
                             </Card.Text>
-                            <Link to="/random/string">
-                                <Button variant="primary">Go</Button>
-                            </Link>
+                            <Button as={Link} variant="primary" to="/random/string">Go</Button>
                         </Card.Body>
                     </Card>
                     <Card>
@@ -44,9 +42,7 @@ const Random: React.FC = () => {
                             <Card.Text>
                                 Create a random string of words.
                             </Card.Text>
-                            <Link to="/random/words">
-                                <Button variant="primary">Go</Button>
-                            </Link>
+                            <Button as={Link} variant="primary" to="/random/words">Go</Button>
                         </Card.Body>
                     </Card>
                     <Card>
@@ -55,9 +51,7 @@ const Random: React.FC = () => {
                             <Card.Text>
                                 Generate a random image.
                             </Card.Text>
-                            <Link to="/random/image">
-                                <Button variant="primary">Go</Button>
-                            </Link>
+                            <Button as={Link} variant="primary" to="/random/image">Go</Button>
                         </Card.Body>
                     </Card>
                 </CardDeck>
