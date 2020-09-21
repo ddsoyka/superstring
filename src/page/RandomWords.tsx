@@ -7,7 +7,8 @@ import {
     Button,
     Row,
     Col,
-    Spinner
+    Spinner,
+    InputGroup
 }
 from 'react-bootstrap';
 import * as Thunk from '../state/thunk';
@@ -67,6 +68,12 @@ const RandomWords: React.FC = () => {
         }
     };
 
+    const reset = () => {
+        setLength(10);
+        setSeparator('');
+        setOutput('');
+    };
+
     if (error || !language) setRetry(false);
     if (!retry) return <MissingDictionary />;
     if (!isLoading && language && !dictionary) dispatch(Thunk.loadDictionary(language));
@@ -78,9 +85,9 @@ const RandomWords: React.FC = () => {
                 <Header.Title>Random Words</Header.Title>
             </Header>
             <Segment>
-                <Form onSubmit={(e) => onSubmit(e)}>
-                    <Row>
-                        <Form.Label>Output</Form.Label>
+                <Form className="border p-5" onSubmit={(e) => onSubmit(e)}>
+                    <fieldset className="pb-1">
+                        <legend>Output</legend>
                         <Form.Control
                             id="output"
                             as="textarea"
@@ -88,21 +95,29 @@ const RandomWords: React.FC = () => {
                             value={output || ''}
                             readOnly
                         />
-                    </Row>
+                    </fieldset>
+                    <br />
                     <fieldset disabled={isLoading}>
-                        <legend>Options</legend>
-                        <Row>
-                            <Form.Label>Length</Form.Label>
+                        <legend className="pb-1">Options</legend>
+                        <InputGroup className="pb-4">
+                            <InputGroup.Prepend>
+                                <InputGroup.Text>Length</InputGroup.Text>
+                            </InputGroup.Prepend>
                             <Form.Control
+                                id="length"
                                 type="number"
                                 min={1}
                                 max={MAXIMUM_LENGTH}
                                 value={length}
                                 onChange={(e) => setLength(parseInt(e.target.value))}
                             />
-                        </Row>
-                        <Row>
-                            <Col>
+                            <InputGroup.Append>
+                                <Button variant="secondary" onClick={() => setLength(MAXIMUM_LENGTH)}>Max</Button>
+                                <Button variant="secondary" onClick={() => setLength(1)}>Min</Button>
+                            </InputGroup.Append>
+                        </InputGroup>
+                        <Row className="pb-4 justify-content-center flex-wrap">
+                            <Col className="flex-grow-0">
                                 <Form.Check
                                     id="none"
                                     type="radio"
@@ -111,7 +126,7 @@ const RandomWords: React.FC = () => {
                                     onChange={() => setSeparator("")}
                                 />
                             </Col>
-                            <Col>
+                            <Col className="flex-grow-0">
                                 <Form.Check
                                     id="space"
                                     type="radio"
@@ -120,7 +135,7 @@ const RandomWords: React.FC = () => {
                                     onChange={() => setSeparator(" ")}
                                 />
                             </Col>
-                            <Col>
+                            <Col className="flex-grow-0 text-nowrap">
                                 <Form.Check
                                     id="newline"
                                     type="radio"
@@ -130,8 +145,8 @@ const RandomWords: React.FC = () => {
                                 />
                             </Col>
                         </Row>
-                        <Row>
-                            <Col>
+                        <Row className="justify-content-center">
+                            <Col className="flex-grow-0">
                                 <Button variant="primary" type="submit">
                                     {!isLoading && 'Generate'}
                                     {
@@ -149,8 +164,8 @@ const RandomWords: React.FC = () => {
                                     }
                                 </Button>
                             </Col>
-                            <Col>
-                                <Button variant="secondary" onClick={() => setOutput('')}>Clear</Button>
+                            <Col className="flex-grow-0">
+                                <Button variant="secondary" onClick={reset}>Reset</Button>
                             </Col>
                         </Row>
                     </fieldset>
