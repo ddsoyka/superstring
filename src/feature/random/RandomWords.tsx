@@ -12,10 +12,10 @@ import {
 }
 from 'react-bootstrap';
 import * as State from '../../app/store';
-import * as Random from '../../api/random';
 import Images from '../../image';
 import Header from '../../component/Header';
 import Segment from '../../component/Segment';
+import { loadDictionary, createRandomWords } from './randomSlice';
 
 const MAXIMUM_LENGTH = 10000000;
 
@@ -61,7 +61,7 @@ const RandomWords: React.FC = () => {
                 collection: dictionary
             };
 
-            const action = await dispatch(Random.createRandomString(arg));
+            const action = await dispatch(createRandomWords(arg));
             const result = Toolkit.unwrapResult(action);
 
             setOutput(result);
@@ -76,7 +76,7 @@ const RandomWords: React.FC = () => {
 
     if (error || !language) setRetry(false);
     if (!retry) return <MissingDictionary />;
-    if (!isLoading && language && !dictionary) dispatch(Random.loadDictionary(language));
+    if (!isLoading && language && !dictionary) dispatch(loadDictionary(language));
 
     return (
         <>

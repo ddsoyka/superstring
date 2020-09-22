@@ -13,9 +13,9 @@ import {
 }
 from 'react-bootstrap';
 import * as State from '../../app/store';
-import * as Random from '../../api/random';
 import Header from '../../component/Header';
 import Segment from '../../component/Segment';
+import { createRandomImage } from './randomSlice';
 
 const MAXIMUM_WIDTH = 32768;
 const MAXIMUM_HEIGHT = 32768;
@@ -53,7 +53,7 @@ const RandomImage: React.FC = () => {
             width: width,
             height: height
         };
-        const action = await dispatch(Random.createRandomImage(argument));
+        const action = await dispatch(createRandomImage(argument));
         const result = Toolkit.unwrapResult(action);
         
         setImage(result);

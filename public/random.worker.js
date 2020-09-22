@@ -8,7 +8,7 @@ const entropy = (size) => {
     return Array.from(output);
 };
 
-const getRandom = (size) => {
+const getRandomNumbers = (size) => {
     if (size === 0) return [];
 
     const data = [];
@@ -24,21 +24,40 @@ const getRandom = (size) => {
     return output;
 };
 
-const selectRandom = (count, collection) => {
-    const output = [];
-    const values = getRandom(count);
+const getRandomString = (count, characters) => {
+    let output = '';
+
+    const values = getRandomNumbers(count);
 
     for (let index = 0; index < count; index++) {
         const number = values[index] / (0xffffffff + 1);
-        const position = Math.floor(number * collection.length);
-        const item = collection[position];
-
-        output.push(item);
+        const position = Math.floor(number * characters.length);
+        const character = characters.charAt(position);
+        
+        output += character;
     }
-    
+
     console.assert(output.length === count);
 
     return output;
+};
+
+const getRandomWords = (count, dictionary, separator) => {
+    let output = [];
+
+    const values = getRandomNumbers(count);
+
+    for (let index = 0; index < count; index++) {
+        const number = values[index] / (0xffffffff + 1);
+        const position = Math.floor(number * dictionary.length);
+        const word = dictionary[position];
+        
+        output.push(word);
+    }
+
+    console.assert(output.length === count);
+
+    return output.join(separator);
 };
 
 onmessage = (event) => {
@@ -46,12 +65,16 @@ onmessage = (event) => {
 
     switch (type) {
         case 'get':
-            const values = getRandom(payload);
+            const values = getRandomNumbers(payload);
             postMessage(values);
             break;
-        case 'select':
-            const items = selectRandom(payload.count, payload.collection);
-            postMessage(items);
+        case 'string':
+            const text = getRandomString(payload.count, payload.characters);
+            postMessage(text);
+            break;
+        case 'words':
+            const words = getRandomWords(payload.count, payload.dictionary, payload.separator);
+            postMessage(words);
             break;
         default:
             throw Error(`Unknown task type '${type}'`);

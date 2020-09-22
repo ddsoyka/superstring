@@ -6,6 +6,11 @@ import randomSlice from '../feature/random/randomSlice';
 import errorSlice from '../feature/error/errorSlice';
 import fileSlice from '../feature/file/fileSlice';
 
+interface AsyncThunkConfig {
+    dispatch: typeof store.dispatch
+    state: RootState
+}
+
 const store = Toolkit.configureStore({
     reducer: {
         i18n: i18nSlice.reducer,
@@ -38,5 +43,7 @@ export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 
 export type AppThunk = Thunk.ThunkAction<void, RootState, null, Toolkit.Action<string>>;
+
+export type AppAsyncThunk<Returned, Argument> = Toolkit.AsyncThunk<Returned, Argument, AsyncThunkConfig>
 
 export default store;

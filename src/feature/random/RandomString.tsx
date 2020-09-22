@@ -11,10 +11,10 @@ import {
 }
 from 'react-bootstrap';
 import * as State from '../../app/store';
-import * as Random from '../../api/random';
 import Images from '../../image';
 import Header from '../../component/Header';
 import Segment from '../../component/Segment';
+import { createRandomString } from './randomSlice';
 
 const MAXIMUM_LENGTH = 10000000;
 
@@ -45,10 +45,9 @@ const RandomString: React.FC = () => {
         if (characters !== "") {
             const arg = {
                 count: length,
-                separator: '',
-                collection: characters.split('')
+                characters: characters
             };
-            const action = await dispatch(Random.createRandomString(arg));
+            const action = await dispatch(createRandomString(arg));
             const result = Toolkit.unwrapResult(action);
             
             setOutput(result);

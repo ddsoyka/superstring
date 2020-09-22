@@ -1,5 +1,5 @@
 import * as Toolkit from '@reduxjs/toolkit';
-import * as Random from '../../api/random';
+import * as Random from '../random/randomSlice';
 
 const errorSlice = Toolkit.createSlice({
     name: 'error',
@@ -14,6 +14,9 @@ const errorSlice = Toolkit.createSlice({
             state = action.error
         },
         [Random.createRandomString.rejected.type]: (state, action) => {
+            state = action.error
+        },
+        [Random.createRandomWords.rejected.type]: (state, action) => {
             state = action.error
         },
         [Random.createRandomImage.rejected.type]: (state, action) => {
