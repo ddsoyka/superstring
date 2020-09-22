@@ -1,7 +1,8 @@
 import React from 'react';
 import * as ReactRedux from 'react-redux';
 import {
-    Link
+    Link,
+    NavLink
 }
 from 'react-router-dom';
 import {
@@ -37,31 +38,21 @@ const Navigation: React.FC = () => {
     return (
         <Navbar expand="sm" sticky="top" className="bg-light border-bottom">
             <Container as="section">
-                <Link to="/">
-                    <Navbar.Brand>
-                        <Images.Logo className="d-inline-block align-top mr-2" height="30" width="30" title="Superstring"/>
-                        Superstring
-                    </Navbar.Brand>
-                </Link>
+                <Navbar.Brand as={Link} to="/">
+                    <Images.Logo className="d-inline-block align-top mr-2" height="30" width="30" title="Superstring"/>
+                    Superstring
+                </Navbar.Brand>
                 <Navbar.Toggle />
                 <Navbar.Collapse className="justify-content-end">
                     <Nav>
+                        <NavDropdown title="Tools" id="tools">
+                            <NavDropdown.Item as={NavLink} to="/random">Random</NavDropdown.Item>
+                        </NavDropdown>
                         <Nav.Item>
-                            <NavDropdown title="Tools" id="tools">
-                                <NavDropdown.Item as="div">
-                                    <Link to="/random">Random</Link>
-                                </NavDropdown.Item>
-                            </NavDropdown>
+                            <Nav.Link as={NavLink} to="/about">About</Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
-                            <Nav.Link as="div">
-                                <Link to="/about">About</Link>
-                            </Nav.Link>
-                        </Nav.Item>
-                        <Nav.Item>
-                            <Nav.Link as="div">
-                                <Link to="/help">Help</Link>
-                            </Nav.Link>
+                            <Nav.Link as={NavLink} to="/help">Help</Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
                             <Nav.Link onClick={() => dispatch(State.showLanguages())}>
