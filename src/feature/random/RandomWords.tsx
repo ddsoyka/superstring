@@ -15,7 +15,7 @@ import * as State from '../../app/store';
 import Images from '../../image';
 import Header from '../../component/Header';
 import Segment from '../../component/Segment';
-import { loadDictionary, createRandomWords } from './randomSlice';
+import { loadDictionary, createRandomWords, saveRandomText } from './randomSlice';
 
 const MAXIMUM_LENGTH = 10000000;
 
@@ -163,6 +163,9 @@ const RandomWords: React.FC = () => {
                                         </>
                                     }
                                 </Button>
+                            </Col>
+                            <Col className="flex-grow-0">
+                                <Button variant="secondary" disabled={output === ''} onClick={() => dispatch(saveRandomText(output))}>Save</Button>
                             </Col>
                             <Col className="flex-grow-0">
                                 <Button variant="secondary" onClick={reset}>Reset</Button>

@@ -1,4 +1,5 @@
 import * as Toolkit from '@reduxjs/toolkit';
+import MD5 from 'md5';
 import Jimp from 'jimp';
 import Language from '../../api/Language';
 import * as Network from '../../api/network';
@@ -70,7 +71,7 @@ export const createRandomWords: State.AppAsyncThunk<string, WordsGenerationArgum
         const data = await Random.getRandomWords(arg.count, state.random.dictionary, arg.separator);
         const end = performance.now();
 
-        console.log(`Generated ${data.length} random words in ${end - start}ms`);
+        console.log(`Generated ${arg.count} random words in ${end - start}ms`);
 
         return data;
     }
@@ -98,6 +99,27 @@ export const createRandomImage = Toolkit.createAsyncThunk(
         return base64;
     }
 );
+
+export const saveRandomText: State.AppAsyncThunk<void, string> = Toolkit.createAsyncThunk(
+    'random/saveRandomText',
+    async (arg, api) => {
+        if (arg === '') return;
+
+        const hash = MD5(arg);
+        const argument = {
+            name: `${hash}.txt`,
+            data: arg
+        };
+        const archive = await Files.compress(argument);
+        const download = {
+            type: 'zip',
+            data: archive,
+            hash: hash
+        };
+
+        api.dispatch(State.showDownload(download));
+    }
+)
 
 const randomSlice = Toolkit.createSlice({
     name: 'random',
