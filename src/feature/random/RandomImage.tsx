@@ -8,13 +8,13 @@ import {
     Button,
     Form,
     Image,
-    Spinner,
     InputGroup
 }
 from 'react-bootstrap';
 import * as State from '../../app/store';
 import Header from '../../component/Header';
 import Segment from '../../component/Segment';
+import SpinnerButton from '../../component/SpinnerButton';
 import { createRandomImage } from './randomSlice';
 
 const MAXIMUM_WIDTH = 32768;
@@ -26,7 +26,7 @@ const RandomImage: React.FC = () => {
     const [width, setWidth] = React.useState(512);
     const [height, setHeight] = React.useState(512);
 
-    const isLoading = ReactRedux.useSelector((state: State.RootState) => state.random.isLoading);
+    const loading = ReactRedux.useSelector((state: State.RootState) => state.random.loading);
 
     const dispatch = ReactRedux.useDispatch<State.AppDispatch>();
 
@@ -71,7 +71,7 @@ const RandomImage: React.FC = () => {
                         <Image className="bg-light border p-3 mw-100 h-auto" src={image} alt="Output" />
                     </fieldset>
                     <br />
-                    <fieldset className="pb-1" disabled={isLoading}>
+                    <fieldset className="pb-1" disabled={loading !== 'none'}>
                         <legend>Options</legend>
                         <InputGroup className="pb-4">
                             <InputGroup.Prepend>
@@ -138,25 +138,16 @@ const RandomImage: React.FC = () => {
                         </Row>
                         <Row className="justify-content-center">
                             <Col className="flex-grow-0">
-                                <Button variant="primary" type="submit">
-                                    {!isLoading && 'Generate'}
-                                    {
-                                        isLoading &&
-                                        <>
-                                            <Spinner
-                                                as="span"
-                                                animation="border"
-                                                size="sm"
-                                                role="status"
-                                                aria-hidden="true"
-                                            />
-                                            <span className="sr-only">Loading...</span>
-                                        </>
-                                    }
-                                </Button>
+                                <SpinnerButton active={loading === 'create'} type="submit">Generate</SpinnerButton>
                             </Col>
                             <Col className="flex-grow-0">
-                                <Button variant="secondary" disabled={image === ''} onClick={save}>Save</Button>
+                                <SpinnerButton
+                                    variant="secondary"
+                                    active={loading === 'save'}
+                                    disabled={image === ''}
+                                    onClick={save}>
+                                        Save
+                                </SpinnerButton>
                             </Col>
                             <Col className="flex-grow-0">
                                 <Button variant="secondary" onClick={() => setImage('')}>Reset</Button>

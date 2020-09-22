@@ -7,6 +7,11 @@ import * as Files from '../../api/file';
 import * as Random from '../../api/random';
 import * as State from '../../app/store';
 
+interface RandomState {
+    dictionary: string[] | null,
+    loading: 'none' | 'create' | 'save',
+}
+
 interface ImageGenerationArgument {
     mime: 'image/png' | 'image/jpeg' | 'image/bmp'
     width: number
@@ -21,6 +26,11 @@ interface StringGenerationArgument {
 interface WordsGenerationArgument {
     count: number
     separator: string
+}
+
+const initialRandomState: RandomState = {
+    dictionary: null,
+    loading: 'none',
 }
 
 export const loadDictionary = Toolkit.createAsyncThunk(
@@ -123,48 +133,54 @@ export const saveRandomText: State.AppAsyncThunk<void, string> = Toolkit.createA
 
 const randomSlice = Toolkit.createSlice({
     name: 'random',
-    initialState: {
-        dictionary: null as string[] | null,
-        isLoading: false,
-    },
+    initialState: initialRandomState,
     reducers: {},
     extraReducers: {
         [loadDictionary.fulfilled.type]: (state, action) => {
             state.dictionary = action.payload;
-            state.isLoading = false;
+            state.loading = 'none';
         },
         [loadDictionary.pending.type]: state => {
-            state.isLoading = true;
+            state.loading = 'create';
         },
         [loadDictionary.rejected.type]: state => {
-            state.isLoading = false;
+            state.loading = 'none';
         },
         [createRandomString.fulfilled.type]: (state) => {
-            state.isLoading = false;
+            state.loading = 'none';
         },
         [createRandomString.pending.type]: state => {
-            state.isLoading = true;
+            state.loading = 'create';
         },
         [createRandomString.rejected.type]: state => {
-            state.isLoading = false;
+            state.loading = 'none';
         },
         [createRandomWords.fulfilled.type]: (state) => {
-            state.isLoading = false;
+            state.loading = 'none';
         },
         [createRandomWords.pending.type]: state => {
-            state.isLoading = true;
+            state.loading = 'create';
         },
         [createRandomWords.rejected.type]: state => {
-            state.isLoading = false;
+            state.loading = 'none';
         },
         [createRandomImage.fulfilled.type]: (state) => {
-            state.isLoading = false;
+            state.loading = 'none';
         },
         [createRandomImage.pending.type]: state => {
-            state.isLoading = true;
+            state.loading = 'create';
         },
         [createRandomImage.rejected.type]: state => {
-            state.isLoading = false;
+            state.loading = 'none';
+        },
+        [saveRandomText.fulfilled.type]: (state) => {
+            state.loading = 'none';
+        },
+        [saveRandomText.pending.type]: state => {
+            state.loading = 'save';
+        },
+        [saveRandomText.rejected.type]: state => {
+            state.loading = 'none';
         }
     }
 });
