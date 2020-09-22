@@ -32,7 +32,7 @@ const Download: React.FC = () => {
                             <ListGroup.Item>
                                 <b>Type:</b>
                                 <br />
-                                {download.type}
+                                {download.type?.toUpperCase()}
                             </ListGroup.Item>
                             <ListGroup.Item>
                                 <b>Size:</b>
