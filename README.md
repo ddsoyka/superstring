@@ -6,7 +6,11 @@
 
 # Tools
 
-- Generate random strings of characters or words.
+## Random
+
+- Generate a random string of letters, digits and symbols.
+- Generate a list of random words.
+- Create a randomly generated image in various formats.
 
 # Languages
 
