@@ -1,6 +1,5 @@
 import * as Logger from 'redux-logger';
 import * as Toolkit from '@reduxjs/toolkit';
-import * as Thunk from 'redux-thunk'
 import i18nSlice from '../feature/i18n/i18nSlice';
 import randomSlice from '../feature/random/randomSlice';
 import errorSlice from '../feature/error/errorSlice';
@@ -19,7 +18,10 @@ const store = Toolkit.configureStore({
         file: fileSlice.reducer
     },
     middleware: getDefaultMiddleware => {
-        const middleware = getDefaultMiddleware();
+        const middleware = getDefaultMiddleware({
+            immutableCheck: false,
+            serializableCheck: false
+        });
 
         if (process.env.NODE_ENV === `development`) {
             const logger = Logger.createLogger({
@@ -41,8 +43,6 @@ export const { showDownload, hideDownload } = fileSlice.actions;
 export type RootState = ReturnType<typeof store.getState>;
 
 export type AppDispatch = typeof store.dispatch;
-
-export type AppThunk = Thunk.ThunkAction<void, RootState, null, Toolkit.Action<string>>;
 
 export type AppAsyncThunk<Returned, Argument> = Toolkit.AsyncThunk<Returned, Argument, AsyncThunkConfig>
 
