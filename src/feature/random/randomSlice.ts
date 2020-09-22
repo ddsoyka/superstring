@@ -1,5 +1,4 @@
 import * as Toolkit from '@reduxjs/toolkit';
-import MD5 from 'md5';
 import Jimp from 'jimp';
 import Language from '../../api/Language';
 import * as Network from '../../api/network';
@@ -115,12 +114,14 @@ export const saveRandomText: State.AppAsyncThunk<void, string> = Toolkit.createA
     async (arg, api) => {
         if (arg === '') return;
 
-        const hash = MD5(arg);
+        const hash = await Files.hash(arg);
+
         const argument = {
             name: `${hash}.txt`,
             data: arg
         };
         const archive = await Files.compress(argument);
+        
         const download = {
             type: 'zip',
             data: archive,

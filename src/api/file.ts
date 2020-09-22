@@ -1,4 +1,5 @@
 import JSZip from 'jszip';
+import MD5 from 'md5';
 
 interface InputFile {
     name: string
@@ -23,4 +24,8 @@ export const compress = async (input: InputFile) => {
     });
 
     return `data:application/zip;base64,${base64}`;
+};
+
+export const hash = <T extends string | Buffer | number[]> (message: T, options?: MD5.Options) => {
+    return new Promise<string>(resolve => resolve(MD5(message, options)));
 };
