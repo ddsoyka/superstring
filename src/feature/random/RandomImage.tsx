@@ -1,5 +1,4 @@
 import React from 'react';
-import MD5 from 'md5';
 import * as ReactRedux from 'react-redux';
 import * as Toolkit from '@reduxjs/toolkit';
 import {
@@ -15,7 +14,7 @@ import * as State from '../../app/store';
 import Header from '../../component/Header';
 import Segment from '../../component/Segment';
 import SpinnerButton from '../../component/SpinnerButton';
-import { createRandomImage } from './randomSlice';
+import { createRandomImage, saveRandomData } from './randomSlice';
 
 const MAXIMUM_WIDTH = 32768;
 const MAXIMUM_HEIGHT = 32768;
@@ -31,16 +30,12 @@ const RandomImage: React.FC = () => {
     const dispatch = ReactRedux.useDispatch<State.AppDispatch>();
 
     const save = () => {
-        if (image === '') return;
-
-        const hash = MD5(image);
-        const download = {
+        const argument = {
             type: type,
-            data: image,
-            hash: hash
+            data: image
         };
 
-        dispatch(State.showDownload(download));
+        dispatch(saveRandomData(argument));
     };
 
     const onSubmit = async (event: any) => {

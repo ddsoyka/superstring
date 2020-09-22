@@ -27,6 +27,11 @@ interface WordsGenerationArgument {
     separator: string
 }
 
+interface SaveRandomDataArgument {
+    type: string
+    data: string
+}
+
 const initialRandomState: RandomState = {
     dictionary: null,
     loading: 'none',
@@ -50,7 +55,7 @@ export const loadDictionary = Toolkit.createAsyncThunk(
 
         const end = performance.now();
 
-        console.log(`Fetched dictionary with ${sorted.length} words for ${arg} in ${end - start}ms`);
+        console.log(`Fetched ${sorted.length} words for ${arg} in ${end - start}ms`);
 
         return sorted;
     }
@@ -109,24 +114,32 @@ export const createRandomImage = Toolkit.createAsyncThunk(
     }
 );
 
-export const saveRandomText: State.AppAsyncThunk<void, string> = Toolkit.createAsyncThunk(
-    'random/saveRandomText',
+export const saveRandomData: State.AppAsyncThunk<void, SaveRandomDataArgument> = Toolkit.createAsyncThunk(
+    'random/saveRandomData',
     async (arg, api) => {
-        if (arg === '') return;
+        const start = performance.now();
 
-        const hash = await Files.hash(arg);
+        if (arg.type === '') throw Error('Unknown data type');
+        if (arg.data === '') throw Error('No data to save');
+
+        const hash = await Files.hash(arg.data);
 
         const argument = {
-            name: `${hash}.txt`,
-            data: arg
+            name: `${hash}.${arg.type}`,
+            data: arg.data
         };
-        const archive = await Files.compress(argument);
-        
+
+        const data = arg.type === 'txt' ? await Files.compress(argument) : arg.data;
+
         const download = {
-            type: 'zip',
-            data: archive,
+            type: arg.type === 'txt' ? 'zip' : arg.type,
+            data: data,
             hash: hash
         };
+
+        const end = performance.now();
+
+        console.log(`Prepared item ${hash} for download in ${end - start}ms`);
 
         api.dispatch(State.showDownload(download));
     }
@@ -174,13 +187,13 @@ const randomSlice = Toolkit.createSlice({
         [createRandomImage.rejected.type]: state => {
             state.loading = 'none';
         },
-        [saveRandomText.fulfilled.type]: (state) => {
+        [saveRandomData.fulfilled.type]: (state) => {
             state.loading = 'none';
         },
-        [saveRandomText.pending.type]: state => {
+        [saveRandomData.pending.type]: state => {
             state.loading = 'save';
         },
-        [saveRandomText.rejected.type]: state => {
+        [saveRandomData.rejected.type]: state => {
             state.loading = 'none';
         }
     }

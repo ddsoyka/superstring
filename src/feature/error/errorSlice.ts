@@ -21,6 +21,9 @@ const errorSlice = Toolkit.createSlice({
         },
         [Random.createRandomImage.rejected.type]: (state, action) => {
             state = action.error
+        },
+        [Random.saveRandomData.rejected.type]: (state, action) => {
+            state = action.error
         }
     }
 });

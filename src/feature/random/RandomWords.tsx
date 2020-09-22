@@ -15,7 +15,7 @@ import Images from '../../image';
 import Header from '../../component/Header';
 import Segment from '../../component/Segment';
 import SpinnerButton from '../../component/SpinnerButton';
-import { loadDictionary, createRandomWords, saveRandomText } from './randomSlice';
+import { loadDictionary, createRandomWords, saveRandomData } from './randomSlice';
 
 const MAXIMUM_LENGTH = 10000000;
 
@@ -66,6 +66,15 @@ const RandomWords: React.FC = () => {
 
             setOutput(result);
         }
+    };
+
+    const save = () => {
+        const argument = {
+            type: 'txt',
+            data: output
+        };
+
+        dispatch(saveRandomData(argument));
     };
 
     const reset = () => {
@@ -154,7 +163,7 @@ const RandomWords: React.FC = () => {
                                     variant="secondary"
                                     active={loading === 'save'}
                                     disabled={output === ''}
-                                    onClick={() => dispatch(saveRandomText(output))}>
+                                    onClick={save}>
                                         Save
                                 </SpinnerButton>
                             </Col>

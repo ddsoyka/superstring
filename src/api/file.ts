@@ -27,5 +27,5 @@ export const compress = async (input: InputFile) => {
 };
 
 export const hash = <T extends string | Buffer | number[]> (message: T, options?: MD5.Options) => {
-    return new Promise<string>(resolve => resolve(MD5(message, options)));
+    return new Promise<string>(resolve => setTimeout(() => resolve(MD5(message, options))));
 };
