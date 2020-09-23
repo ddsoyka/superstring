@@ -18,9 +18,10 @@ import { createRandomImage, saveRandomData } from './randomSlice';
 
 const MAXIMUM_WIDTH = 32768;
 const MAXIMUM_HEIGHT = 32768;
+const BLANK_IMAGE = 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';
 
 const RandomImage: React.FC = () => {
-    const [image, setImage] = React.useState('');
+    const [image, setImage] = React.useState(BLANK_IMAGE);
     const [type, setType] = React.useState<'png' | 'jpeg' | 'bmp'>('png');
     const [width, setWidth] = React.useState(512);
     const [height, setHeight] = React.useState(512);
@@ -38,10 +39,17 @@ const RandomImage: React.FC = () => {
         dispatch(saveRandomData(argument));
     };
 
+    const reset = () => {
+        setImage(BLANK_IMAGE);
+        setType('png');
+        setWidth(512);
+        setHeight(512);
+    };
+
     const onSubmit = async (event: any) => {
         event.preventDefault();
 
-        setImage('');
+        setImage(BLANK_IMAGE);
 
         const argument = {
             mime: `image/${type}` as 'image/png' | 'image/jpeg' | 'image/bmp',
@@ -63,7 +71,7 @@ const RandomImage: React.FC = () => {
                 <Form className="border p-5" onSubmit={(e) => onSubmit(e)}>
                     <fieldset className="pb-1 text-center">
                         <legend>Output</legend>
-                        <Image className="bg-light border p-3 mw-100 h-auto" src={image} alt="Output" />
+                        <Image className="bg-light border p-3 w-100 h-auto" src={image} alt="Output" />
                     </fieldset>
                     <br />
                     <fieldset className="pb-1" disabled={loading !== 'none'}>
@@ -145,7 +153,7 @@ const RandomImage: React.FC = () => {
                                 </SpinnerButton>
                             </Col>
                             <Col className="flex-grow-0">
-                                <Button variant="secondary" onClick={() => setImage('')}>Reset</Button>
+                                <Button variant="secondary" onClick={reset}>Reset</Button>
                             </Col>
                         </Row>
                     </fieldset>
