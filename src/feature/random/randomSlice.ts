@@ -47,7 +47,7 @@ export const loadDictionary = Toolkit.createAsyncThunk(
 
         if (archive.type !== 'application/zip') throw Error(`Expected an archive but got ${archive.type}`);
 
-        const file = await Files.extract(archive, 'english.txt');
+        const file = await Files.extract(archive, 'blob', 'english.txt');
         const text = await file[0].text();
 
         const dictionary = text.split('\n');
@@ -133,7 +133,7 @@ export const saveRandomData: State.AppAsyncThunk<void, SaveRandomDataArgument> =
                 data: arg.data
             };
     
-            data = await Files.compress(argument);
+            data = await Files.compress([argument], 'blob');
 
             const end = performance.now();
 
