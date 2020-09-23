@@ -25,12 +25,16 @@ executors:
 jobs:
   test:
     executor: node
+    environment:
+      JEST_JUNIT_OUTPUT_DIR: reports/
     steps:
       - checkout
       - install
       - run:
           name: Test
-          command: npm test
+          command: npm test -- --reporters=default --reporters=jest-junit
+      - store_test_results:
+          path: reports
   deploy:
     executor: node
     steps:
