@@ -4,7 +4,7 @@ interface FileState {
     show: 'none' | 'upload' | 'download'
     download: {
         type: string | undefined
-        data: string | undefined
+        data: Blob | null
         hash: string | undefined
     }
     upload: FileList | null
@@ -12,7 +12,7 @@ interface FileState {
 
 interface Downloadable {
     type: string
-    data: string
+    data: Blob
     hash: string
 }
 
@@ -20,7 +20,7 @@ const initialFileState: FileState = {
     show: 'none',
     download: {
         type: undefined,
-        data: undefined,
+        data: null,
         hash: undefined
     },
     upload: null
@@ -42,7 +42,7 @@ const file = Toolkit.createSlice({
             state.show = 'none';
             state.download = {
                 type: undefined,
-                data: undefined,
+                data: null,
                 hash: undefined
             }
         }

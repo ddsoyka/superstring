@@ -18,12 +18,10 @@ export const compress = async (input: InputFile) => {
 
     archive.file(input.name, input.data); 
 
-    const base64 = await archive.generateAsync({
+    return await archive.generateAsync({
         compression: 'DEFLATE',
-        type: 'base64'
+        type: 'blob'
     });
-
-    return `data:application/zip;base64,${base64}`;
 };
 
 export const hash = <T extends string | Buffer | number[]> (message: T, options?: MD5.Options) => {

@@ -5,6 +5,7 @@ import * as Network from '../../api/network';
 import * as Files from '../../api/file';
 import * as Random from '../../api/random';
 import * as State from '../../app/store';
+import * as Utilities from '../../api/utility';
 
 interface RandomState {
     dictionary: string[] | null,
@@ -122,14 +123,27 @@ export const saveRandomData: State.AppAsyncThunk<void, SaveRandomDataArgument> =
         if (arg.type === '') throw Error('Unknown data type');
         if (arg.data === '') throw Error('No data to save');
 
-        const hash = await Files.hash(arg.data);
+        let data: Blob;
 
-        const argument = {
-            name: `${hash}.${arg.type}`,
-            data: arg.data
-        };
+        if (arg.type === 'txt') {
+            const hash = await Files.hash(arg.data);
 
-        const data = arg.type === 'txt' ? await Files.compress(argument) : arg.data;
+            const argument = {
+                name: `${hash}.${arg.type}`,
+                data: arg.data
+            };
+    
+            data = await Files.compress(argument);
+
+            const end = performance.now();
+
+            console.log(`Compressed a file in ${end - start}ms`);
+        }
+        else data = await Utilities.base64ToBlob(arg.data);
+
+        const arrayBuffer = await data.arrayBuffer();
+        const buffer = Buffer.from(arrayBuffer);
+        const hash = await Files.hash(buffer);
 
         const download = {
             type: arg.type === 'txt' ? 'zip' : arg.type,
