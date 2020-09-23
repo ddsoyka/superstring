@@ -6,21 +6,21 @@ interface InputFile {
     data: any
 }
 
-export const extract = async (input: any, filter?: string) => {
+export const extract = async <T extends JSZip.OutputType> (input: any, output: T, filter?: string) => {
     const archive = await JSZip.loadAsync(input);
     const files = filter ? archive.filter(path => path.includes(filter)) : archive.filter(() => true);
 
-    return Promise.all(files.map(async value => await value.async('blob')));
+    return Promise.all(files.map(async value => await value.async(output)));
 };
 
-export const compress = async (input: InputFile) => {
+export const compress = async <I extends JSZip.InputType, O extends JSZip.OutputType> (input: InputFile[], output: O) => {
     const archive = new JSZip();
 
-    archive.file(input.name, input.data); 
+    input.forEach(value => archive.file<I>(value.name, value.data));
 
     return await archive.generateAsync({
         compression: 'DEFLATE',
-        type: 'blob'
+        type: output
     });
 };
 
