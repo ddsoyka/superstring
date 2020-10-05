@@ -12,6 +12,10 @@ const language = localStorage.getItem('language');
 
 if (language) Store.dispatch(State.setLanguage(language as Language));
 
+// const language = navigator.language;
+
+// Store.dispatch(State.setLanguage(language as Language));
+
 ReactDOM.render(
     <ReactRedux.Provider store={Store}>
         <App />
