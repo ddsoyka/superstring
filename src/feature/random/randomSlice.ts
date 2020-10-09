@@ -43,7 +43,19 @@ export const loadDictionary = Toolkit.createAsyncThunk(
     async (arg: Language) => {
         const start = performance.now();
 
-        const archive = await Network.fetchLocalFile('english.zip');
+        let archive: Blob | null = null;
+
+        switch(arg) {
+            case Language.EN_US:
+            case Language.EN_GB:
+            case Language.EN_CA:
+                archive = await Network.fetchLocalFile('english.zip');
+                break;
+            case Language.UNKNOWN:
+                throw Error('Unknown language')
+            default:
+                throw Error(`Cannot get dictionary for ${arg}`);
+        }
 
         if (archive.type !== 'application/zip') throw Error(`Expected an archive but got ${archive.type}`);
 
@@ -132,7 +144,7 @@ export const saveRandomData: State.AppAsyncThunk<void, SaveRandomDataArgument> =
                 name: `${hash}.${arg.type}`,
                 data: arg.data
             };
-    
+
             data = await Files.compress([argument], 'blob');
 
             const end = performance.now();

@@ -11,6 +11,7 @@ import {
 }
 from 'react-bootstrap';
 import * as State from '../../app/store';
+import Language from '../../api/Language';
 import Images from '../../image';
 import Header from '../../component/Header';
 import Segment from '../../component/Segment';
@@ -46,7 +47,7 @@ const RandomWords: React.FC = () => {
     const {loading, dictionary} = ReactRedux.useSelector((state: State.RootState) => state.random);
     const language = ReactRedux.useSelector((state: State.RootState) => state.i18n.language);
     const error = ReactRedux.useSelector((state: State.RootState) => state.error);
-    
+
     const dispatch = ReactRedux.useDispatch<State.AppDispatch>()
 
     const onSubmit = async (event: any) => {
@@ -83,9 +84,9 @@ const RandomWords: React.FC = () => {
         setOutput('');
     };
 
-    if (error || !language) setRetry(false);
+    if (error || !language || language === Language.UNKNOWN) setRetry(false);
     if (!retry) return <MissingDictionary />;
-    if (loading === 'none' && language && !dictionary) dispatch(loadDictionary(language));
+    if (loading === 'none' && language && language !== Language.UNKNOWN && !dictionary) dispatch(loadDictionary(language));
 
     return (
         <>
