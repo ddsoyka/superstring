@@ -55,9 +55,6 @@ const Navigation: React.FC = () => {
             </a>
             <Navbar.Collapse className="flex-grow-0">
                 <Nav>
-                    <NavDropdown title="Tools" id="tools">
-                        <NavDropdown.Item as={NavLink} to="/random">Random</NavDropdown.Item>
-                    </NavDropdown>
                     <Nav.Item>
                         <Nav.Link as={NavLink} to="/about">About</Nav.Link>
                     </Nav.Item>
@@ -66,9 +63,13 @@ const Navigation: React.FC = () => {
                     </Nav.Item>
                     <Nav.Item>
                         <Nav.Link onClick={() => dispatch(State.showLanguages())}>
+                            <span className="d-sm-none mr-3">Language</span>
                             {getImage()}
                         </Nav.Link>
                     </Nav.Item>
+                    <NavDropdown title="Tools" id="tools">
+                        <NavDropdown.Item as={NavLink} to="/random">Random</NavDropdown.Item>
+                    </NavDropdown>
                 </Nav>
             </Navbar.Collapse>
         </Navbar>
