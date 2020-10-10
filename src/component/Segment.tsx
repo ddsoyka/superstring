@@ -6,7 +6,7 @@ from 'react-bootstrap';
 
 const Segment: React.FC<React.HTMLAttributes<HTMLElement>> = (props) => {
     return (
-        <Container className="segment mt-5" as="section">
+        <Container className="segment mt-sm-5" as="section">
             {props.children}
         </Container>
     );
