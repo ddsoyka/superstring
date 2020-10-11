@@ -3,6 +3,7 @@ import {
     Container
 }
 from 'react-bootstrap';
+import './Wrapper.css';
 
 const Wrapper: React.FC = (props) => {
     return (
