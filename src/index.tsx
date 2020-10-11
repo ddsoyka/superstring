@@ -8,6 +8,8 @@ import Language from './api/Language';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 
+console.log(`The viewport is ${window.innerWidth}x${window.innerHeight}`);
+
 const language = navigator.language;
 
 console.log(`The browser reports that the current language is ${language}`);
