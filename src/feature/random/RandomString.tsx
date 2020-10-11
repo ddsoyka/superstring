@@ -14,7 +14,11 @@ from 'react-bootstrap';
 import * as State from '../../app/store';
 import Wrapper from '../../component/Wrapper';
 import SpinnerButton from '../../component/SpinnerButton';
-import { createRandomString, saveRandomData } from './randomSlice';
+import {
+    createRandomString,
+    saveRandomData
+}
+from './randomSlice';
 
 const MAXIMUM_LENGTH = 10000000;
 
@@ -82,14 +86,16 @@ const RandomString: React.FC = () => {
                         <Tab.Container activeKey={key} id="tabs" onSelect={key => setKey(key as string)}>
                             <Wrapper>
                                 <Row className="mb-3">
+                                    <Col className="flex-grow-0 flex-md-grow-1" />
                                     <Nav as={Col} variant="tabs">
-                                        <Nav.Item>
+                                        <Nav.Item className="flex-grow-1">
                                             <Nav.Link eventKey="output">Output</Nav.Link>
                                         </Nav.Item>
-                                        <Nav.Item>
+                                        <Nav.Item className="flex-grow-1">
                                             <Nav.Link eventKey="options">Options</Nav.Link>
                                         </Nav.Item>
                                     </Nav>
+                                    <Col className="flex-grow-0 flex-md-grow-1" />
                                 </Row>
                                 <Row>
                                     <Tab.Content as={Col}>
