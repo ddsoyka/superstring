@@ -69,6 +69,7 @@ const Navigation: React.FC = () => {
                     </Nav.Item>
                     <NavDropdown title="Tools" id="tools">
                         <NavDropdown.Item as={NavLink} to="/random">Random</NavDropdown.Item>
+                        <NavDropdown.Item as={NavLink} to="/convert">Convert</NavDropdown.Item>
                     </NavDropdown>
                 </Nav>
             </Navbar.Collapse>

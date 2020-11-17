@@ -58,6 +58,10 @@ import {
     ReactComponent as Word
 }
 from './word.svg';
+import {
+    ReactComponent as Convert
+}
+from './convert.svg';
 
 export default {
     Logo,
@@ -74,5 +78,6 @@ export default {
     Twitter,
     Help,
     Language,
-    Word
+    Word,
+    Convert
 };
