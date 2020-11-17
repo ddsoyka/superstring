@@ -19,6 +19,18 @@ textarea {
     resize: none;
 }
 
+.vw-25 {
+    width: 25vw !important;
+}
+
+.vw-50 {
+    width: 50vw !important;
+}
+
+.vw-75 {
+    width: 75vw !important;
+}
+
 .vh-25 {
     height: 25vh !important;
 }
