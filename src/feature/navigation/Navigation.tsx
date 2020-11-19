@@ -49,12 +49,16 @@ const Navigation: React.FC = () => {
             <Navbar.Brand as={Link} to="/">
                 <Images.Logo height="32" width="32" title="Superstring" />
             </Navbar.Brand>
-            <div className="d-none d-xl-block flex-grow-1" />
+            <div className="d-none d-sm-block flex-grow-1" />
             <a href="https://github.com/ddsoyka/superstring" className="mr-sm-3">
                 <Images.GitHub height="32" width="32" title="GitHub" />
             </a>
             <Navbar.Collapse className="flex-grow-0">
                 <Nav>
+                    <NavDropdown title="Tools" id="tools">
+                        <NavDropdown.Item as={NavLink} to="/random">Random</NavDropdown.Item>
+                        <NavDropdown.Item as={NavLink} to="/convert">Convert</NavDropdown.Item>
+                    </NavDropdown>
                     <Nav.Item>
                         <Nav.Link as={NavLink} to="/about">About</Nav.Link>
                     </Nav.Item>
@@ -67,10 +71,6 @@ const Navigation: React.FC = () => {
                             {getImage()}
                         </Nav.Link>
                     </Nav.Item>
-                    <NavDropdown title="Tools" id="tools">
-                        <NavDropdown.Item as={NavLink} to="/random">Random</NavDropdown.Item>
-                        <NavDropdown.Item as={NavLink} to="/convert">Convert</NavDropdown.Item>
-                    </NavDropdown>
                 </Nav>
             </Navbar.Collapse>
         </Navbar>
