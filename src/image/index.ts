@@ -63,7 +63,7 @@ import {
 }
 from './convert.svg';
 
-export default {
+const Images = {
     Logo,
     GitHub,
     US,
@@ -81,3 +81,5 @@ export default {
     Word,
     Convert
 };
+
+export default Images;
