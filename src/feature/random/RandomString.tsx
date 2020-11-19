@@ -21,9 +21,10 @@ import {
 from './randomSlice';
 
 const MAXIMUM_LENGTH = 10000000;
+const DEFAULT_LENGTH = 10000;
 
 const RandomString: React.FC = () => {
-    const [length, setLength] = React.useState(10);
+    const [length, setLength] = React.useState(DEFAULT_LENGTH);
     const [lowercase, setLowercase] = React.useState(true);
     const [uppercase, setUppercase] = React.useState(true);
     const [digits, setDigits] = React.useState(true);
@@ -69,7 +70,7 @@ const RandomString: React.FC = () => {
     };
 
     const reset = () => {
-        setLength(10);
+        setLength(DEFAULT_LENGTH);
         setLowercase(true);
         setUppercase(true);
         setDigits(true);

@@ -25,6 +25,8 @@ import {
 from './randomSlice';
 
 const MAXIMUM_LENGTH = 1000000;
+const DEFAULT_SEPARATOR = ' ';
+const DEFAULT_LENGTH = 1000;
 
 const MissingDictionary: React.FC = () => {
     return (
@@ -45,8 +47,8 @@ const MissingDictionary: React.FC = () => {
 };
 
 const RandomWords: React.FC = () => {
-    const [length, setLength] = React.useState(10);
-    const [separator, setSeparator] = React.useState(' ');
+    const [length, setLength] = React.useState(DEFAULT_LENGTH);
+    const [separator, setSeparator] = React.useState(DEFAULT_SEPARATOR);
     const [retry, setRetry] = React.useState(true);
     const [output, setOutput] = React.useState('');
     const [key, setKey] = React.useState('output');
@@ -86,8 +88,8 @@ const RandomWords: React.FC = () => {
     };
 
     const reset = () => {
-        setLength(10);
-        setSeparator('');
+        setLength(DEFAULT_LENGTH);
+        setSeparator(DEFAULT_SEPARATOR);
         setOutput('');
     };
 

@@ -20,12 +20,15 @@ import { createRandomImage, saveRandomData } from './randomSlice';
 const MAXIMUM_WIDTH = 32768;
 const MAXIMUM_HEIGHT = 32768;
 const BLANK_IMAGE = 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';
+const DEFAULT_TYPE = 'png';
+const DEFAULT_WIDTH = 512;
+const DEFAULT_HEIGHT = 512;
 
 const RandomImage: React.FC = () => {
     const [image, setImage] = React.useState(BLANK_IMAGE);
-    const [type, setType] = React.useState<'png' | 'jpeg' | 'bmp'>('png');
-    const [width, setWidth] = React.useState(512);
-    const [height, setHeight] = React.useState(512);
+    const [type, setType] = React.useState<'png' | 'jpeg' | 'bmp'>(DEFAULT_TYPE);
+    const [width, setWidth] = React.useState(DEFAULT_WIDTH);
+    const [height, setHeight] = React.useState(DEFAULT_HEIGHT);
     const [key, setKey] = React.useState('output');
 
     const loading = ReactRedux.useSelector((state: State.RootState) => state.random.loading);
@@ -43,9 +46,9 @@ const RandomImage: React.FC = () => {
 
     const reset = () => {
         setImage(BLANK_IMAGE);
-        setType('png');
-        setWidth(512);
-        setHeight(512);
+        setType(DEFAULT_TYPE);
+        setWidth(DEFAULT_WIDTH);
+        setHeight(DEFAULT_HEIGHT);
     };
 
     const onSubmit = async (event: any) => {
