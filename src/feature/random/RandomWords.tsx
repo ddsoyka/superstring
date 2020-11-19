@@ -7,16 +7,22 @@ import {
     Button,
     Row,
     Col,
-    InputGroup
+    InputGroup,
+    Tab,
+    Nav
 }
 from 'react-bootstrap';
 import * as State from '../../app/store';
 import Language from '../../api/Language';
 import Images from '../../image';
-import Header from '../../component/Header';
-import Segment from '../../component/Segment';
 import SpinnerButton from '../../component/SpinnerButton';
-import { loadDictionary, createRandomWords, saveRandomData } from './randomSlice';
+import Wrapper from '../../component/Wrapper';
+import {
+    loadDictionary,
+    createRandomWords,
+    saveRandomData
+}
+from './randomSlice';
 
 const MAXIMUM_LENGTH = 10000000;
 
@@ -43,6 +49,7 @@ const RandomWords: React.FC = () => {
     const [separator, setSeparator] = React.useState("");
     const [retry, setRetry] = React.useState(true);
     const [output, setOutput] = React.useState('');
+    const [key, setKey] = React.useState('output');
 
     const {loading, dictionary} = ReactRedux.useSelector((state: State.RootState) => state.random);
     const language = ReactRedux.useSelector((state: State.RootState) => state.i18n.language);
@@ -89,93 +96,113 @@ const RandomWords: React.FC = () => {
     if (loading === 'none' && language && language !== Language.UNKNOWN && !dictionary) dispatch(loadDictionary(language));
 
     return (
-        <>
-            <Header>
-                <Header.Image src={Images.Word} title="Random Words" />
-                <Header.Title>Random Words</Header.Title>
-            </Header>
-            <Segment>
-                <Form className="border p-5" onSubmit={(e) => onSubmit(e)}>
-                    <fieldset className="pb-1">
-                        <legend>Output</legend>
-                        <Form.Control
-                            id="output"
-                            as="textarea"
-                            rows={5}
-                            value={output || ''}
-                            readOnly
-                        />
-                    </fieldset>
-                    <br />
-                    <fieldset disabled={loading !== 'none'}>
-                        <legend className="pb-1">Options</legend>
-                        <InputGroup className="pb-4">
-                            <InputGroup.Prepend>
-                                <InputGroup.Text>Length</InputGroup.Text>
-                            </InputGroup.Prepend>
-                            <Form.Control
-                                id="length"
-                                type="number"
-                                min={1}
-                                max={MAXIMUM_LENGTH}
-                                value={length}
-                                onChange={(e) => setLength(parseInt(e.target.value))}
-                            />
-                            <InputGroup.Append>
-                                <Button variant="secondary" onClick={() => setLength(MAXIMUM_LENGTH)}>Max</Button>
-                                <Button variant="secondary" onClick={() => setLength(1)}>Min</Button>
-                            </InputGroup.Append>
-                        </InputGroup>
-                        <Row className="pb-4 justify-content-center flex-wrap">
-                            <Col className="flex-grow-0">
-                                <Form.Check
-                                    id="none"
-                                    type="radio"
-                                    label="None"
-                                    checked={separator === ""}
-                                    onChange={() => setSeparator("")}
-                                />
-                            </Col>
-                            <Col className="flex-grow-0">
-                                <Form.Check
-                                    id="space"
-                                    type="radio"
-                                    label="Space"
-                                    checked={separator === " "}
-                                    onChange={() => setSeparator(" ")}
-                                />
-                            </Col>
-                            <Col className="flex-grow-0 text-nowrap">
-                                <Form.Check
-                                    id="newline"
-                                    type="radio"
-                                    label="New Line"
-                                    checked={separator === "\n"}
-                                    onChange={() => setSeparator("\n")}
-                                />
-                            </Col>
-                        </Row>
-                        <Row className="justify-content-center">
-                            <Col className="flex-grow-0">
-                                <SpinnerButton active={loading === 'create'} type="submit">Generate</SpinnerButton>
-                            </Col>
-                            <Col className="flex-grow-0">
-                                <SpinnerButton
-                                    variant="secondary"
-                                    active={loading === 'save'}
-                                    disabled={output === ''}
-                                    onClick={save}>
-                                        Save
-                                </SpinnerButton>
-                            </Col>
-                            <Col className="flex-grow-0">
-                                <Button variant="secondary" onClick={reset}>Reset</Button>
-                            </Col>
-                        </Row>
-                    </fieldset>
-                </Form>
-            </Segment>
-        </>
+        <Wrapper>
+            <Row className="mt-3" />
+            <Row>
+                <Col>
+                    <Tab.Container activeKey={key} id="tabs" onSelect={key => setKey(key as string)}>
+                        <Wrapper>
+                            <Row className="mb-3">
+                                <Col className="flex-grow-0 flex-md-grow-1" />
+                                <Nav as={Col} variant="tabs">
+                                    <Nav.Item className="flex-grow-1">
+                                        <Nav.Link eventKey="output">Output</Nav.Link>
+                                    </Nav.Item>
+                                    <Nav.Item className="flex-grow-1">
+                                        <Nav.Link eventKey="options">Options</Nav.Link>
+                                    </Nav.Item>
+                                </Nav>
+                                <Col className="flex-grow-0 flex-md-grow-1" />
+                            </Row>
+                            <Row>
+                                <Tab.Content as={Col}>
+                                    <Tab.Pane eventKey="output" title="Output">
+                                        <Form.Control
+                                            id="output"
+                                            as="textarea"
+                                            className="vh-50"
+                                            value={output || ''}
+                                            readOnly
+                                        />
+                                    </Tab.Pane>
+                                    <Tab.Pane eventKey="options" title="Options">
+                                        <Wrapper>
+                                            <Row>
+                                                <InputGroup className="pb-4">
+                                                    <InputGroup.Prepend>
+                                                        <InputGroup.Text>Length</InputGroup.Text>
+                                                    </InputGroup.Prepend>
+                                                    <Form.Control
+                                                        id="length"
+                                                        type="number"
+                                                        min={1}
+                                                        max={MAXIMUM_LENGTH}
+                                                        value={length}
+                                                        onChange={(e) => setLength(parseInt(e.target.value))}
+                                                    />
+                                                    <InputGroup.Append>
+                                                        <Button variant="secondary" onClick={() => setLength(MAXIMUM_LENGTH)}>Max</Button>
+                                                        <Button variant="secondary" onClick={() => setLength(1)}>Min</Button>
+                                                    </InputGroup.Append>
+                                                </InputGroup>
+                                            </Row>
+                                            <Row className="pb-4 justify-content-center flex-wrap">
+                                                <Col className="flex-grow-0">
+                                                    <Form.Check
+                                                        id="none"
+                                                        type="radio"
+                                                        label="None"
+                                                        checked={separator === ""}
+                                                        onChange={() => setSeparator("")}
+                                                    />
+                                                </Col>
+                                                <Col className="flex-grow-0">
+                                                    <Form.Check
+                                                        id="space"
+                                                        type="radio"
+                                                        label="Space"
+                                                        checked={separator === " "}
+                                                        onChange={() => setSeparator(" ")}
+                                                    />
+                                                </Col>
+                                                <Col className="flex-grow-0 text-nowrap">
+                                                    <Form.Check
+                                                        id="newline"
+                                                        type="radio"
+                                                        label="New Line"
+                                                        checked={separator === "\n"}
+                                                        onChange={() => setSeparator("\n")}
+                                                    />
+                                                </Col>
+                                            </Row>
+                                        </Wrapper>
+                                    </Tab.Pane>
+                                </Tab.Content>
+                            </Row>
+                        </Wrapper>
+                    </Tab.Container>
+                </Col>
+            </Row>
+            <Row className="mb-3 fixed-bottom">
+                <Col className="flex-grow-1" />
+                <Col className="flex-grow-0">
+                    <SpinnerButton active={loading === 'create'} onClick={onSubmit}>Generate</SpinnerButton>
+                </Col>
+                <Col className="flex-grow-0">
+                    <SpinnerButton
+                        variant="secondary"
+                        active={loading === 'save'}
+                        disabled={output === ''}
+                        onClick={save}>
+                            Save
+                    </SpinnerButton>
+                </Col>
+                <Col className="flex-grow-0">
+                    <Button variant="secondary" onClick={reset}>Reset</Button>
+                </Col>
+                <Col className="flex-grow-1" />
+            </Row>
+        </Wrapper>
     );
 };
 
