@@ -46,7 +46,7 @@ const MissingDictionary: React.FC = () => {
 
 const RandomWords: React.FC = () => {
     const [length, setLength] = React.useState(10);
-    const [separator, setSeparator] = React.useState("");
+    const [separator, setSeparator] = React.useState(' ');
     const [retry, setRetry] = React.useState(true);
     const [output, setOutput] = React.useState('');
     const [key, setKey] = React.useState('output');
