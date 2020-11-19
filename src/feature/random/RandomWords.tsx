@@ -24,7 +24,7 @@ import {
 }
 from './randomSlice';
 
-const MAXIMUM_LENGTH = 10000000;
+const MAXIMUM_LENGTH = 1000000;
 
 const MissingDictionary: React.FC = () => {
     return (
