@@ -13,7 +13,7 @@ type HeaderImageProps = {
 
 const HeaderBase: React.FC = (props) => {
     return (
-        <header className="text-center border-bottom mt-5">
+        <header className="text-center border-bottom pt-5">
             <Container as="section">
                 {props.children}
             </Container>
