@@ -5,26 +5,26 @@ const errorSlice = Toolkit.createSlice({
     name: 'error',
     initialState: null as Error | null,
     reducers: {
-        setError(state, action: Toolkit.PayloadAction<Error | null>) {
+        setError: (state, action: Toolkit.PayloadAction<Error | null>) => {
             state = action.payload
         }
     },
-    extraReducers: {
-        [Random.loadDictionary.rejected.type]: (state, action) => {
-            state = action.error
-        },
-        [Random.createRandomString.rejected.type]: (state, action) => {
-            state = action.error
-        },
-        [Random.createRandomWords.rejected.type]: (state, action) => {
-            state = action.error
-        },
-        [Random.createRandomImage.rejected.type]: (state, action) => {
-            state = action.error
-        },
-        [Random.saveRandomData.rejected.type]: (state, action) => {
-            state = action.error
-        }
+    extraReducers: builder => {
+        builder.addCase(Random.loadDictionary.rejected, (state, action) => {
+            state = action.error as Error;
+        });
+        builder.addCase(Random.createRandomString.rejected, (state, action) => {
+            state = action.error as Error;
+        });
+        builder.addCase(Random.createRandomWords.rejected, (state, action) => {
+            state = action.error as Error;
+        });
+        builder.addCase(Random.createRandomImage.rejected, (state, action) => {
+            state = action.error as Error;
+        });
+        builder.addCase(Random.saveRandomData.rejected, (state, action) => {
+            state = action.error as Error;
+        });
     }
 });
 

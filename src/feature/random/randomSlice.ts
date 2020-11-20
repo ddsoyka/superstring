@@ -175,53 +175,50 @@ const randomSlice = Toolkit.createSlice({
     name: 'random',
     initialState: initialRandomState,
     reducers: {},
-    extraReducers: {
-        [loadDictionary.fulfilled.type]: (state, action) => {
+    extraReducers: builder => {
+        builder.addCase(loadDictionary.fulfilled, (state, action) => {
             state.dictionary = action.payload;
-            state.loading = 'none';
-        },
-        [loadDictionary.pending.type]: state => {
+        });
+
+        builder.addCase(createRandomString.pending, state => {
             state.loading = 'create';
-        },
-        [loadDictionary.rejected.type]: state => {
+        });
+        builder.addCase(createRandomString.fulfilled, state => {
             state.loading = 'none';
-        },
-        [createRandomString.fulfilled.type]: (state) => {
+        });
+        builder.addCase(createRandomString.rejected, state => {
             state.loading = 'none';
-        },
-        [createRandomString.pending.type]: state => {
+        });
+
+        builder.addCase(createRandomWords.pending, state => {
             state.loading = 'create';
-        },
-        [createRandomString.rejected.type]: state => {
+        });
+        builder.addCase(createRandomWords.fulfilled, state => {
             state.loading = 'none';
-        },
-        [createRandomWords.fulfilled.type]: (state) => {
+        });
+        builder.addCase(createRandomWords.rejected, state => {
             state.loading = 'none';
-        },
-        [createRandomWords.pending.type]: state => {
+        });
+
+        builder.addCase(createRandomImage.pending, state => {
             state.loading = 'create';
-        },
-        [createRandomWords.rejected.type]: state => {
+        });
+        builder.addCase(createRandomImage.fulfilled, state => {
             state.loading = 'none';
-        },
-        [createRandomImage.fulfilled.type]: (state) => {
+        });
+        builder.addCase(createRandomImage.rejected, state => {
             state.loading = 'none';
-        },
-        [createRandomImage.pending.type]: state => {
-            state.loading = 'create';
-        },
-        [createRandomImage.rejected.type]: state => {
-            state.loading = 'none';
-        },
-        [saveRandomData.fulfilled.type]: (state) => {
-            state.loading = 'none';
-        },
-        [saveRandomData.pending.type]: state => {
+        });
+
+        builder.addCase(saveRandomData.pending, state => {
             state.loading = 'save';
-        },
-        [saveRandomData.rejected.type]: state => {
+        });
+        builder.addCase(saveRandomData.fulfilled, state => {
             state.loading = 'none';
-        }
+        });
+        builder.addCase(saveRandomData.rejected, state => {
+            state.loading = 'none';
+        });
     }
 });
 

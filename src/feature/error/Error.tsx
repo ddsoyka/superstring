@@ -8,7 +8,6 @@ import * as State from '../../app/store';
 
 const Errors: React.FC = () => {
     const error = ReactRedux.useSelector((state: State.RootState) => state.error);
-
     const dispatch = ReactRedux.useDispatch<State.AppDispatch>()
 
     return (
