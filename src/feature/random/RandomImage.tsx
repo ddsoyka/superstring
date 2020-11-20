@@ -51,9 +51,7 @@ const RandomImage: React.FC = () => {
         setHeight(DEFAULT_HEIGHT);
     };
 
-    const onSubmit = async (event: any) => {
-        event.preventDefault();
-
+    const onSubmit = async () => {
         setImage(BLANK_IMAGE);
 
         const argument = {
@@ -61,10 +59,16 @@ const RandomImage: React.FC = () => {
             width: width,
             height: height
         };
-        const action = await dispatch(createRandomImage(argument));
-        const result = Toolkit.unwrapResult(action);
 
-        setImage(result);
+        try {
+            const action = await dispatch(createRandomImage(argument));
+            const result = Toolkit.unwrapResult(action);
+
+            setImage(result);
+        }
+        catch (error) {
+            console.error(error);
+        }
     };
 
     return (

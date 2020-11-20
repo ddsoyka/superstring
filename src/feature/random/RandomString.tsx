@@ -36,9 +36,7 @@ const RandomString: React.FC = () => {
 
     const dispatch = ReactRedux.useDispatch<State.AppDispatch>()
 
-    const generate = async (event: any) => {
-        event.preventDefault();
-
+    const generate = async () => {
         setOutput('')
 
         let characters = "";
@@ -53,10 +51,16 @@ const RandomString: React.FC = () => {
                 count: length,
                 characters: characters
             };
-            const action = await dispatch(createRandomString(arg));
-            const result = Toolkit.unwrapResult(action);
 
-            setOutput(result);
+            try {
+                const action = await dispatch(createRandomString(arg));
+                const result = Toolkit.unwrapResult(action);
+
+                setOutput(result);
+            }
+            catch (error) {
+                console.error(error);
+            }
         }
     };
 

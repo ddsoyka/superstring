@@ -59,9 +59,7 @@ const RandomWords: React.FC = () => {
 
     const dispatch = ReactRedux.useDispatch<State.AppDispatch>()
 
-    const onSubmit = async (event: any) => {
-        event.preventDefault();
-
+    const onSubmit = async () => {
         setOutput('')
 
         if (dictionary && language) {
@@ -71,10 +69,15 @@ const RandomWords: React.FC = () => {
                 collection: dictionary
             };
 
-            const action = await dispatch(createRandomWords(arg));
-            const result = Toolkit.unwrapResult(action);
+            try {
+                const action = await dispatch(createRandomWords(arg));
+                const result = Toolkit.unwrapResult(action);
 
-            setOutput(result);
+                setOutput(result);
+            }
+            catch (error) {
+                console.error(error);
+            }
         }
     };
 
