@@ -17,8 +17,8 @@ import Wrapper from '../../component/Wrapper';
 import SpinnerButton from '../../component/SpinnerButton';
 import { createRandomImage, saveRandomData } from './randomSlice';
 
-const MAXIMUM_WIDTH = 32768;
-const MAXIMUM_HEIGHT = 32768;
+const MAXIMUM_WIDTH = 2048;
+const MAXIMUM_HEIGHT = 2048;
 const BLANK_IMAGE = 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';
 const DEFAULT_TYPE = 'png';
 const DEFAULT_WIDTH = 512;
