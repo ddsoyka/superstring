@@ -175,7 +175,7 @@ const RandomImage: React.FC = () => {
                     </Tab.Container>
                 </Col>
             </Row>
-            <Row className="justify-content-center">
+            <Row className="pb-3 justify-content-center">
                 <Col className="flex-grow-0">
                     <SpinnerButton active={loading === 'create'} onClick={onSubmit}>Generate</SpinnerButton>
                 </Col>

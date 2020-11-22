@@ -102,8 +102,7 @@ const RandomWords: React.FC = () => {
 
     return (
         <Wrapper>
-            <Row className="mt-3" />
-            <Row>
+            <Row className="py-3">
                 <Col>
                     <Tab.Container activeKey={key} id="tabs" onSelect={key => setKey(key as string)}>
                         <Wrapper>
@@ -188,8 +187,7 @@ const RandomWords: React.FC = () => {
                     </Tab.Container>
                 </Col>
             </Row>
-            <Row className="mb-3 fixed-bottom">
-                <Col className="flex-grow-1" />
+            <Row className="pb-3 justify-content-center">
                 <Col className="flex-grow-0">
                     <SpinnerButton active={loading === 'create'} onClick={onSubmit}>Generate</SpinnerButton>
                 </Col>
@@ -205,7 +203,6 @@ const RandomWords: React.FC = () => {
                 <Col className="flex-grow-0">
                     <Button variant="secondary" onClick={reset}>Reset</Button>
                 </Col>
-                <Col className="flex-grow-1" />
             </Row>
         </Wrapper>
     );
