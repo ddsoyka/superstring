@@ -24,7 +24,7 @@ const Social: React.FC = () => {
                     </a>
                 </Col>
                 <Col>
-                    <a href="https://www.facebook.com/ddsoyka">
+                    <a href="https://twitter.com/ddsoyka">
                         <Images.Twitter className="social-icon" title="Twitter" />
                     </a>
                 </Col>
