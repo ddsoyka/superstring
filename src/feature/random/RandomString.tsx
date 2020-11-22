@@ -106,8 +106,8 @@ const RandomString: React.FC = () => {
                                         <Form.Control
                                             id="output"
                                             as="textarea"
-                                            className="vh-50"
                                             value={output || ''}
+                                            rows={15}
                                             readOnly
                                         />
                                     </Tab.Pane>
