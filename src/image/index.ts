@@ -62,6 +62,10 @@ import {
     ReactComponent as Convert
 }
 from './convert.svg';
+import {
+    ReactComponent as NotFound
+}
+from './404.svg';
 
 const Images = {
     Logo,
@@ -79,7 +83,8 @@ const Images = {
     Help,
     Language,
     Word,
-    Convert
+    Convert,
+    NotFound
 };
 
 export default Images;
