@@ -96,6 +96,17 @@ const RandomWords: React.FC = () => {
         setOutput('');
     };
 
+    const copy = async () => {
+        try {
+            await navigator.clipboard.writeText(output);
+            console.log(`Wrote ${output.length} characters to the clipboard`);
+        }
+        catch (error) {
+            console.error(error);
+            dispatch(State.setError(error));
+        }
+    };
+
     if (error || !language || language === Language.UNKNOWN) setRetry(false);
     if (!retry) return <MissingDictionary />;
     if (loading === 'none' && language && language !== Language.UNKNOWN && !dictionary) dispatch(loadDictionary(language));
@@ -190,6 +201,9 @@ const RandomWords: React.FC = () => {
             <Row className="pb-3 justify-content-center">
                 <Col className="flex-grow-0">
                     <SpinnerButton active={loading === 'create'} onClick={onSubmit}>Generate</SpinnerButton>
+                </Col>
+                <Col className="flex-grow-0">
+                    <Button variant="secondary" disabled={output === ''} onClick={copy}>Copy</Button>
                 </Col>
                 <Col className="flex-grow-0">
                     <SpinnerButton

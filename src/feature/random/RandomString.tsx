@@ -82,6 +82,17 @@ const RandomString: React.FC = () => {
         setOutput('');
     };
 
+    const copy = async () => {
+        try {
+            await navigator.clipboard.writeText(output);
+            console.log(`Wrote ${output.length} characters to the clipboard`);
+        }
+        catch (error) {
+            console.error(error);
+            dispatch(State.setError(error));
+        }
+    };
+
     return (
         <Wrapper>
             <Row className="py-3">
@@ -181,6 +192,9 @@ const RandomString: React.FC = () => {
             <Row className="pb-3 justify-content-center">
                 <Col className="flex-grow-0">
                     <SpinnerButton active={loading === 'create'} onClick={generate}>Generate</SpinnerButton>
+                </Col>
+                <Col className="flex-grow-0">
+                    <Button variant="secondary" disabled={output === ''} onClick={copy}>Copy</Button>
                 </Col>
                 <Col className="flex-grow-0">
                     <SpinnerButton
