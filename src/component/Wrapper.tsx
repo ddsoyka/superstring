@@ -5,9 +5,13 @@ import {
 from 'react-bootstrap';
 import './Wrapper.css';
 
-const Wrapper: React.FC = (props) => {
+interface WrapperProps {
+    reverse?: boolean
+}
+
+const Wrapper: React.FC<WrapperProps> = (props) => {
     return (
-        <Container fluid className="wrapper">
+        <Container fluid className={props.reverse ? "wrapper-reverse" : "wrapper"}>
             {props.children}
         </Container>
     );
