@@ -96,49 +96,51 @@ const RandomImage: React.FC = () => {
                                             <Row>
                                                 <Col sm/>
                                                 <Col sm={6}>
-                                                    <Image className="bg-light border p-1 w-100" src={image} alt="Output" />
+                                                    <Image id="output" className="bg-light border p-1 w-100" src={image} alt="Output" />
                                                 </Col>
                                                 <Col sm/>
                                             </Row>
                                         </Wrapper>
                                     </Tab.Pane>
                                     <Tab.Pane eventKey="options" title="Options">
-                                        <Wrapper>
-                                            <InputGroup className="pb-4">
-                                                <InputGroup.Prepend>
-                                                    <InputGroup.Text>Width</InputGroup.Text>
-                                                </InputGroup.Prepend>
-                                                <Form.Control
-                                                    id="width"
-                                                    type="number"
-                                                    min={1}
-                                                    max={MAXIMUM_WIDTH}
-                                                    value={width}
-                                                    onChange={(e) => setWidth(parseInt(e.target.value))}
-                                                />
-                                                <InputGroup.Append>
-                                                    <Button variant="secondary" onClick={() => setWidth(MAXIMUM_WIDTH)}>Max</Button>
-                                                    <Button variant="secondary" onClick={() => setWidth(1)}>Min</Button>
-                                                </InputGroup.Append>
-                                            </InputGroup>
-                                            <InputGroup className="pb-4">
-                                                <InputGroup.Prepend>
-                                                    <InputGroup.Text>Height</InputGroup.Text>
-                                                </InputGroup.Prepend>
-                                                <Form.Control
-                                                    id="height"
-                                                    type="number"
-                                                    min={1}
-                                                    max={MAXIMUM_HEIGHT}
-                                                    value={height}
-                                                    onChange={(e) => setHeight(parseInt(e.target.value))}
-                                                />
-                                                <InputGroup.Append>
-                                                    <Button variant="secondary" onClick={() => setHeight(MAXIMUM_HEIGHT)}>Max</Button>
-                                                    <Button variant="secondary" onClick={() => setHeight(1)}>Min</Button>
-                                                </InputGroup.Append>
-                                            </InputGroup>
-                                            <Row className="pb-4 justify-content-center">
+                                        <Wrapper reverse>
+                                            <Row className="py-3 mx-sm-3">
+                                                <InputGroup as={Col} className="flex-fill">
+                                                    <InputGroup.Prepend>
+                                                        <InputGroup.Text>Width</InputGroup.Text>
+                                                    </InputGroup.Prepend>
+                                                    <Form.Control
+                                                        id="width"
+                                                        type="number"
+                                                        min={1}
+                                                        max={MAXIMUM_WIDTH}
+                                                        value={width}
+                                                        onChange={(e) => setWidth(parseInt(e.target.value))}
+                                                    />
+                                                    <InputGroup.Append>
+                                                        <Button variant="secondary" onClick={() => setWidth(MAXIMUM_WIDTH)}>Max</Button>
+                                                        <Button variant="secondary" onClick={() => setWidth(1)}>Min</Button>
+                                                    </InputGroup.Append>
+                                                </InputGroup>
+                                                <InputGroup as={Col} className="flex-fill">
+                                                    <InputGroup.Prepend>
+                                                        <InputGroup.Text>Height</InputGroup.Text>
+                                                    </InputGroup.Prepend>
+                                                    <Form.Control
+                                                        id="height"
+                                                        type="number"
+                                                        min={1}
+                                                        max={MAXIMUM_HEIGHT}
+                                                        value={height}
+                                                        onChange={(e) => setHeight(parseInt(e.target.value))}
+                                                    />
+                                                    <InputGroup.Append>
+                                                        <Button variant="secondary" onClick={() => setHeight(MAXIMUM_HEIGHT)}>Max</Button>
+                                                        <Button variant="secondary" onClick={() => setHeight(1)}>Min</Button>
+                                                    </InputGroup.Append>
+                                                </InputGroup>
+                                            </Row>
+                                            <Row className="py-3 mx-sm-3 justify-content-center align-items-center">
                                                 <Col className="flex-grow-0">
                                                     <Form.Check
                                                         id="png"

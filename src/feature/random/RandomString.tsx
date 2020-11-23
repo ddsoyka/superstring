@@ -112,61 +112,65 @@ const RandomString: React.FC = () => {
                                         />
                                     </Tab.Pane>
                                     <Tab.Pane eventKey="options" title="Options">
-                                        <InputGroup className="pb-4">
-                                            <InputGroup.Prepend>
-                                                <InputGroup.Text>Length</InputGroup.Text>
-                                            </InputGroup.Prepend>
-                                            <Form.Control
-                                                id="length"
-                                                type="number"
-                                                min={1}
-                                                max={MAXIMUM_LENGTH}
-                                                value={length}
-                                                onChange={(e) => setLength(parseInt(e.target.value))}
-                                            />
-                                            <InputGroup.Append>
-                                                <Button variant="secondary" onClick={() => setLength(MAXIMUM_LENGTH)}>Max</Button>
-                                                <Button variant="secondary" onClick={() => setLength(1)}>Min</Button>
-                                            </InputGroup.Append>
-                                        </InputGroup>
-                                        <Row className="pb-4 justify-content-center">
-                                            <Col className="flex-grow-0">
-                                                <Form.Check
-                                                    id="lowercase"
-                                                    type="switch"
-                                                    label="Lowercase"
-                                                    checked={lowercase}
-                                                    onChange={() => setLowercase(!lowercase)}
-                                                />
-                                            </Col>
-                                            <Col className="flex-grow-0">
-                                                <Form.Check
-                                                    id="uppercase"
-                                                    type="switch"
-                                                    label="Uppercase"
-                                                    checked={uppercase}
-                                                    onChange={() => setUppercase(!uppercase)}
-                                                />
-                                            </Col>
-                                            <Col className="flex-grow-0">
-                                                <Form.Check
-                                                    id="digits"
-                                                    type="switch"
-                                                    label="Digits"
-                                                    checked={digits}
-                                                    onChange={() => setDigits(!digits)}
-                                                />
-                                            </Col>
-                                            <Col className="flex-grow-0">
-                                                <Form.Check
-                                                    id="symbols"
-                                                    type="switch"
-                                                    label="Symbols"
-                                                    checked={symbols}
-                                                    onChange={() => setSymbols(!symbols)}
-                                                />
-                                            </Col>
-                                        </Row>
+                                        <Wrapper reverse>
+                                            <Row className="py-3 mx-sm-3">
+                                                <InputGroup as={Col} className="px-0">
+                                                    <InputGroup.Prepend>
+                                                        <InputGroup.Text>Length</InputGroup.Text>
+                                                    </InputGroup.Prepend>
+                                                    <Form.Control
+                                                        id="length"
+                                                        type="number"
+                                                        min={1}
+                                                        max={MAXIMUM_LENGTH}
+                                                        value={length}
+                                                        onChange={(e) => setLength(parseInt(e.target.value))}
+                                                    />
+                                                    <InputGroup.Append>
+                                                        <Button variant="secondary" onClick={() => setLength(MAXIMUM_LENGTH)}>Max</Button>
+                                                        <Button variant="secondary" onClick={() => setLength(1)}>Min</Button>
+                                                    </InputGroup.Append>
+                                                </InputGroup>
+                                            </Row>
+                                            <Row className="py-3 mx-sm-3 justify-content-center align-items-center">
+                                                <Col className="flex-grow-0">
+                                                    <Form.Check
+                                                        id="lowercase"
+                                                        type="switch"
+                                                        label="Lowercase"
+                                                        checked={lowercase}
+                                                        onChange={() => setLowercase(!lowercase)}
+                                                    />
+                                                </Col>
+                                                <Col className="flex-grow-0">
+                                                    <Form.Check
+                                                        id="uppercase"
+                                                        type="switch"
+                                                        label="Uppercase"
+                                                        checked={uppercase}
+                                                        onChange={() => setUppercase(!uppercase)}
+                                                    />
+                                                </Col>
+                                                <Col className="flex-grow-0">
+                                                    <Form.Check
+                                                        id="digits"
+                                                        type="switch"
+                                                        label="Digits"
+                                                        checked={digits}
+                                                        onChange={() => setDigits(!digits)}
+                                                    />
+                                                </Col>
+                                                <Col className="flex-grow-0">
+                                                    <Form.Check
+                                                        id="symbols"
+                                                        type="switch"
+                                                        label="Symbols"
+                                                        checked={symbols}
+                                                        onChange={() => setSymbols(!symbols)}
+                                                    />
+                                                </Col>
+                                            </Row>
+                                        </Wrapper>
                                     </Tab.Pane>
                                 </Tab.Content>
                             </Row>

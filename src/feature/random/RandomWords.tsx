@@ -130,9 +130,9 @@ const RandomWords: React.FC = () => {
                                         />
                                     </Tab.Pane>
                                     <Tab.Pane eventKey="options" title="Options">
-                                        <Wrapper>
-                                            <Row>
-                                                <InputGroup className="pb-4">
+                                        <Wrapper reverse>
+                                            <Row className="py-3 mx-sm-3">
+                                                <InputGroup as={Col} className="px-0">
                                                     <InputGroup.Prepend>
                                                         <InputGroup.Text>Length</InputGroup.Text>
                                                     </InputGroup.Prepend>
@@ -150,7 +150,7 @@ const RandomWords: React.FC = () => {
                                                     </InputGroup.Append>
                                                 </InputGroup>
                                             </Row>
-                                            <Row className="pb-4 justify-content-center flex-wrap">
+                                            <Row className="py-3 mx-sm-3 justify-content-center align-items-center">
                                                 <Col className="flex-grow-0">
                                                     <Form.Check
                                                         id="none"
