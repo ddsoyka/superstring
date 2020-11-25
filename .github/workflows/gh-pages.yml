@@ -24,4 +24,7 @@ jobs:
       - name: Install
         run: npm ci
       - name: Deploy
-        run: npm run deploy
+        run: |
+          git config user.email "support@github.com"
+          git config user.name "GitHub Actions"
+          npm run deploy
