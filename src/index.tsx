@@ -8,9 +8,18 @@ import Language from './api/Language';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 
-const language = localStorage.getItem('language');
+console.log(`The viewport is ${window.innerWidth}x${window.innerHeight}`);
 
-if (language) Store.dispatch(State.setLanguage(language as Language));
+const language = navigator.language;
+
+console.log(`The browser reports that the current language is ${language}`);
+
+const languages = Object.values(Language) as string[];
+
+if (languages.includes(language))
+    Store.dispatch(State.setLanguage(language as Language));
+else
+    Store.dispatch(State.setLanguage(Language.UNKNOWN));
 
 ReactDOM.render(
     <ReactRedux.Provider store={Store}>

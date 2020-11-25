@@ -17,22 +17,28 @@ import LanguageSelector from '../feature/i18n/LanguageSelector';
 import NotFound from '../page/NotFound';
 import Errors from '../feature/error/Error';
 import Download from '../feature/file/Download';
+import Convert from '../feature/convert/Convert';
+import ConvertElectrical from '../feature/convert/ConvertElectrical';
 import './App.css';
 
 const App: React.FC = () => {
     return (
         <Router basename={process.env.PUBLIC_URL}>
             <Navigation />
-            <Switch>
-                <Route path="/about" component={About} />
-                <Route path="/help" component={Help} />
-                <Route path="/random" exact component={Random}/>
-                <Route path="/random/string" component={RandomString} />
-                <Route path="/random/words" component={RandomWords} />
-                <Route path="/random/image" component={RandomImage} />
-                <Route path="/" exact component={Home}/>
-                <Route component={NotFound}/>
-            </Switch>
+            <main>
+                <Switch>
+                    <Route path="/about" component={About} />
+                    <Route path="/help" component={Help} />
+                    <Route path="/random" exact component={Random}/>
+                    <Route path="/random/string" component={RandomString} />
+                    <Route path="/random/words" component={RandomWords} />
+                    <Route path="/random/image" component={RandomImage} />
+                    <Route path="/convert" exact component={Convert} />
+                    <Route path="/convert/electrical" component={ConvertElectrical} />
+                    <Route path="/" exact component={Home}/>
+                    <Route component={NotFound}/>
+                </Switch>
+            </main>
             <Errors />
             <Download />
             <LanguageSelector />

@@ -58,8 +58,16 @@ import {
     ReactComponent as Word
 }
 from './word.svg';
+import {
+    ReactComponent as Convert
+}
+from './convert.svg';
+import {
+    ReactComponent as NotFound
+}
+from './404.svg';
 
-export default {
+const Images = {
     Logo,
     GitHub,
     US,
@@ -74,5 +82,9 @@ export default {
     Twitter,
     Help,
     Language,
-    Word
+    Word,
+    Convert,
+    NotFound
 };
+
+export default Images;

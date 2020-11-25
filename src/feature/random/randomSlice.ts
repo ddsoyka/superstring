@@ -9,7 +9,7 @@ import * as Utilities from '../../api/utility';
 
 interface RandomState {
     dictionary: string[] | null,
-    loading: 'none' | 'create' | 'save',
+    loading: 'none' | 'create' | 'save' | 'dictionary',
 }
 
 interface ImageGenerationArgument {
@@ -43,7 +43,19 @@ export const loadDictionary = Toolkit.createAsyncThunk(
     async (arg: Language) => {
         const start = performance.now();
 
-        const archive = await Network.fetchLocalFile('english.zip');
+        let archive: Blob | null = null;
+
+        switch(arg) {
+            case Language.EN_US:
+            case Language.EN_GB:
+            case Language.EN_CA:
+                archive = await Network.fetchLocalFile('english.zip');
+                break;
+            case Language.UNKNOWN:
+                throw Error('Unknown language')
+            default:
+                throw Error(`Cannot get dictionary for ${arg}`);
+        }
 
         if (archive.type !== 'application/zip') throw Error(`Expected an archive but got ${archive.type}`);
 
@@ -132,7 +144,7 @@ export const saveRandomData: State.AppAsyncThunk<void, SaveRandomDataArgument> =
                 name: `${hash}.${arg.type}`,
                 data: arg.data
             };
-    
+
             data = await Files.compress([argument], 'blob');
 
             const end = performance.now();
@@ -163,53 +175,57 @@ const randomSlice = Toolkit.createSlice({
     name: 'random',
     initialState: initialRandomState,
     reducers: {},
-    extraReducers: {
-        [loadDictionary.fulfilled.type]: (state, action) => {
+    extraReducers: builder => {
+        builder.addCase(loadDictionary.pending, state => {
+            state.loading = 'dictionary';
+        });
+        builder.addCase(loadDictionary.fulfilled, (state, action) => {
             state.dictionary = action.payload;
             state.loading = 'none';
-        },
-        [loadDictionary.pending.type]: state => {
+        });
+        builder.addCase(loadDictionary.rejected, state => {
+            state.loading = 'none';
+        });
+
+        builder.addCase(createRandomString.pending, state => {
             state.loading = 'create';
-        },
-        [loadDictionary.rejected.type]: state => {
+        });
+        builder.addCase(createRandomString.fulfilled, state => {
             state.loading = 'none';
-        },
-        [createRandomString.fulfilled.type]: (state) => {
+        });
+        builder.addCase(createRandomString.rejected, state => {
             state.loading = 'none';
-        },
-        [createRandomString.pending.type]: state => {
+        });
+
+        builder.addCase(createRandomWords.pending, state => {
             state.loading = 'create';
-        },
-        [createRandomString.rejected.type]: state => {
+        });
+        builder.addCase(createRandomWords.fulfilled, state => {
             state.loading = 'none';
-        },
-        [createRandomWords.fulfilled.type]: (state) => {
+        });
+        builder.addCase(createRandomWords.rejected, state => {
             state.loading = 'none';
-        },
-        [createRandomWords.pending.type]: state => {
+        });
+
+        builder.addCase(createRandomImage.pending, state => {
             state.loading = 'create';
-        },
-        [createRandomWords.rejected.type]: state => {
+        });
+        builder.addCase(createRandomImage.fulfilled, state => {
             state.loading = 'none';
-        },
-        [createRandomImage.fulfilled.type]: (state) => {
+        });
+        builder.addCase(createRandomImage.rejected, state => {
             state.loading = 'none';
-        },
-        [createRandomImage.pending.type]: state => {
-            state.loading = 'create';
-        },
-        [createRandomImage.rejected.type]: state => {
-            state.loading = 'none';
-        },
-        [saveRandomData.fulfilled.type]: (state) => {
-            state.loading = 'none';
-        },
-        [saveRandomData.pending.type]: state => {
+        });
+
+        builder.addCase(saveRandomData.pending, state => {
             state.loading = 'save';
-        },
-        [saveRandomData.rejected.type]: state => {
+        });
+        builder.addCase(saveRandomData.fulfilled, state => {
             state.loading = 'none';
-        }
+        });
+        builder.addCase(saveRandomData.rejected, state => {
+            state.loading = 'none';
+        });
     }
 });
 

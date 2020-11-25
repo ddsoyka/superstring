@@ -7,24 +7,29 @@ import {
     Button,
     Form,
     Image,
-    InputGroup
+    InputGroup,
+    Tab,
+    Nav
 }
 from 'react-bootstrap';
 import * as State from '../../app/store';
-import Header from '../../component/Header';
-import Segment from '../../component/Segment';
+import Wrapper from '../../component/Wrapper';
 import SpinnerButton from '../../component/SpinnerButton';
 import { createRandomImage, saveRandomData } from './randomSlice';
 
-const MAXIMUM_WIDTH = 32768;
-const MAXIMUM_HEIGHT = 32768;
+const MAXIMUM_WIDTH = 2048;
+const MAXIMUM_HEIGHT = 2048;
 const BLANK_IMAGE = 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';
+const DEFAULT_TYPE = 'png';
+const DEFAULT_WIDTH = 512;
+const DEFAULT_HEIGHT = 512;
 
 const RandomImage: React.FC = () => {
     const [image, setImage] = React.useState(BLANK_IMAGE);
-    const [type, setType] = React.useState<'png' | 'jpeg' | 'bmp'>('png');
-    const [width, setWidth] = React.useState(512);
-    const [height, setHeight] = React.useState(512);
+    const [type, setType] = React.useState<'png' | 'jpeg' | 'bmp'>(DEFAULT_TYPE);
+    const [width, setWidth] = React.useState(DEFAULT_WIDTH);
+    const [height, setHeight] = React.useState(DEFAULT_HEIGHT);
+    const [key, setKey] = React.useState('output');
 
     const loading = ReactRedux.useSelector((state: State.RootState) => state.random.loading);
 
@@ -41,14 +46,12 @@ const RandomImage: React.FC = () => {
 
     const reset = () => {
         setImage(BLANK_IMAGE);
-        setType('png');
-        setWidth(512);
-        setHeight(512);
+        setType(DEFAULT_TYPE);
+        setWidth(DEFAULT_WIDTH);
+        setHeight(DEFAULT_HEIGHT);
     };
 
-    const onSubmit = async (event: any) => {
-        event.preventDefault();
-
+    const onSubmit = async () => {
         setImage(BLANK_IMAGE);
 
         const argument = {
@@ -56,110 +59,142 @@ const RandomImage: React.FC = () => {
             width: width,
             height: height
         };
-        const action = await dispatch(createRandomImage(argument));
-        const result = Toolkit.unwrapResult(action);
-        
-        setImage(result);
+
+        try {
+            const action = await dispatch(createRandomImage(argument));
+            const result = Toolkit.unwrapResult(action);
+
+            setImage(result);
+        }
+        catch (error) {
+            console.error(error);
+        }
     };
-    
+
     return (
-        <>
-            <Header>
-                <Header.Title>Random Image</Header.Title>
-            </Header>
-            <Segment>
-                <Form className="border p-5" onSubmit={(e) => onSubmit(e)}>
-                    <fieldset className="pb-1 text-center">
-                        <legend>Output</legend>
-                        <Image className="bg-light border p-3 w-100 h-auto" src={image} alt="Output" />
-                    </fieldset>
-                    <br />
-                    <fieldset className="pb-1" disabled={loading !== 'none'}>
-                        <legend>Options</legend>
-                        <InputGroup className="pb-4">
-                            <InputGroup.Prepend>
-                                <InputGroup.Text>Width</InputGroup.Text>
-                            </InputGroup.Prepend>
-                            <Form.Control
-                                id="width"
-                                type="number"
-                                min={1}
-                                max={MAXIMUM_WIDTH}
-                                value={width}
-                                onChange={(e) => setWidth(parseInt(e.target.value))}
-                            />
-                            <InputGroup.Append>
-                                <Button variant="secondary" onClick={() => setWidth(MAXIMUM_WIDTH)}>Max</Button>
-                                <Button variant="secondary" onClick={() => setWidth(1)}>Min</Button>
-                            </InputGroup.Append>
-                        </InputGroup>
-                        <InputGroup className="pb-4">
-                            <InputGroup.Prepend>
-                                <InputGroup.Text>Height</InputGroup.Text>
-                            </InputGroup.Prepend>
-                            <Form.Control
-                                id="height"
-                                type="number"
-                                min={1}
-                                max={MAXIMUM_HEIGHT}
-                                value={height}
-                                onChange={(e) => setHeight(parseInt(e.target.value))}
-                            />
-                            <InputGroup.Append>
-                                <Button variant="secondary" onClick={() => setHeight(MAXIMUM_HEIGHT)}>Max</Button>
-                                <Button variant="secondary" onClick={() => setHeight(1)}>Min</Button>
-                            </InputGroup.Append>
-                        </InputGroup>
-                        <Row className="pb-4 justify-content-center">
-                            <Col className="flex-grow-0">
-                                <Form.Check
-                                    id="png"
-                                    type="radio"
-                                    label="PNG"
-                                    checked={type === 'png'}
-                                    onChange={() => setType('png')}
-                                />
-                            </Col>
-                            <Col className="flex-grow-0">
-                                <Form.Check
-                                    id="jpeg"
-                                    type="radio"
-                                    label="JPEG"
-                                    checked={type === 'jpeg'}
-                                    onChange={() => setType('jpeg')}
-                                />
-                            </Col>
-                            <Col className="flex-grow-0">
-                                <Form.Check
-                                    id="bmp"
-                                    type="radio"
-                                    label="Bitmap"
-                                    checked={type === 'bmp'}
-                                    onChange={() => setType('bmp')}
-                                />
-                            </Col>
-                        </Row>
-                        <Row className="justify-content-center">
-                            <Col className="flex-grow-0">
-                                <SpinnerButton active={loading === 'create'} type="submit">Generate</SpinnerButton>
-                            </Col>
-                            <Col className="flex-grow-0">
-                                <SpinnerButton
-                                    variant="secondary"
-                                    active={loading === 'save'}
-                                    disabled={image === ''}
-                                    onClick={save}>
-                                        Save
-                                </SpinnerButton>
-                            </Col>
-                            <Col className="flex-grow-0">
-                                <Button variant="secondary" onClick={reset}>Reset</Button>
-                            </Col>
-                        </Row>
-                    </fieldset>
-                </Form>
-            </Segment>
-        </>
+        <Wrapper>
+            <Row className="py-3">
+                <Col>
+                    <Tab.Container activeKey={key} id="tabs" onSelect={key => setKey(key as string)}>
+                        <Wrapper>
+                            <Row className="mb-3">
+                                <Col className="flex-grow-0 flex-md-grow-1" />
+                                <Nav as={Col} variant="tabs">
+                                    <Nav.Item className="flex-grow-1">
+                                        <Nav.Link eventKey="output">Output</Nav.Link>
+                                    </Nav.Item>
+                                    <Nav.Item className="flex-grow-1">
+                                        <Nav.Link eventKey="options">Options</Nav.Link>
+                                    </Nav.Item>
+                                </Nav>
+                                <Col className="flex-grow-0 flex-md-grow-1" />
+                            </Row>
+                            <Row>
+                                <Tab.Content as={Col}>
+                                    <Tab.Pane eventKey="output" title="Output">
+                                        <Wrapper>
+                                            <Row>
+                                                <Col sm/>
+                                                <Col sm={6}>
+                                                    <Image id="output" className="bg-light border p-1 w-100" src={image} alt="Output" />
+                                                </Col>
+                                                <Col sm/>
+                                            </Row>
+                                        </Wrapper>
+                                    </Tab.Pane>
+                                    <Tab.Pane eventKey="options" title="Options">
+                                        <Wrapper reverse>
+                                            <Row className="py-3 mx-sm-3">
+                                                <InputGroup as={Col} className="flex-fill">
+                                                    <InputGroup.Prepend>
+                                                        <InputGroup.Text>Width</InputGroup.Text>
+                                                    </InputGroup.Prepend>
+                                                    <Form.Control
+                                                        id="width"
+                                                        type="number"
+                                                        min={1}
+                                                        max={MAXIMUM_WIDTH}
+                                                        value={width}
+                                                        onChange={(e) => setWidth(parseInt(e.target.value))}
+                                                    />
+                                                    <InputGroup.Append>
+                                                        <Button variant="secondary" onClick={() => setWidth(MAXIMUM_WIDTH)}>Max</Button>
+                                                        <Button variant="secondary" onClick={() => setWidth(1)}>Min</Button>
+                                                    </InputGroup.Append>
+                                                </InputGroup>
+                                                <InputGroup as={Col} className="flex-fill">
+                                                    <InputGroup.Prepend>
+                                                        <InputGroup.Text>Height</InputGroup.Text>
+                                                    </InputGroup.Prepend>
+                                                    <Form.Control
+                                                        id="height"
+                                                        type="number"
+                                                        min={1}
+                                                        max={MAXIMUM_HEIGHT}
+                                                        value={height}
+                                                        onChange={(e) => setHeight(parseInt(e.target.value))}
+                                                    />
+                                                    <InputGroup.Append>
+                                                        <Button variant="secondary" onClick={() => setHeight(MAXIMUM_HEIGHT)}>Max</Button>
+                                                        <Button variant="secondary" onClick={() => setHeight(1)}>Min</Button>
+                                                    </InputGroup.Append>
+                                                </InputGroup>
+                                            </Row>
+                                            <Row className="py-3 mx-sm-3 justify-content-center align-items-center">
+                                                <Col className="flex-grow-0">
+                                                    <Form.Check
+                                                        id="png"
+                                                        type="radio"
+                                                        label="PNG"
+                                                        checked={type === 'png'}
+                                                        onChange={() => setType('png')}
+                                                    />
+                                                </Col>
+                                                <Col className="flex-grow-0">
+                                                    <Form.Check
+                                                        id="jpeg"
+                                                        type="radio"
+                                                        label="JPEG"
+                                                        checked={type === 'jpeg'}
+                                                        onChange={() => setType('jpeg')}
+                                                    />
+                                                </Col>
+                                                <Col className="flex-grow-0">
+                                                    <Form.Check
+                                                        id="bmp"
+                                                        type="radio"
+                                                        label="Bitmap"
+                                                        checked={type === 'bmp'}
+                                                        onChange={() => setType('bmp')}
+                                                    />
+                                                </Col>
+                                            </Row>
+                                        </Wrapper>
+                                    </Tab.Pane>
+                                </Tab.Content>
+                            </Row>
+                        </Wrapper>
+                    </Tab.Container>
+                </Col>
+            </Row>
+            <Row className="pb-3 justify-content-center">
+                <Col className="flex-grow-0">
+                    <SpinnerButton active={loading === 'create'} disabled={loading !== 'none'} onClick={onSubmit}>Generate</SpinnerButton>
+                </Col>
+                <Col className="flex-grow-0">
+                    <SpinnerButton
+                        variant="secondary"
+                        active={loading === 'save'}
+                        disabled={loading !== 'none' || image === BLANK_IMAGE}
+                        onClick={save}>
+                            Save
+                    </SpinnerButton>
+                </Col>
+                <Col className="flex-grow-0">
+                    <Button variant="secondary" disabled={loading !== 'none'} onClick={reset}>Reset</Button>
+                </Col>
+            </Row>
+        </Wrapper>
     );
 };
 

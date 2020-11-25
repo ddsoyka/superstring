@@ -8,8 +8,7 @@ from 'react-router-dom';
 import {
     Navbar,
     Nav,
-    NavDropdown,
-    Container
+    NavDropdown
 }
 from 'react-bootstrap';
 import * as State from '../../app/store';
@@ -18,55 +17,62 @@ import Language from '../../api/Language';
 import './Navigation.css';
 
 const Navigation: React.FC = () => {
+    const [expanded, setExpanded] = React.useState(false);
+
     const language = ReactRedux.useSelector((state: State.RootState) => state.i18n.language);
 
-    const dispatch = ReactRedux.useDispatch<State.AppDispatch>()
+    const dispatch = ReactRedux.useDispatch<State.AppDispatch>();
 
     const getImage = () => {
         switch (language) {
             case Language.EN_US:
-                return <Images.US className="nav-icon" title="United States of America"/>;
+                return <Images.US className="nav-icon" title="United States of America" />;
             case Language.EN_GB:
-                return <Images.GB className="nav-icon" title="United Kingdom"/>;
+                return <Images.GB className="nav-icon" title="United Kingdom" />;
             case Language.EN_CA:
-                return <Images.CA className="nav-icon" title="Canada"/>;
+                return <Images.CA className="nav-icon" title="Canada" />;
             default:
-                return <Images.Language className="nav-icon" title="Unknown"/>;
+                return <Images.Language className="nav-icon" title="Unknown" />;
         }
     };
 
     return (
-        <Navbar expand="sm" sticky="top" className="bg-light border-bottom">
-            <Container as="section">
-                <Navbar.Brand as={Link} to="/">
-                    <Images.Logo className="d-inline-block align-top mr-2" height="30" width="30" title="Superstring"/>
-                    Superstring
-                </Navbar.Brand>
-                <Navbar.Toggle />
-                <Navbar.Collapse className="justify-content-end">
-                    <Nav>
-                        <NavDropdown title="Tools" id="tools">
-                            <NavDropdown.Item as={NavLink} to="/random">Random</NavDropdown.Item>
-                        </NavDropdown>
-                        <Nav.Item>
-                            <Nav.Link as={NavLink} to="/about">About</Nav.Link>
-                        </Nav.Item>
-                        <Nav.Item>
-                            <Nav.Link as={NavLink} to="/help">Help</Nav.Link>
-                        </Nav.Item>
-                        <Nav.Item>
-                            <Nav.Link onClick={() => dispatch(State.showLanguages())}>
-                                {getImage()}
-                            </Nav.Link>
-                        </Nav.Item>
-                        <Nav.Item>
-                            <Nav.Link href="https://github.com/ddsoyka/superstring">
-                                <Images.GitHub className="nav-icon" title="GitHub"/>
-                            </Nav.Link>
-                        </Nav.Item>
-                    </Nav>
-                </Navbar.Collapse>
-            </Container>
+        <Navbar
+            bg="dark"
+            variant="dark"
+            expand="sm"
+            sticky="top"
+            expanded={expanded}
+            onToggle={value => setExpanded(value)}
+            onSelect={() => setExpanded(false)}>
+            <Navbar.Toggle />
+            <Navbar.Brand as={Link} to="/">
+                <Images.Logo height="32" width="32" title="Superstring" />
+            </Navbar.Brand>
+            <div className="d-none d-sm-block flex-grow-1" />
+            <a href="https://github.com/ddsoyka/superstring" className="mr-sm-3">
+                <Images.GitHub height="32" width="32" title="GitHub" />
+            </a>
+            <Navbar.Collapse className="flex-grow-0">
+                <Nav>
+                    <NavDropdown title="Tools" id="tools">
+                        <NavDropdown.Item as={NavLink} to="/random">Random</NavDropdown.Item>
+                        <NavDropdown.Item as={NavLink} to="/convert">Convert</NavDropdown.Item>
+                    </NavDropdown>
+                    <Nav.Item>
+                        <Nav.Link as={NavLink} to="/about">About</Nav.Link>
+                    </Nav.Item>
+                    <Nav.Item>
+                        <Nav.Link as={NavLink} to="/help">Help</Nav.Link>
+                    </Nav.Item>
+                    <Nav.Item>
+                        <Nav.Link onClick={() => dispatch(State.showLanguages())}>
+                            <span className="d-sm-none mr-3">Language</span>
+                            {getImage()}
+                        </Nav.Link>
+                    </Nav.Item>
+                </Nav>
+            </Navbar.Collapse>
         </Navbar>
     );
 };
