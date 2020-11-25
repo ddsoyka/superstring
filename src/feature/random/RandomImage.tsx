@@ -179,19 +179,19 @@ const RandomImage: React.FC = () => {
             </Row>
             <Row className="pb-3 justify-content-center">
                 <Col className="flex-grow-0">
-                    <SpinnerButton active={loading === 'create'} onClick={onSubmit}>Generate</SpinnerButton>
+                    <SpinnerButton active={loading === 'create'} disabled={loading !== 'none'} onClick={onSubmit}>Generate</SpinnerButton>
                 </Col>
                 <Col className="flex-grow-0">
                     <SpinnerButton
                         variant="secondary"
                         active={loading === 'save'}
-                        disabled={image === BLANK_IMAGE}
+                        disabled={loading !== 'none' || image === BLANK_IMAGE}
                         onClick={save}>
                             Save
                     </SpinnerButton>
                 </Col>
                 <Col className="flex-grow-0">
-                    <Button variant="secondary" onClick={reset}>Reset</Button>
+                    <Button variant="secondary" disabled={loading !== 'none'} onClick={reset}>Reset</Button>
                 </Col>
             </Row>
         </Wrapper>

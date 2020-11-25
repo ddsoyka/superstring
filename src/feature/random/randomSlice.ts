@@ -9,7 +9,7 @@ import * as Utilities from '../../api/utility';
 
 interface RandomState {
     dictionary: string[] | null,
-    loading: 'none' | 'create' | 'save',
+    loading: 'none' | 'create' | 'save' | 'dictionary',
 }
 
 interface ImageGenerationArgument {
@@ -176,8 +176,15 @@ const randomSlice = Toolkit.createSlice({
     initialState: initialRandomState,
     reducers: {},
     extraReducers: builder => {
+        builder.addCase(loadDictionary.pending, state => {
+            state.loading = 'dictionary';
+        });
         builder.addCase(loadDictionary.fulfilled, (state, action) => {
             state.dictionary = action.payload;
+            state.loading = 'none';
+        });
+        builder.addCase(loadDictionary.rejected, state => {
+            state.loading = 'none';
         });
 
         builder.addCase(createRandomString.pending, state => {
