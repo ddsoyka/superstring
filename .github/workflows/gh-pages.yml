@@ -28,3 +28,8 @@ jobs:
           git config user.email "support@github.com"
           git config user.name "GitHub Actions"
           npm run deploy
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: release-${{ github.sha }}
+          path: build/
