@@ -23,11 +23,13 @@ jobs:
             ${{ runner.OS }}-
       - name: Install
         run: npm ci
+      - name: Build
+        run: npm run build
       - name: Deploy
-        run: |
-          git config user.email "support@github.com"
-          git config user.name "GitHub Actions"
-          npm run deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
