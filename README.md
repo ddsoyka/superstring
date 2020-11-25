@@ -1,4 +1,4 @@
-[![CircleCI](https://circleci.com/gh/circleci/circleci-docs.svg?style=svg)](https://circleci.com/gh/ddsoyka/superstring)
+![Main](https://github.com/ddsoyka/superstring/workflows/Main/badge.svg)
 
 # Superstring
 
