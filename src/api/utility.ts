@@ -6,3 +6,5 @@ export const base64ToBlob = async (input: string) => {
 
     return blob;
 };
+
+export const base64LengthInBytes = (input: string) => (3 * (input.length / 4)) - (input.match(/=/g)?.length ?? 0);
