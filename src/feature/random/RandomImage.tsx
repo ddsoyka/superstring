@@ -29,6 +29,7 @@ const RandomImage: React.FC = () => {
     const [type, setType] = React.useState<'png' | 'jpeg' | 'bmp'>(DEFAULT_TYPE);
     const [width, setWidth] = React.useState(DEFAULT_WIDTH);
     const [height, setHeight] = React.useState(DEFAULT_HEIGHT);
+    const [grayscale, setGrayscale] = React.useState(true);
     const [key, setKey] = React.useState('output');
 
     const loading = ReactRedux.useSelector((state: State.RootState) => state.random.loading);
@@ -49,6 +50,7 @@ const RandomImage: React.FC = () => {
         setType(DEFAULT_TYPE);
         setWidth(DEFAULT_WIDTH);
         setHeight(DEFAULT_HEIGHT);
+        setGrayscale(true);
     };
 
     const onSubmit = async () => {
@@ -57,7 +59,8 @@ const RandomImage: React.FC = () => {
         const argument = {
             mime: `image/${type}` as 'image/png' | 'image/jpeg' | 'image/bmp',
             width: width,
-            height: height
+            height: height,
+            grayscale: grayscale
         };
 
         try {
@@ -166,6 +169,15 @@ const RandomImage: React.FC = () => {
                                                         label="Bitmap"
                                                         checked={type === 'bmp'}
                                                         onChange={() => setType('bmp')}
+                                                    />
+                                                </Col>
+                                                <Col className="flex-grow-0">
+                                                    <Form.Check
+                                                        id="symbols"
+                                                        type="switch"
+                                                        label="Grayscale"
+                                                        checked={grayscale}
+                                                        onChange={() => setGrayscale(!grayscale)}
                                                     />
                                                 </Col>
                                             </Row>

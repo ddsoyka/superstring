@@ -14,7 +14,8 @@ interface RandomState {
 interface ImageGenerationArgument {
     mime: 'image/png' | 'image/jpeg' | 'image/bmp'
     width: number
-    height: number
+    height: number,
+    grayscale: boolean
 }
 
 interface StringGenerationArgument {
@@ -107,9 +108,8 @@ export const createRandomImage = Toolkit.createAsyncThunk(
     'random/createRandomImage',
     async (arg: ImageGenerationArgument) => {
         const start = performance.now();
-        const base64 = await Random.getRandomImage(arg.width, arg.height, arg.mime);
+        const base64 = await Random.getRandomImage(arg.width, arg.height, arg.mime, arg.grayscale);
         const end = performance.now();
-        console.log(base64.length);
 
         console.log(`Generated a random image of ${Utilities.base64LengthInBytes(base64)}B in ${end - start}ms`)
 

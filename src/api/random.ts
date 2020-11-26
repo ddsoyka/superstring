@@ -52,25 +52,42 @@ export const getRandomWords = async (count: number, dictionary: string[], separa
     });
 };
 
-export const getRandomImage = async (width: number, height: number, mime: string) => {
+export const getRandomImage = async (width: number, height: number, mime: string, grayscale: boolean) => {
     return new Promise<string>(resolve => {
         const worker = new Worker(Utilities.getPublicPath('random.worker.js'));
         const size = width * height;
         const message: Message = {
             type: 'uint8',
-            payload: size
+            payload: grayscale ? size : size * 3
         };
         worker.onmessage = async event => {
             const image = await Jimp.create(width, height);
             const data = event.data;
 
-            for (let x = 0; x < width; x++) {
-                for (let y = 0; y < height; y++) {
-                    const position = y * width + x;
-                    const colour = data[position];
-                    const hex = Jimp.rgbaToInt(colour, colour, colour, 255);
+            if (grayscale) {
+                for (let x = 0; x < width; x++) {
+                    for (let y = 0; y < height; y++) {
+                        const position = y * width + x;
+                        const colour = data[position];
+                        const hex = Jimp.rgbaToInt(colour, colour, colour, 255);
 
-                    image.setPixelColor(hex, x, y);
+                        image.setPixelColor(hex, x, y);
+                    }
+                }
+            }
+            else {
+                let i = 0;
+
+                for (let x = 0; x < width; x++) {
+                    for (let y = 0; y < height; y++) {
+                        const red = data[i];
+                        const green = data[i + 1];
+                        const blue = data[i + 2];
+                        const hex = Jimp.rgbaToInt(red, green, blue, 255);
+
+                        image.setPixelColor(hex, x, y);
+                        i += 3;
+                    }
                 }
             }
 
