@@ -19,7 +19,7 @@ const Download: React.FC = () => {
         if (!download.data) throw Error('No data to save');
 
         FileSaver.saveAs(download.data, `${download.hash}.${download.type}`)
-        
+
         dispatch(State.hideDownload());
     };
 
@@ -36,7 +36,7 @@ const Download: React.FC = () => {
                             <ListGroup.Item>
                                 <b>Hash:</b>
                                 <br />
-                                {download.hash}
+                                {download.hash?.match(/.{2}/g)?.join(':')}
                             </ListGroup.Item>
                             <ListGroup.Item>
                                 <b>Type:</b>
