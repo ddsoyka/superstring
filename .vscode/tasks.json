@@ -11,8 +11,16 @@
 		{
 			"type": "npm",
 			"script": "start",
+			"group": "none",
 			"problemMatcher": [],
 			"label": "Start"
+		},
+		{
+			"type": "npm",
+			"script": "build",
+			"group": "build",
+			"problemMatcher": [],
+			"label": "Build"
 		}
 	]
 }
