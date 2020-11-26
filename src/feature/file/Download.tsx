@@ -9,6 +9,7 @@ import {
 }
 from 'react-bootstrap';
 import * as State from '../../app/store';
+import * as Utility from '../../api/utility';
 
 const Download: React.FC = () => {
     const { show, download } = ReactRedux.useSelector((state: State.RootState) => state.file);
@@ -46,7 +47,7 @@ const Download: React.FC = () => {
                             <ListGroup.Item>
                                 <b>Size:</b>
                                 <br />
-                                {download.data?.size} Bytes
+                                {Utility.humanize(download.data?.size)}
                             </ListGroup.Item>
                         </ListGroup>
                     </Card.Body>
