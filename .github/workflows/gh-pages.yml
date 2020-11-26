@@ -10,11 +10,14 @@ jobs:
     name: Deploy
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
         with:
           lfs: true
-      - uses: actions/setup-node@v1
-      - uses: actions/cache@v2
+      - name: Setup
+        uses: actions/setup-node@v1
+      - name: Cache Dependencies
+        uses: actions/cache@v2
         with:
           path: ~/.npm
           key: ${{ runner.OS }}-node-${{ hashFiles('**/package-lock.json') }}
