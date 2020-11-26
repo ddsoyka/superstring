@@ -5,6 +5,7 @@ import {
 from 'react-bootstrap';
 import * as ReactRedux from 'react-redux';
 import * as State from '../../app/store';
+import {setError} from './errorSlice';
 
 const Errors: React.FC = () => {
     const error = ReactRedux.useSelector((state: State.RootState) => state.error);
@@ -16,7 +17,7 @@ const Errors: React.FC = () => {
             show={!!error}
             dismissible={true}
             variant="danger"
-            onClose={() => dispatch(State.setError(null))}>
+            onClose={() => dispatch(setError(null))}>
             <Alert.Heading>
                 {error?.name}
             </Alert.Heading>

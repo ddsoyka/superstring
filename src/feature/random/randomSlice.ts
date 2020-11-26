@@ -5,6 +5,7 @@ import * as Files from '../../api/file';
 import * as Random from '../../api/random';
 import * as State from '../../app/store';
 import * as Utilities from '../../api/utility';
+import {showDownload} from '../file/fileSlice';
 
 interface RandomState {
     dictionary: string[] | null,
@@ -157,7 +158,7 @@ export const saveRandomData: State.AppAsyncThunk<void, SaveRandomDataArgument> =
 
         console.log(`Prepared item ${hash} for download in ${end - start}ms`);
 
-        api.dispatch(State.showDownload(download));
+        api.dispatch(showDownload(download));
     }
 )
 

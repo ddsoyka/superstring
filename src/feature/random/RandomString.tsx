@@ -19,6 +19,7 @@ import {
     saveRandomData
 }
 from './randomSlice';
+import {setError} from '../error/errorSlice';
 
 const MAXIMUM_LENGTH = 10000000;
 const DEFAULT_LENGTH = 10000;
@@ -89,7 +90,7 @@ const RandomString: React.FC = () => {
         }
         catch (error) {
             console.error(error);
-            dispatch(State.setError(error));
+            dispatch(setError(error));
         }
     };
 

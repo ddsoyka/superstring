@@ -23,6 +23,7 @@ import {
     saveRandomData
 }
 from './randomSlice';
+import {setError} from '../error/errorSlice';
 
 const MAXIMUM_LENGTH = 1000000;
 const DEFAULT_SEPARATOR = ' ';
@@ -103,7 +104,7 @@ const RandomWords: React.FC = () => {
         }
         catch (error) {
             console.error(error);
-            dispatch(State.setError(error));
+            dispatch(setError(error));
         }
     };
 
