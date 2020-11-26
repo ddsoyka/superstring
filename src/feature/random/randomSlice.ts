@@ -1,11 +1,11 @@
 import * as Toolkit from '@reduxjs/toolkit';
-import Jimp from 'jimp';
 import Language from '../../api/Language';
 import * as Network from '../../api/network';
 import * as Files from '../../api/file';
 import * as Random from '../../api/random';
 import * as State from '../../app/store';
 import * as Utilities from '../../api/utility';
+import {showDownload} from '../file/fileSlice';
 
 interface RandomState {
     dictionary: string[] | null,
@@ -15,7 +15,8 @@ interface RandomState {
 interface ImageGenerationArgument {
     mime: 'image/png' | 'image/jpeg' | 'image/bmp'
     width: number
-    height: number
+    height: number,
+    grayscale: boolean
 }
 
 interface StringGenerationArgument {
@@ -108,20 +109,10 @@ export const createRandomImage = Toolkit.createAsyncThunk(
     'random/createRandomImage',
     async (arg: ImageGenerationArgument) => {
         const start = performance.now();
-        const image = await Jimp.create(arg.width, arg.height);
-        const data = await Random.getRandomNumbers(arg.width * arg.height);
-
-        for (let x = 0; x < arg.width; x++) {
-            for (let y = 0; y < arg.height; y++) {
-                const position = y * arg.width + x;
-                image.setPixelColor(data[position], x, y);
-            }
-        }
-
-        const base64 = await image.getBase64Async(arg.mime);
+        const base64 = await Random.getRandomImage(arg.width, arg.height, arg.mime, arg.grayscale);
         const end = performance.now();
 
-        console.log(`Generated a random image of ${data.length}B in ${end - start}ms`)
+        console.log(`Generated a random image of ${Utilities.base64LengthInBytes(base64)}B in ${end - start}ms`)
 
         return base64;
     }
@@ -167,7 +158,7 @@ export const saveRandomData: State.AppAsyncThunk<void, SaveRandomDataArgument> =
 
         console.log(`Prepared item ${hash} for download in ${end - start}ms`);
 
-        api.dispatch(State.showDownload(download));
+        api.dispatch(showDownload(download));
     }
 )
 

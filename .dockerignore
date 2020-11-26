@@ -1,0 +1,13 @@
+.git
+node_modules
+.env
+.env.test
+.env*.local
+.eslintcache
+.gitignore
+.gitattributes
+README.md
+LICENSE
+build
+.vscode
+.github

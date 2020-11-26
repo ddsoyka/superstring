@@ -9,6 +9,11 @@ from 'react-bootstrap';
 import * as State from '../../app/store';
 import Language from '../../api/Language';
 import Images from '../../image';
+import {
+    setLanguage,
+    hideLanguages
+}
+from './i18nSlice';
 import './LanguageSelector.css';
 
 const LanguageSelector: React.FC = () => {
@@ -19,15 +24,15 @@ const LanguageSelector: React.FC = () => {
     const dispatch = ReactRedux.useDispatch<State.AppDispatch>();
 
     const save = () => {
-        dispatch(State.hideLanguages());
+        dispatch(hideLanguages());
 
         const language = Object.values(Language)[index + 1];
 
-        dispatch(State.setLanguage(language));
+        dispatch(setLanguage(language));
     };
 
     return (
-        <Modal show={show} onHide={() => dispatch(State.hideLanguages())} centered>
+        <Modal show={show} onHide={() => dispatch(hideLanguages())} centered>
             <Modal.Header closeButton>
                 <Modal.Title>Language</Modal.Title>
             </Modal.Header>

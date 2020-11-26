@@ -27,4 +27,6 @@ const i18nSlice = Toolkit.createSlice({
     }
 });
 
+export const {setLanguage, showLanguages, hideLanguages} = i18nSlice.actions;
+
 export default i18nSlice;

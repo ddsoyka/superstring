@@ -26,7 +26,7 @@ const initialFileState: FileState = {
     upload: null
 }
 
-const file = Toolkit.createSlice({
+const fileSlice = Toolkit.createSlice({
     name: 'file',
     initialState: initialFileState,
     reducers: {
@@ -49,4 +49,6 @@ const file = Toolkit.createSlice({
     }
 });
 
-export default file;
+export const {showDownload, hideDownload} = fileSlice.actions;
+
+export default fileSlice;

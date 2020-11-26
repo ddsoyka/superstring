@@ -9,6 +9,8 @@ import {
 }
 from 'react-bootstrap';
 import * as State from '../../app/store';
+import * as Utility from '../../api/utility';
+import {hideDownload} from './fileSlice';
 
 const Download: React.FC = () => {
     const { show, download } = ReactRedux.useSelector((state: State.RootState) => state.file);
@@ -19,12 +21,12 @@ const Download: React.FC = () => {
         if (!download.data) throw Error('No data to save');
 
         FileSaver.saveAs(download.data, `${download.hash}.${download.type}`)
-        
-        dispatch(State.hideDownload());
+
+        dispatch(hideDownload());
     };
 
     return (
-        <Modal show={show === 'download'} onHide={() => dispatch(State.hideDownload())} centered>
+        <Modal show={show === 'download'} onHide={() => dispatch(hideDownload())} centered>
             <Modal.Header closeButton>
                 <Modal.Title>Download</Modal.Title>
             </Modal.Header>
@@ -36,7 +38,7 @@ const Download: React.FC = () => {
                             <ListGroup.Item>
                                 <b>Hash:</b>
                                 <br />
-                                {download.hash}
+                                {download.hash?.match(/.{2}/g)?.join(':')}
                             </ListGroup.Item>
                             <ListGroup.Item>
                                 <b>Type:</b>
@@ -46,7 +48,7 @@ const Download: React.FC = () => {
                             <ListGroup.Item>
                                 <b>Size:</b>
                                 <br />
-                                {download.data?.size} Bytes
+                                {Utility.humanize(download.data?.size)}
                             </ListGroup.Item>
                         </ListGroup>
                     </Card.Body>

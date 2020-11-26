@@ -28,17 +28,13 @@ const store = Toolkit.configureStore({
                 collapsed: true,
                 duration: true
             });
-        
+
             middleware.push(logger);
         }
 
         return middleware;
     }
 });
-
-export const { setLanguage, showLanguages, hideLanguages } = i18nSlice.actions;
-export const { setError } = errorSlice.actions;
-export const { showDownload, hideDownload } = fileSlice.actions;
 
 export type RootState = ReturnType<typeof store.getState>;
 
