@@ -1,23 +1,33 @@
 const QUOTA = 16384;
 
-const entropy = (size) => {
-    const output = new Uint32Array(size);
+const entropy = (type, size) => {
+    let output;
+
+    switch (type) {
+        case 'uint8':
+            output = new Uint8Array(size);
+            break;
+        case 'uint32':
+            output = new Uint32Array(size);
+            break;
+        default:
+            throw Error(`Unsupported data format ${type}`);
+    }
 
     crypto.getRandomValues(output);
 
     return Array.from(output);
 };
 
-const getRandomNumbers = (size) => {
+const getRandomNumbers = (type, size) => {
     if (size === 0) return [];
 
     const data = [];
-
     const quotient = Math.floor(size / QUOTA);
     const remainder = size % QUOTA;
 
-    for (let index = 0; index < quotient; index++) data.push(entropy(QUOTA));
-    if (quotient === 0 || remainder > 0) data.push(entropy(remainder));
+    for (let index = 0; index < quotient; index++) data.push(entropy(type, QUOTA));
+    if (quotient === 0 || remainder > 0) data.push(entropy(type, remainder));
 
     const output = data.flat();
 
@@ -27,13 +37,13 @@ const getRandomNumbers = (size) => {
 const getRandomString = (count, characters) => {
     let output = '';
 
-    const values = getRandomNumbers(count);
+    const values = getRandomNumbers('uint32', count);
 
     for (let index = 0; index < count; index++) {
         const number = values[index] / (0xffffffff + 1);
         const position = Math.floor(number * characters.length);
         const character = characters.charAt(position);
-        
+
         output += character;
     }
 
@@ -45,13 +55,13 @@ const getRandomString = (count, characters) => {
 const getRandomWords = (count, dictionary, separator) => {
     let output = [];
 
-    const values = getRandomNumbers(count);
+    const values = getRandomNumbers('uint32', count);
 
     for (let index = 0; index < count; index++) {
         const number = values[index] / (0xffffffff + 1);
         const position = Math.floor(number * dictionary.length);
         const word = dictionary[position];
-        
+
         output.push(word);
     }
 
@@ -60,12 +70,13 @@ const getRandomWords = (count, dictionary, separator) => {
     return output.join(separator);
 };
 
-onmessage = (event) => {
+onmessage = event => {
     const {type, payload} = event.data;
 
     switch (type) {
-        case 'get':
-            const values = getRandomNumbers(payload);
+        case 'uint8':
+        case 'uint32':
+            const values = getRandomNumbers(type, payload);
             postMessage(values);
             break;
         case 'string':
