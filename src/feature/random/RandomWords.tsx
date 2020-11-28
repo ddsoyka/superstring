@@ -2,7 +2,6 @@ import React from 'react';
 import * as ReactRedux from 'react-redux';
 import * as Toolkit from '@reduxjs/toolkit';
 import {
-    Container,
     Form,
     Button,
     Row,
@@ -13,7 +12,6 @@ import {
 }
 from 'react-bootstrap';
 import * as State from '../../app/store';
-import Language from '../../api/Language';
 import Images from '../../image';
 import SpinnerButton from '../../component/SpinnerButton';
 import Wrapper from '../../component/Wrapper';
@@ -29,21 +27,44 @@ const MAXIMUM_LENGTH = 1000000;
 const DEFAULT_SEPARATOR = ' ';
 const DEFAULT_LENGTH = 1000;
 
-const MissingDictionary: React.FC = () => {
+interface MissingDictionaryProps {
+    repeat: () => void
+}
+
+const MissingDictionary: React.FC<MissingDictionaryProps> = props => {
     return (
-        <Container>
-            <Row className="justify-content-center my-4">
-                <Images.Unknown height="20rem" title="Random String" />
+        <Wrapper>
+            <Row className="p-5">
+                <Col sm />
+                <Col sm={6}>
+                    <Images.Unknown className="w-100" title="Random String" />
+                </Col>
+                <Col sm />
             </Row>
-            <Row className="justify-content-center">
-                <h1>Missing Dictionary</h1>
+            <Row className="p-3">
+                <Col />
+                <Col className="text-center">
+                    <h1>Missing Dictionary</h1>
+                </Col>
+                <Col />
             </Row>
-            <Row className="justify-content-center">
-                <p>
-                    A list of words is required to use this component.
-                </p>
+            <Row className="p-3">
+                <Col />
+                <Col className="text-center">
+                    <p>
+                        A list of words is required to use this component.
+                    </p>
+                </Col>
+                <Col />
             </Row>
-        </Container>
+            <Row className="p-3">
+                <Col />
+                <Col className="flex-grow-0">
+                    <Button onClick={props.repeat}>Retry</Button>
+                </Col>
+                <Col />
+            </Row>
+        </Wrapper>
     );
 };
 
@@ -56,7 +77,6 @@ const RandomWords: React.FC = () => {
 
     const {loading, dictionary} = ReactRedux.useSelector((state: State.RootState) => state.random);
     const language = ReactRedux.useSelector((state: State.RootState) => state.i18n.language);
-    const error = ReactRedux.useSelector((state: State.RootState) => state.error);
 
     const dispatch = ReactRedux.useDispatch<State.AppDispatch>()
 
@@ -108,9 +128,17 @@ const RandomWords: React.FC = () => {
         }
     };
 
-    if (error || !language || language === Language.UNKNOWN) setRetry(false);
-    if (!retry) return <MissingDictionary />;
-    if (loading === 'none' && language && language !== Language.UNKNOWN && !dictionary) dispatch(loadDictionary(language));
+    const repeat = () => {
+        setRetry(true);
+        dispatch(setError(null));
+    };
+
+    if (language && !dictionary && retry) {
+        setRetry(false);
+        dispatch(loadDictionary(language));
+    }
+    else if ((!language || !dictionary) && loading === 'none')
+        return <MissingDictionary repeat={repeat} />;
 
     return (
         <Wrapper>
