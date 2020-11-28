@@ -1,7 +1,4 @@
-import * as Utility from './utility';
-
-export const fetchLocalFile = async (file: string) => {
-    const url = Utility.getPublicPath(file);
+export const fetchLocalFile = async (url: string) => {
     const response = await fetch(url);
 
     if (!response.ok) throw Error(`Failed to fetch file from ${response.url}`);

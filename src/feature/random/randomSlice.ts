@@ -6,6 +6,7 @@ import * as Random from '../../api/random';
 import * as State from '../../app/store';
 import * as Utilities from '../../api/utility';
 import {showDownload} from '../file/fileSlice';
+import english from '../../assets/english.zip';
 
 interface RandomState {
     dictionary: string[] | null,
@@ -50,7 +51,7 @@ export const loadDictionary = Toolkit.createAsyncThunk(
             case Language.EN_US:
             case Language.EN_GB:
             case Language.EN_CA:
-                archive = await Network.fetchLocalFile('english.zip');
+                archive = await Network.fetchLocalFile(english);
                 break;
             case Language.UNKNOWN:
                 throw Error('Unknown language')
@@ -58,7 +59,8 @@ export const loadDictionary = Toolkit.createAsyncThunk(
                 throw Error(`Cannot get dictionary for ${arg}`);
         }
 
-        if (archive.type !== 'application/zip') throw Error(`Expected an archive but got ${archive.type}`);
+        if (!archive.type.includes('application/zip'))
+            throw Error(`Expected an archive but got "${archive.type}"`);
 
         const file = await Files.extract(archive, 'blob', 'english.txt');
         const text = await file[0].text();
