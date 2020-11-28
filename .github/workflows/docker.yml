@@ -1,0 +1,47 @@
+name: Docker
+
+on:
+  push:
+    branches:
+      - master
+  release:
+    types:
+      - published
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          lfs: true
+      - name: Build
+        run: docker build -t ddsoyka/superstring .
+      - name: Tag Development
+        run: docker tag ddsoyka/superstring ddsoyka/superstring:development
+      - name: Tag Version
+        if: github.event_name == 'release'
+        run: docker tag ddsoyka/superstring ddsoyka/superstring:$RELEASE_TAG_NAME
+        env:
+          RELEASE_TAG_NAME: ${{ github.event.release.tag_name }}
+      - name: List Images
+        run: docker images
+      - name: Login
+        run: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Push Development
+        run: docker push ddsoyka/superstring:development
+      - name: Push Latest
+        if: github.event_name == 'release'
+        run: docker push ddsoyka/superstring:latest
+      - name: Push Version
+        if: github.event_name == 'release'
+        run: docker push ddsoyka/superstring:$RELEASE_TAG_NAME
+        env:
+          RELEASE_TAG_NAME: ${{ github.event.release.tag_name }}
+      - name: Logout
+        run: docker logout
