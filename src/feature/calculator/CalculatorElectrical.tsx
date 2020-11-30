@@ -214,50 +214,62 @@ const CalculatorElectrical: React.FC = () => {
                                         </Wrapper>
                                     </Tab.Pane>
                                     <Tab.Pane eventKey="information" title="Information">
-                                        <MathJax.Provider>
-                                            <h1 className="p-3 border-bottom">Ohms</h1>
-                                            <br />
-                                            <div className="p-3 border">
-                                                <MathJax.Node formula={'R = \\frac{V}{I}'} />
-                                                <br/>
-                                                <MathJax.Node formula={'R = \\frac{V^2}{P}'} />
-                                                <br/>
-                                                <MathJax.Node formula={'R = \\frac{P}{I^2}'} />
-                                            </div>
-                                        </MathJax.Provider>
-                                        <MathJax.Provider>
-                                            <h1 className="p-3 border-bottom">Amps</h1>
-                                            <br />
-                                            <div className="p-3 border">
-                                                <MathJax.Node formula={'I = \\frac{V}{R}'} />
-                                                <br/>
-                                                <MathJax.Node formula={'I = \\frac{P}{V}'} />
-                                                <br/>
-                                                <MathJax.Node formula={'I = \\sqrt{\\frac{P}{R}}'} />
-                                            </div>
-                                        </MathJax.Provider>
-                                        <MathJax.Provider>
-                                            <h1 className="p-3 border-bottom">Volts</h1>
-                                            <br />
-                                            <div className="p-3 border">
-                                                <MathJax.Node formula={'V = I\\cdot{R}'} />
-                                                <br/>
-                                                <MathJax.Node formula={'V = \\frac{P}{I}'} />
-                                                <br/>
-                                                <MathJax.Node formula={'V = \\sqrt{P\\cdot{R}}'} />
-                                            </div>
-                                        </MathJax.Provider>
-                                        <MathJax.Provider>
-                                            <h1 className="p-3 border-bottom">Watts</h1>
-                                            <br />
-                                            <div className="p-3 border">
-                                                <MathJax.Node formula={'P = V\\cdot{I}'} />
-                                                <br/>
-                                                <MathJax.Node formula={'P = \\frac{V^2}{R}'} />
-                                                <br/>
-                                                <MathJax.Node formula={'P = I^2\\cdot{R}'} />
-                                            </div>
-                                        </MathJax.Provider>
+                                        <Wrapper reverse>
+                                            <Row>
+                                                <Col>
+                                                    <MathJax.Provider>
+                                                        <h1 className="p-3 border-bottom">Ohms</h1>
+                                                        <br />
+                                                        <div className="p-3">
+                                                            <MathJax.Node formula={'R = \\frac{V}{I}'} />
+                                                            <br/>
+                                                            <MathJax.Node formula={'R = \\frac{V^2}{P}'} />
+                                                            <br/>
+                                                            <MathJax.Node formula={'R = \\frac{P}{I^2}'} />
+                                                        </div>
+                                                    </MathJax.Provider>
+                                                </Col>
+                                                <Col>
+                                                    <MathJax.Provider>
+                                                        <h1 className="p-3 border-bottom">Amps</h1>
+                                                        <br />
+                                                        <div className="p-3">
+                                                            <MathJax.Node formula={'I = \\frac{V}{R}'} />
+                                                            <br/>
+                                                            <MathJax.Node formula={'I = \\frac{P}{V}'} />
+                                                            <br/>
+                                                            <MathJax.Node formula={'I = \\sqrt{\\frac{P}{R}}'} />
+                                                        </div>
+                                                    </MathJax.Provider>
+                                                </Col>
+                                                <Col>
+                                                    <MathJax.Provider>
+                                                        <h1 className="p-3 border-bottom">Volts</h1>
+                                                        <br />
+                                                        <div className="p-3">
+                                                            <MathJax.Node formula={'V = I\\cdot{R}'} />
+                                                            <br/>
+                                                            <MathJax.Node formula={'V = \\frac{P}{I}'} />
+                                                            <br/>
+                                                            <MathJax.Node formula={'V = \\sqrt{P\\cdot{R}}'} />
+                                                        </div>
+                                                    </MathJax.Provider>
+                                                </Col>
+                                                <Col>
+                                                    <MathJax.Provider>
+                                                        <h1 className="p-3 border-bottom">Watts</h1>
+                                                        <br />
+                                                        <div className="p-3">
+                                                            <MathJax.Node formula={'P = V\\cdot{I}'} />
+                                                            <br/>
+                                                            <MathJax.Node formula={'P = \\frac{V^2}{R}'} />
+                                                            <br/>
+                                                            <MathJax.Node formula={'P = I^2\\cdot{R}'} />
+                                                        </div>
+                                                    </MathJax.Provider>
+                                                </Col>
+                                            </Row>
+                                        </Wrapper>
                                     </Tab.Pane>
                                 </Tab.Content>
                             </Row>
