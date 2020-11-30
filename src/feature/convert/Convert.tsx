@@ -27,15 +27,6 @@ const Convert: React.FC = () => {
             </Header>
             <Segment>
                 <CardDeck>
-                    <Card>
-                        <Card.Body>
-                            <Card.Title>Electrical</Card.Title>
-                            <Card.Text>
-                                Calculate resistance, current, voltage and power.
-                            </Card.Text>
-                            <Button as={Link} variant="primary" to="/convert/electrical">Go</Button>
-                        </Card.Body>
-                    </Card>
                 </CardDeck>
             </Segment>
         </>

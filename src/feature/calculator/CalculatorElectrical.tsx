@@ -19,7 +19,7 @@ const MAXIMUM_VOLTAGE = 1000000.0;
 const MAXIMUM_POWER = 1000000.0;
 const CALCULATE_FAIL_MESSAGE = 'Unable to calculate missing values';
 
-const ConvertElectrical: React.FC = () => {
+const CalculatorElectrical: React.FC = () => {
     const [key, setKey] = React.useState('calculator');
     const [resistance, setResistance] = React.useState(0.0);
     const [current, setCurrent] = React.useState(0.0);
@@ -277,4 +277,4 @@ const ConvertElectrical: React.FC = () => {
     );
 };
 
-export default ConvertElectrical;
+export default CalculatorElectrical;
