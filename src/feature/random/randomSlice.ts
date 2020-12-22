@@ -109,15 +109,7 @@ export const createRandomWords: State.AppAsyncThunk<string, WordsGenerationArgum
 
 export const createRandomImage = Toolkit.createAsyncThunk(
     'random/createRandomImage',
-    async (arg: ImageGenerationArgument) => {
-        const start = performance.now();
-        const base64 = await Random.getRandomImage(arg.width, arg.height, arg.mime, arg.grayscale);
-        const end = performance.now();
-
-        console.log(`Generated a random image of ${Utilities.base64LengthInBytes(base64)}B in ${end - start}ms`)
-
-        return base64;
-    }
+    async (arg: ImageGenerationArgument) => await Random.getRandomImage(arg.width, arg.height, arg.mime, arg.grayscale)
 );
 
 export const saveRandomData: State.AppAsyncThunk<void, SaveRandomDataArgument> = Toolkit.createAsyncThunk(
