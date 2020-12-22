@@ -1,11 +1,5 @@
 import React from 'react';
 import {
-    Link
-}
-from 'react-router-dom';
-import {
-    Button,
-    Card,
     CardDeck
 }
 from 'react-bootstrap';
