@@ -1,12 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import * as ReactRedux from 'react-redux';
-import * as serviceWorker from './serviceWorker';
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import App from './app/App';
 import Store from './app/store';
 import Language from './api/Language';
 import {setLanguage} from './feature/i18n/i18nSlice';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import reportWebVitals from './reportWebVitals';
+import 'bootstrap/dist/css/bootstrap.css';
 import './index.css';
 
 const language = navigator.language;
@@ -23,10 +24,14 @@ if (process.env.NODE_ENV === `development`) {
 }
 
 ReactDOM.render(
-    <ReactRedux.Provider store={Store}>
-        <App />
-    </ReactRedux.Provider>,
+    <React.StrictMode>
+        <ReactRedux.Provider store={Store}>
+            <App />
+        </ReactRedux.Provider>
+    </React.StrictMode>,
     document.getElementById('root')
 );
 
-serviceWorker.register();
+serviceWorkerRegistration.register();
+
+reportWebVitals();
