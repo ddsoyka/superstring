@@ -18,7 +18,7 @@ import NotFound from '../page/NotFound';
 import Errors from '../feature/error/Error';
 import Download from '../feature/file/Download';
 import Convert from '../feature/convert/Convert';
-import ConvertElectrical from '../feature/convert/ConvertElectrical';
+import CalculatorElectrical from '../feature/calculator/CalculatorElectrical';
 import './App.css';
 
 const App: React.FC = () => {
@@ -34,7 +34,7 @@ const App: React.FC = () => {
                     <Route path="/random/words" component={RandomWords} />
                     <Route path="/random/image" component={RandomImage} />
                     <Route path="/convert" exact component={Convert} />
-                    <Route path="/convert/electrical" component={ConvertElectrical} />
+                    <Route path="/calculator/electrical" component={CalculatorElectrical} />
                     <Route path="/" exact component={Home}/>
                     <Route component={NotFound}/>
                 </Switch>

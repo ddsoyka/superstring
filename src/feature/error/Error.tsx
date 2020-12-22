@@ -13,7 +13,6 @@ const Errors: React.FC = () => {
 
     return (
         <Alert
-            className="fixed-bottom"
             show={!!error}
             dismissible={true}
             variant="danger"
