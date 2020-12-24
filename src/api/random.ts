@@ -55,7 +55,7 @@ export const getRandomWords = async (count: number, dictionary: string[], separa
 export const getRandomImage = async (width: number, height: number, mime: string, grayscale: boolean) => {
     return new Promise<string>(resolve => {
         const worker = new Worker(Utility.getPublicPath('random.worker.js'));
-        const size = width * height * (grayscale ? 1 : 3);
+        const size = width * height * 3;
         const message: Message = {
             type: 'uint8',
             payload: size
@@ -65,31 +65,23 @@ export const getRandomImage = async (width: number, height: number, mime: string
             const data = event.data;
             const array = new Uint8Array(width * height * 4);
 
-            if (grayscale) {
-                for (let i = 0, j = 0; i < size; i++, j += 4) {
-                    const colour = data[i];
-
-                    array[j] = colour;
-                    array[j + 1] = colour;
-                    array[j + 2] = colour;
-                    array[j + 3] = 255;
-                }
-            }
-            else {
-                for (let i = 0, j = 0; i < size; i += 3, j += 4) {
-                    array[j] = data[i];
-                    array[j + 1] = data[i + 1];
-                    array[j + 2] = data[i + 2];
-                    array[j + 3] = 255;
-                }
+            for (let i = 0, j = 0; i < size; i += 3, j += 4) {
+                array[j] = data[i];
+                array[j + 1] = data[i + 1];
+                array[j + 2] = data[i + 2];
+                array[j + 3] = 255;
             }
 
+            const buffer = Buffer.from(array);
             const raw = {
+                data: buffer,
                 width: width,
-                height: height,
-                data: array
+                height: height
             };
-            const image = await Jimp.read(raw as any);
+            const image = new Jimp(raw);
+
+            if (grayscale) image.grayscale();
+
             const base64 = await image.getBase64Async(mime);
             const end = performance.now();
 
