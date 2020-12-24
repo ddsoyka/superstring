@@ -7,7 +7,14 @@
             "request": "launch",
             "reAttach": true,
             "url": "http://localhost:3000",
-            "webRoot": "${workspaceFolder}"
+            "webRoot": "${workspaceFolder}/public"
+        },
+        {
+            "name": "Attach",
+            "type": "firefox",
+            "request": "attach",
+            "url": "http://localhost:3000",
+            "webRoot": "${workspaceFolder}/public"
         },
         {
             "name": "Test",
@@ -22,7 +29,7 @@
             ],
             "cwd": "${workspaceRoot}",
             "protocol": "inspector",
-            "console":"integratedTerminal",
+            "console": "integratedTerminal",
             "internalConsoleOptions": "neverOpen"
         }
     ]
