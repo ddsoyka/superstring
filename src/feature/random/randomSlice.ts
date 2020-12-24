@@ -4,8 +4,8 @@ import * as Network from '../../api/network';
 import * as Files from '../../api/file';
 import * as Random from '../../api/random';
 import * as State from '../../app/store';
-import * as Utilities from '../../api/utility';
-import {showDownload} from '../file/fileSlice';
+import * as Utility from '../../api/utility';
+import { showDownload } from '../file/fileSlice';
 import english from '../../assets/english.zip';
 
 interface RandomState {
@@ -14,31 +14,31 @@ interface RandomState {
 }
 
 interface ImageGenerationArgument {
-    mime: 'image/png' | 'image/jpeg' | 'image/bmp'
-    width: number
+    mime: 'image/png' | 'image/jpeg' | 'image/bmp';
+    width: number;
     height: number,
-    grayscale: boolean
+    grayscale: boolean;
 }
 
 interface StringGenerationArgument {
-    count: number
-    characters: string
+    count: number;
+    characters: string;
 }
 
 interface WordsGenerationArgument {
-    count: number
-    separator: string
+    count: number;
+    separator: string;
 }
 
 interface SaveRandomDataArgument {
-    type: string
-    data: string
+    type: string;
+    data: string;
 }
 
 const initialRandomState: RandomState = {
     dictionary: null,
     loading: 'none',
-}
+};
 
 export const loadDictionary = Toolkit.createAsyncThunk(
     'random/loadDictionary',
@@ -47,14 +47,14 @@ export const loadDictionary = Toolkit.createAsyncThunk(
 
         let archive: Blob | null = null;
 
-        switch(arg) {
+        switch (arg) {
             case Language.EN_US:
             case Language.EN_GB:
             case Language.EN_CA:
                 archive = await Network.fetchLocalFile(english);
                 break;
             case Language.UNKNOWN:
-                throw Error('Unknown language')
+                throw Error('Unknown language');
             default:
                 throw Error(`Cannot get dictionary for ${arg}`);
         }
@@ -136,7 +136,7 @@ export const saveRandomData: State.AppAsyncThunk<void, SaveRandomDataArgument> =
 
             console.log(`Compressed a file in ${end - start}ms`);
         }
-        else data = await Utilities.base64ToBlob(arg.data);
+        else data = await Utility.base64ToBlob(arg.data);
 
         const arrayBuffer = await data.arrayBuffer();
         const buffer = Buffer.from(arrayBuffer);
@@ -154,63 +154,47 @@ export const saveRandomData: State.AppAsyncThunk<void, SaveRandomDataArgument> =
 
         api.dispatch(showDownload(download));
     }
-)
+);
 
 const randomSlice = Toolkit.createSlice({
     name: 'random',
     initialState: initialRandomState,
     reducers: {},
     extraReducers: builder => {
-        builder.addCase(loadDictionary.pending, state => {
-            state.loading = 'dictionary';
-        });
-        builder.addCase(loadDictionary.fulfilled, (state, action) => {
-            state.dictionary = action.payload;
-            state.loading = 'none';
-        });
-        builder.addCase(loadDictionary.rejected, state => {
-            state.loading = 'none';
-        });
+        builder.addCase(
+            loadDictionary.pending,
+            state => {
+                state.loading = 'dictionary';
+            }
+        );
 
-        builder.addCase(createRandomString.pending, state => {
-            state.loading = 'create';
-        });
-        builder.addCase(createRandomString.fulfilled, state => {
-            state.loading = 'none';
-        });
-        builder.addCase(createRandomString.rejected, state => {
-            state.loading = 'none';
-        });
+        builder.addCase(
+            saveRandomData.pending,
+            state => {
+                state.loading = 'save';
+            }
+        );
 
-        builder.addCase(createRandomWords.pending, state => {
-            state.loading = 'create';
-        });
-        builder.addCase(createRandomWords.fulfilled, state => {
-            state.loading = 'none';
-        });
-        builder.addCase(createRandomWords.rejected, state => {
-            state.loading = 'none';
-        });
+        builder.addMatcher(
+            (action): action is Utility.PendingAction => /createRandom.*\/pending/.test(action.type),
+            state => {
+                state.loading = 'create';
+            }
+        );
 
-        builder.addCase(createRandomImage.pending, state => {
-            state.loading = 'create';
-        });
-        builder.addCase(createRandomImage.fulfilled, state => {
-            state.loading = 'none';
-        });
-        builder.addCase(createRandomImage.rejected, state => {
-            state.loading = 'none';
-        });
+        builder.addMatcher(
+            Utility.isRejectedAction,
+            state => {
+                state.loading = 'none';
+            }
+        );
 
-        builder.addCase(saveRandomData.pending, state => {
-            state.loading = 'save';
-        });
-        builder.addCase(saveRandomData.fulfilled, state => {
-            state.loading = 'none';
-        });
-        builder.addCase(saveRandomData.rejected, state => {
-            state.loading = 'none';
-        });
+        builder.addMatcher(
+            Utility.isFulfilledAction,
+            state => {
+                state.loading = 'none';
+            }
+        );
     }
 });
 

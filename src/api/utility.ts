@@ -1,3 +1,11 @@
+import * as Toolkit from '@reduxjs/toolkit';
+
+type GenericAsyncThunk = Toolkit.AsyncThunk<unknown, unknown, any>;
+
+export type PendingAction = ReturnType<GenericAsyncThunk["pending"]>;
+export type RejectedAction = ReturnType<GenericAsyncThunk["rejected"]>;
+export type FulfilledAction = ReturnType<GenericAsyncThunk["fulfilled"]>;
+
 export const getPublicPath = (file: string) => `${process.env.PUBLIC_URL}/${file}`;
 
 export const base64ToBlob = async (input: string) => {
