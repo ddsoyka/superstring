@@ -35,14 +35,13 @@ describe('random', () => {
     describe('words', () => {
         const dictionary = ['ab', 'ac', 'ba', 'bc', 'ca', 'cb'];
 
-        it('can generate 1000 characters', async () => {
+        it('can generate 1000 words', async () => {
             const string = await random.getRandomWords(1000, dictionary);
             expect(string.length).toBe(2000);
         });
         it('can separate words', async () => {
             const string = await random.getRandomWords(1000, dictionary, '-');
-            expect(string.length).toBe(2999);
-            expect(string).toMatch(/([abc]-?)+/);
+            expect(string).toMatch(/([abc]-?){2000}/);
         });
         it('returns an empty string', async () => {
             const string = await random.getRandomWords(0, dictionary);
