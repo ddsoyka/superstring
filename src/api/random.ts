@@ -1,7 +1,7 @@
 import Jimp from 'jimp/es';
 import * as Utility from './utility';
 
-enum DataType {
+export enum DataType {
     Uint8,
     Uint32
 }
@@ -29,6 +29,7 @@ const entropy = (type: DataType, size: number): number[] => {
 
 export const getRandomNumbers = (type: DataType, size: number) => Utility.async(
     () => {
+        if (size < 0) throw Error('Argument must not be negative');
         if (size === 0) return [];
 
         const start = performance.now();
@@ -42,7 +43,7 @@ export const getRandomNumbers = (type: DataType, size: number) => Utility.async(
         const output = data.flat();
         const end = performance.now();
 
-        console.log(`Generated ${size} random numbers in ${end - start}ms`)
+        console.log(`Generated ${size} random numbers in ${end - start}ms`);
 
         return output;
     }
@@ -50,8 +51,11 @@ export const getRandomNumbers = (type: DataType, size: number) => Utility.async(
 
 export const getRandomString = async (count: number, characters: string) => Utility.async(
     async () => {
-        const values = await getRandomNumbers(DataType.Uint32, count);
+        if (count < 0) throw Error('Argument must not be negative');
+        if (characters.length === 0) throw Error('No characters provided');
+        if (count === 0) return '';
 
+        const values = await getRandomNumbers(DataType.Uint32, count);
         const start = performance.now();
         let output = '';
 
@@ -73,8 +77,11 @@ export const getRandomString = async (count: number, characters: string) => Util
 
 export const getRandomWords = async (count: number, dictionary: string[], separator: string = '') => Utility.async(
     async () => {
-        const values = await getRandomNumbers(DataType.Uint32, count);
+        if (count < 0) throw Error('Argument must not be negative');
+        if (dictionary.length === 0) throw Error('Dictionary is empty');
+        if (count === 0) return '';
 
+        const values = await getRandomNumbers(DataType.Uint32, count);
         const start = performance.now();
         let output = [];
 
@@ -96,6 +103,9 @@ export const getRandomWords = async (count: number, dictionary: string[], separa
 
 export const getRandomImage = (width: number, height: number, mime: string, grayscale: boolean) => Utility.async(
     async () => {
+        if (width < 1 || height < 1) throw Error('All dimensions must be greater than zero');
+        if (!/image\/(png|jpeg|bmp)/.test(mime)) throw Error('Invalid mime type');
+
         const array = new Uint8Array(width * height * 4);
         const size = width * height * 3;
         const data = await getRandomNumbers(DataType.Uint8, size);
