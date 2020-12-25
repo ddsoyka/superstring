@@ -79,31 +79,15 @@ export const loadDictionary = Toolkit.createAsyncThunk(
 
 export const createRandomString = Toolkit.createAsyncThunk(
     'random/createRandomString',
-    async (arg: StringGenerationArgument) => {
-        const start = performance.now();
-        const data = await Random.getRandomString(arg.count, arg.characters);
-        const end = performance.now();
-
-        console.log(`Generated a random string of ${data.length} characters in ${end - start}ms`);
-
-        return data;
-    }
+    async (arg: StringGenerationArgument) => await Random.getRandomString(arg.count, arg.characters)
 );
 
 export const createRandomWords: State.AppAsyncThunk<string, WordsGenerationArgument> = Toolkit.createAsyncThunk(
     'random/createRandomWords',
     async (arg, api) => {
-        const start = performance.now();
         const state = api.getState();
-
         if (!state.random.dictionary) throw Error('Missing word list');
-
-        const data = await Random.getRandomWords(arg.count, state.random.dictionary, arg.separator);
-        const end = performance.now();
-
-        console.log(`Generated ${arg.count} random words in ${end - start}ms`);
-
-        return data;
+        return await Random.getRandomWords(arg.count, state.random.dictionary, arg.separator);
     }
 );
 
