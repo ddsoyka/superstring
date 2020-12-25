@@ -159,6 +159,13 @@ const randomSlice = Toolkit.createSlice({
             }
         );
 
+        builder.addCase(
+            loadDictionary.fulfilled,
+            (state, action) => {
+                state.dictionary = action.payload;
+            }
+        );
+
         builder.addMatcher(
             (action): action is Utility.PendingAction => /createRandom.*\/pending/.test(action.type),
             state => {
