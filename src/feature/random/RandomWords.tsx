@@ -10,7 +10,7 @@ import {
     Tab,
     Nav
 }
-from 'react-bootstrap';
+    from 'react-bootstrap';
 import * as State from '../../app/store';
 import Images from '../../image';
 import SpinnerButton from '../../component/SpinnerButton';
@@ -18,17 +18,18 @@ import Wrapper from '../../component/Wrapper';
 import {
     loadDictionary,
     createRandomWords,
-    saveRandomData
+    saveRandomData,
+    setRetry
 }
-from './randomSlice';
-import {setError} from '../error/errorSlice';
+    from './randomSlice';
+import { setError } from '../error/errorSlice';
 
 const MAXIMUM_LENGTH = 1000000;
 const DEFAULT_SEPARATOR = ' ';
 const DEFAULT_LENGTH = 1000;
 
 interface MissingDictionaryProps {
-    repeat: () => void
+    repeat: () => void;
 }
 
 const MissingDictionary: React.FC<MissingDictionaryProps> = props => {
@@ -71,17 +72,16 @@ const MissingDictionary: React.FC<MissingDictionaryProps> = props => {
 const RandomWords: React.FC = () => {
     const [length, setLength] = React.useState(DEFAULT_LENGTH);
     const [separator, setSeparator] = React.useState(DEFAULT_SEPARATOR);
-    const [retry, setRetry] = React.useState(true);
     const [output, setOutput] = React.useState('');
     const [key, setKey] = React.useState('output');
 
-    const {loading, dictionary} = ReactRedux.useSelector((state: State.RootState) => state.random);
+    const { loading, dictionary, retry } = ReactRedux.useSelector((state: State.RootState) => state.random);
     const language = ReactRedux.useSelector((state: State.RootState) => state.i18n.language);
 
-    const dispatch = ReactRedux.useDispatch<State.AppDispatch>()
+    const dispatch = ReactRedux.useDispatch<State.AppDispatch>();
 
     const onSubmit = async () => {
-        setOutput('')
+        setOutput('');
 
         if (dictionary && language) {
             const arg = {
@@ -129,12 +129,12 @@ const RandomWords: React.FC = () => {
     };
 
     const repeat = () => {
-        setRetry(true);
+        dispatch(setRetry(true));
         dispatch(setError(null));
     };
 
     if (language && !dictionary && retry) {
-        setRetry(false);
+        dispatch(setRetry(false));
         dispatch(loadDictionary(language));
     }
     else if ((!language || !dictionary) && loading === 'none')
@@ -240,7 +240,7 @@ const RandomWords: React.FC = () => {
                         active={loading === 'save'}
                         disabled={loading !== 'none' || output === ''}
                         onClick={save}>
-                            Save
+                        Save
                     </SpinnerButton>
                 </Col>
                 <Col className="flex-grow-0">

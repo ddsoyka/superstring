@@ -11,6 +11,7 @@ import english from '../../assets/english.zip';
 interface RandomState {
     dictionary: string[] | null,
     loading: 'none' | 'create' | 'save' | 'dictionary',
+    retry: boolean,
 }
 
 interface ImageGenerationArgument {
@@ -38,6 +39,7 @@ interface SaveRandomDataArgument {
 const initialRandomState: RandomState = {
     dictionary: null,
     loading: 'none',
+    retry: true,
 };
 
 export const loadDictionary = Toolkit.createAsyncThunk(
@@ -143,7 +145,11 @@ export const saveRandomData: State.AppAsyncThunk<void, SaveRandomDataArgument> =
 const randomSlice = Toolkit.createSlice({
     name: 'random',
     initialState: initialRandomState,
-    reducers: {},
+    reducers: {
+        setRetry(state, action) {
+            state.retry = action.payload;
+        }
+    },
     extraReducers: builder => {
         builder.addCase(
             loadDictionary.pending,
@@ -188,5 +194,7 @@ const randomSlice = Toolkit.createSlice({
         );
     }
 });
+
+export const { setRetry } = randomSlice.actions;
 
 export default randomSlice;
