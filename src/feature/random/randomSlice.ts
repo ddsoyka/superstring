@@ -173,21 +173,21 @@ const randomSlice = Toolkit.createSlice({
         );
 
         builder.addMatcher(
-            (action): action is Utility.PendingAction => /createRandom.*\/pending/.test(action.type),
+            (action): action is Utility.PendingAction => /^random\/createRandom.*\/pending$/.test(action.type),
             state => {
                 state.loading = 'create';
             }
         );
 
         builder.addMatcher(
-            Utility.isRejectedAction,
+            (action): action is Utility.RejectedAction => /^random\/.*\/rejected$/.test(action.type),
             state => {
                 state.loading = 'none';
             }
         );
 
         builder.addMatcher(
-            Utility.isFulfilledAction,
+            (action): action is Utility.FulfilledAction => /^random\/.*\/fulfilled$/.test(action.type),
             state => {
                 state.loading = 'none';
             }
