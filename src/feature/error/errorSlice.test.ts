@@ -1,4 +1,3 @@
-import * as Redux from 'redux';
 import errorSlice, { initialState } from './errorSlice';
 
 const setError = errorSlice.actions.setError;
@@ -15,7 +14,10 @@ describe('errorSlice', () => {
     });
     describe('reducers', () => {
         it('returns initial state', () => {
-            const nextState = errorSlice.reducer(undefined, {} as Redux.Action);
+            const action = {
+                type: ''
+            };
+            const nextState = errorSlice.reducer(undefined, action);
             expect(nextState).toBe(initialState);
         });
         it('setError', () => {
