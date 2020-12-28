@@ -28,6 +28,7 @@ const RandomString: React.FC = () => {
     const [uppercase, setUppercase] = React.useState(true);
     const [digits, setDigits] = React.useState(true);
     const [symbols, setSymbols] = React.useState(true);
+    const [whitespace, setWhitespace] = React.useState(false);
     const [output, setOutput] = React.useState('');
 
     const loading = ReactRedux.useSelector((state: State.RootState) => state.random.loading);
@@ -43,6 +44,7 @@ const RandomString: React.FC = () => {
         if (uppercase) characters += "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         if (digits) characters += "0123456789";
         if (symbols) characters += "~`!@#$%^&*()-_=+[{]}\\|;:'\",<.>/?";
+        if (whitespace) characters += " \n\t\r";
 
         if (characters !== "") {
             const arg = {
@@ -77,6 +79,7 @@ const RandomString: React.FC = () => {
         setUppercase(true);
         setDigits(true);
         setSymbols(true);
+        setWhitespace(false);
         setOutput('');
     };
 
@@ -105,7 +108,7 @@ const RandomString: React.FC = () => {
                 </Col>
             </Row>
             <Row className="pb-5 mx-sm-3 justify-content-center align-items-center">
-                <InputGroup as={Col} md={6} className="px-0">
+                <InputGroup as={Col} md={5} className="px-0">
                     <InputGroup.Prepend>
                         <InputGroup.Text>Length</InputGroup.Text>
                     </InputGroup.Prepend>
@@ -156,6 +159,15 @@ const RandomString: React.FC = () => {
                         label="Symbols"
                         checked={symbols}
                         onChange={() => setSymbols(!symbols)}
+                    />
+                </Col>
+                <Col className="flex-grow-0">
+                    <Form.Check
+                        id="whitespace"
+                        type="switch"
+                        label="Whitespace"
+                        checked={whitespace}
+                        onChange={() => setWhitespace(!whitespace)}
                     />
                 </Col>
             </Row>
