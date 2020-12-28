@@ -12,6 +12,7 @@ from 'react-bootstrap';
 import MathJax from 'react-mathjax';
 import Wrapper from '../../component/Wrapper';
 import * as Calculator from '../../api/calculator';
+import './CalculatorElectrical.css';
 
 const MAXIMUM_RESISTANCE = 1000000.0;
 const MAXIMUM_CURRENT = 1000000.0;
@@ -138,78 +139,94 @@ const CalculatorElectrical: React.FC = () => {
                                     <Tab.Pane eventKey="calculator" title="Calculator">
                                         <Wrapper reverse>
                                             <Row>
-                                                <InputGroup as={Col}>
-                                                    <InputGroup.Prepend>
-                                                        <InputGroup.Text>Resistance (<b>Ω</b>)</InputGroup.Text>
-                                                    </InputGroup.Prepend>
-                                                    <Form.Control
-                                                        id="resistance"
-                                                        type="number"
-                                                        min={0.0}
-                                                        max={MAXIMUM_RESISTANCE}
-                                                        step="any"
-                                                        value={resistance}
-                                                        onChange={(e) => {
-                                                            const value = parseFloat(e.target.value);
-                                                            setResistance(value);
-                                                            update(0, value > 0.0);
-                                                        }}
-                                                    />
-                                                </InputGroup>
-                                                <InputGroup as={Col}>
-                                                    <InputGroup.Prepend>
-                                                        <InputGroup.Text>Current (<b>A</b>)</InputGroup.Text>
-                                                    </InputGroup.Prepend>
-                                                    <Form.Control
-                                                        id="current"
-                                                        type="number"
-                                                        min={0.0}
-                                                        max={MAXIMUM_CURRENT}
-                                                        step="any"
-                                                        value={current}
-                                                        onChange={(e) => {
-                                                            const value = parseFloat(e.target.value);
-                                                            setCurrent(value);
-                                                            update(1, value > 0.0);
-                                                        }}
-                                                    />
-                                                </InputGroup>
-                                                <InputGroup as={Col}>
-                                                    <InputGroup.Prepend>
-                                                        <InputGroup.Text>Voltage (<b>V</b>)</InputGroup.Text>
-                                                    </InputGroup.Prepend>
-                                                    <Form.Control
-                                                        id="voltage"
-                                                        type="number"
-                                                        min={0.0}
-                                                        max={MAXIMUM_VOLTAGE}
-                                                        step="any"
-                                                        value={voltage}
-                                                        onChange={(e) => {
-                                                            const value = parseFloat(e.target.value);
-                                                            setVoltage(value);
-                                                            update(2, value > 0.0);
-                                                        }}
-                                                    />
-                                                </InputGroup>
-                                                <InputGroup as={Col}>
-                                                    <InputGroup.Prepend>
-                                                        <InputGroup.Text>Power (<b>W</b>)</InputGroup.Text>
-                                                    </InputGroup.Prepend>
-                                                    <Form.Control
-                                                        id="power"
-                                                        type="number"
-                                                        min={0.0}
-                                                        max={MAXIMUM_POWER}
-                                                        step="any"
-                                                        value={power}
-                                                        onChange={(e) => {
-                                                            const value = parseFloat(e.target.value);
-                                                            setPower(value);
-                                                            update(3, value > 0.0);
-                                                        }}
-                                                    />
-                                                </InputGroup>
+                                                <Col md={6}>
+                                                    <InputGroup>
+                                                        <InputGroup.Prepend>
+                                                            <InputGroup.Text className="unit-symbol">
+                                                                <em>Ω</em>
+                                                            </InputGroup.Text>
+                                                        </InputGroup.Prepend>
+                                                        <Form.Control
+                                                            id="resistance"
+                                                            type="number"
+                                                            min={0.0}
+                                                            max={MAXIMUM_RESISTANCE}
+                                                            step="any"
+                                                            value={resistance}
+                                                            onChange={(e) => {
+                                                                const value = parseFloat(e.target.value);
+                                                                setResistance(value);
+                                                                update(0, value > 0.0);
+                                                            }}
+                                                        />
+                                                    </InputGroup>
+                                                </Col>
+                                                <Col md={6}>
+                                                    <InputGroup>
+                                                        <InputGroup.Prepend>
+                                                            <InputGroup.Text className="unit-symbol">
+                                                                <em>A</em>
+                                                            </InputGroup.Text>
+                                                        </InputGroup.Prepend>
+                                                        <Form.Control
+                                                            id="current"
+                                                            type="number"
+                                                            min={0.0}
+                                                            max={MAXIMUM_CURRENT}
+                                                            step="any"
+                                                            value={current}
+                                                            onChange={(e) => {
+                                                                const value = parseFloat(e.target.value);
+                                                                setCurrent(value);
+                                                                update(1, value > 0.0);
+                                                            }}
+                                                        />
+                                                    </InputGroup>
+                                                </Col>
+                                                <Col md={6}>
+                                                    <InputGroup>
+                                                        <InputGroup.Prepend>
+                                                            <InputGroup.Text className="unit-symbol">
+                                                                <em>V</em>
+                                                            </InputGroup.Text>
+                                                        </InputGroup.Prepend>
+                                                        <Form.Control
+                                                            id="voltage"
+                                                            type="number"
+                                                            min={0.0}
+                                                            max={MAXIMUM_VOLTAGE}
+                                                            step="any"
+                                                            value={voltage}
+                                                            onChange={(e) => {
+                                                                const value = parseFloat(e.target.value);
+                                                                setVoltage(value);
+                                                                update(2, value > 0.0);
+                                                            }}
+                                                        />
+                                                    </InputGroup>
+                                                </Col>
+                                                <Col md={6}>
+                                                    <InputGroup>
+                                                        <InputGroup.Prepend>
+                                                            <InputGroup.Text className="unit-symbol">
+                                                                <em>W</em>
+                                                            </InputGroup.Text>
+                                                        </InputGroup.Prepend>
+                                                        <Form.Control
+                                                            id="power"
+                                                            type="number"
+                                                            min={0.0}
+                                                            max={MAXIMUM_POWER}
+                                                            step="any"
+                                                            value={power}
+                                                            onChange={(e) => {
+                                                                const value = parseFloat(e.target.value);
+                                                                setPower(value);
+                                                                update(3, value > 0.0);
+                                                            }}
+                                                        />
+                                                    </InputGroup>
+                                                </Col>
                                             </Row>
                                         </Wrapper>
                                     </Tab.Pane>
