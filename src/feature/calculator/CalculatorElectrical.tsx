@@ -4,9 +4,7 @@ import {
     Button,
     Row,
     Col,
-    InputGroup,
-    Tab,
-    Nav
+    InputGroup
 }
 from 'react-bootstrap';
 import MathJax from 'react-mathjax';
@@ -21,7 +19,6 @@ const MAXIMUM_POWER = 1000000.0;
 const CALCULATE_FAIL_MESSAGE = 'Unable to calculate missing values';
 
 const CalculatorElectrical: React.FC = () => {
-    const [key, setKey] = React.useState('calculator');
     const [resistance, setResistance] = React.useState(0.0);
     const [current, setCurrent] = React.useState(0.0);
     const [voltage, setVoltage] = React.useState(0.0);
@@ -114,7 +111,7 @@ const CalculatorElectrical: React.FC = () => {
         if (useable[3]) count++;
 
         return count < 2;
-    }
+    };
 
     return (
         <Wrapper>
@@ -223,9 +220,9 @@ const CalculatorElectrical: React.FC = () => {
                         <br />
                         <div className="p-1">
                             <MathJax.Node formula={'R = \\frac{V}{I}'} />
-                            <br/>
+                            <br />
                             <MathJax.Node formula={'R = \\frac{V^2}{P}'} />
-                            <br/>
+                            <br />
                             <MathJax.Node formula={'R = \\frac{P}{I^2}'} />
                         </div>
                     </MathJax.Provider>
@@ -236,9 +233,9 @@ const CalculatorElectrical: React.FC = () => {
                         <br />
                         <div className="p-1">
                             <MathJax.Node formula={'I = \\frac{V}{R}'} />
-                            <br/>
+                            <br />
                             <MathJax.Node formula={'I = \\frac{P}{V}'} />
-                            <br/>
+                            <br />
                             <MathJax.Node formula={'I = \\sqrt{\\frac{P}{R}}'} />
                         </div>
                     </MathJax.Provider>
@@ -249,9 +246,9 @@ const CalculatorElectrical: React.FC = () => {
                         <br />
                         <div className="p-1">
                             <MathJax.Node formula={'V = I\\cdot{R}'} />
-                            <br/>
+                            <br />
                             <MathJax.Node formula={'V = \\frac{P}{I}'} />
-                            <br/>
+                            <br />
                             <MathJax.Node formula={'V = \\sqrt{P\\cdot{R}}'} />
                         </div>
                     </MathJax.Provider>
@@ -262,9 +259,9 @@ const CalculatorElectrical: React.FC = () => {
                         <br />
                         <div className="p-1">
                             <MathJax.Node formula={'P = V\\cdot{I}'} />
-                            <br/>
+                            <br />
                             <MathJax.Node formula={'P = \\frac{V^2}{R}'} />
-                            <br/>
+                            <br />
                             <MathJax.Node formula={'P = I^2\\cdot{R}'} />
                         </div>
                     </MathJax.Provider>
