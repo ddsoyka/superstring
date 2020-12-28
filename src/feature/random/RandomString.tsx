@@ -6,9 +6,7 @@ import {
     Button,
     Row,
     Col,
-    InputGroup,
-    Tab,
-    Nav
+    InputGroup
 }
 from 'react-bootstrap';
 import * as State from '../../app/store';
@@ -19,7 +17,7 @@ import {
     saveRandomData
 }
 from './randomSlice';
-import {setError} from '../error/errorSlice';
+import { setError } from '../error/errorSlice';
 
 const MAXIMUM_LENGTH = 10000000;
 const DEFAULT_LENGTH = 10000;
@@ -31,14 +29,13 @@ const RandomString: React.FC = () => {
     const [digits, setDigits] = React.useState(true);
     const [symbols, setSymbols] = React.useState(true);
     const [output, setOutput] = React.useState('');
-    const [key, setKey] = React.useState('output');
 
     const loading = ReactRedux.useSelector((state: State.RootState) => state.random.loading);
 
-    const dispatch = ReactRedux.useDispatch<State.AppDispatch>()
+    const dispatch = ReactRedux.useDispatch<State.AppDispatch>();
 
     const generate = async () => {
-        setOutput('')
+        setOutput('');
 
         let characters = "";
 
@@ -96,101 +93,73 @@ const RandomString: React.FC = () => {
 
     return (
         <Wrapper>
-            <Row className="py-3">
+            <Row className="py-5 mx-sm-3">
                 <Col>
-                    <Tab.Container activeKey={key} id="tabs" onSelect={key => setKey(key as string)}>
-                        <Wrapper>
-                            <Row className="mb-3">
-                                <Col className="flex-grow-0 flex-md-grow-1" />
-                                <Nav as={Col} variant="tabs">
-                                    <Nav.Item className="flex-grow-1">
-                                        <Nav.Link eventKey="output">Output</Nav.Link>
-                                    </Nav.Item>
-                                    <Nav.Item className="flex-grow-1">
-                                        <Nav.Link eventKey="options">Options</Nav.Link>
-                                    </Nav.Item>
-                                </Nav>
-                                <Col className="flex-grow-0 flex-md-grow-1" />
-                            </Row>
-                            <Row>
-                                <Tab.Content as={Col}>
-                                    <Tab.Pane eventKey="output" title="Output">
-                                        <Form.Control
-                                            id="output"
-                                            as="textarea"
-                                            value={output || ''}
-                                            rows={15}
-                                            readOnly
-                                        />
-                                    </Tab.Pane>
-                                    <Tab.Pane eventKey="options" title="Options">
-                                        <Wrapper reverse>
-                                            <Row className="py-3 mx-sm-3">
-                                                <InputGroup as={Col} className="px-0">
-                                                    <InputGroup.Prepend>
-                                                        <InputGroup.Text>Length</InputGroup.Text>
-                                                    </InputGroup.Prepend>
-                                                    <Form.Control
-                                                        id="length"
-                                                        type="number"
-                                                        min={1}
-                                                        max={MAXIMUM_LENGTH}
-                                                        value={length}
-                                                        onChange={(e) => setLength(parseInt(e.target.value))}
-                                                    />
-                                                    <InputGroup.Append>
-                                                        <Button variant="secondary" onClick={() => setLength(MAXIMUM_LENGTH)}>Max</Button>
-                                                        <Button variant="secondary" onClick={() => setLength(1)}>Min</Button>
-                                                    </InputGroup.Append>
-                                                </InputGroup>
-                                            </Row>
-                                            <Row className="py-3 mx-sm-3 justify-content-center align-items-center">
-                                                <Col className="flex-grow-0">
-                                                    <Form.Check
-                                                        id="lowercase"
-                                                        type="switch"
-                                                        label="Lowercase"
-                                                        checked={lowercase}
-                                                        onChange={() => setLowercase(!lowercase)}
-                                                    />
-                                                </Col>
-                                                <Col className="flex-grow-0">
-                                                    <Form.Check
-                                                        id="uppercase"
-                                                        type="switch"
-                                                        label="Uppercase"
-                                                        checked={uppercase}
-                                                        onChange={() => setUppercase(!uppercase)}
-                                                    />
-                                                </Col>
-                                                <Col className="flex-grow-0">
-                                                    <Form.Check
-                                                        id="digits"
-                                                        type="switch"
-                                                        label="Digits"
-                                                        checked={digits}
-                                                        onChange={() => setDigits(!digits)}
-                                                    />
-                                                </Col>
-                                                <Col className="flex-grow-0">
-                                                    <Form.Check
-                                                        id="symbols"
-                                                        type="switch"
-                                                        label="Symbols"
-                                                        checked={symbols}
-                                                        onChange={() => setSymbols(!symbols)}
-                                                    />
-                                                </Col>
-                                            </Row>
-                                        </Wrapper>
-                                    </Tab.Pane>
-                                </Tab.Content>
-                            </Row>
-                        </Wrapper>
-                    </Tab.Container>
+                    <Form.Control
+                        id="output"
+                        as="textarea"
+                        value={output || ''}
+                        rows={15}
+                        readOnly
+                    />
                 </Col>
             </Row>
-            <Row className="pb-3 justify-content-center">
+            <Row className="pb-5 mx-sm-3 justify-content-center align-items-center">
+                <InputGroup as={Col} md={6} className="px-0">
+                    <InputGroup.Prepend>
+                        <InputGroup.Text>Length</InputGroup.Text>
+                    </InputGroup.Prepend>
+                    <Form.Control
+                        id="length"
+                        type="number"
+                        min={1}
+                        max={MAXIMUM_LENGTH}
+                        value={length}
+                        onChange={(e) => setLength(parseInt(e.target.value))}
+                    />
+                    <InputGroup.Append>
+                        <Button variant="secondary" onClick={() => setLength(MAXIMUM_LENGTH)}>Max</Button>
+                        <Button variant="secondary" onClick={() => setLength(1)}>Min</Button>
+                    </InputGroup.Append>
+                </InputGroup>
+                <Col className="flex-grow-0">
+                    <Form.Check
+                        id="lowercase"
+                        type="switch"
+                        label="Lowercase"
+                        checked={lowercase}
+                        onChange={() => setLowercase(!lowercase)}
+                    />
+                </Col>
+                <Col className="flex-grow-0">
+                    <Form.Check
+                        id="uppercase"
+                        type="switch"
+                        label="Uppercase"
+                        checked={uppercase}
+                        onChange={() => setUppercase(!uppercase)}
+                    />
+                </Col>
+                <Col className="flex-grow-0">
+                    <Form.Check
+                        id="digits"
+                        type="switch"
+                        label="Digits"
+                        checked={digits}
+                        onChange={() => setDigits(!digits)}
+                    />
+                </Col>
+                <Col className="flex-grow-0">
+                    <Form.Check
+                        id="symbols"
+                        type="switch"
+                        label="Symbols"
+                        checked={symbols}
+                        onChange={() => setSymbols(!symbols)}
+                    />
+                </Col>
+            </Row>
+            <Row className="pb-5 justify-content-center">
                 <Col className="flex-grow-0">
                     <SpinnerButton active={loading === 'create'} disabled={loading !== 'none'} onClick={generate}>Generate</SpinnerButton>
                 </Col>
@@ -203,7 +172,7 @@ const RandomString: React.FC = () => {
                         active={loading === 'save'}
                         disabled={loading !== 'none' || output === ''}
                         onClick={save}>
-                            Save
+                        Save
                     </SpinnerButton>
                 </Col>
                 <Col className="flex-grow-0">
@@ -212,6 +181,6 @@ const RandomString: React.FC = () => {
             </Row>
         </Wrapper>
     );
-}
+};
 
 export default RandomString;

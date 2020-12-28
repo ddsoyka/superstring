@@ -213,7 +213,7 @@ const CalculatorElectrical: React.FC = () => {
                     <Button variant="secondary" onClick={reset}>Reset</Button>
                 </Col>
             </Row>
-            <Row>
+            <Row className="pb-5">
                 <Col>
                     <MathJax.Provider>
                         <h1 className="p-1 border-bottom text-center">Ohms</h1>

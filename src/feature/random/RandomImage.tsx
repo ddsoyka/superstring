@@ -81,7 +81,7 @@ const RandomImage: React.FC = () => {
                 </Col>
                 <Col sm />
             </Row>
-            <Row className="pb-5 mx-sm-3">
+            <Row className="pb-5">
                 <InputGroup as={Col} md={6} className="flex-fill">
                     <InputGroup.Prepend>
                         <InputGroup.Text className="resolution-label">Width</InputGroup.Text>
@@ -117,7 +117,7 @@ const RandomImage: React.FC = () => {
                     </InputGroup.Append>
                 </InputGroup>
             </Row>
-            <Row className="pb-5 mx-sm-3 justify-content-center align-items-center">
+            <Row className="pb-5 justify-content-center align-items-center">
                 <Col className="flex-grow-0">
                     <Form.Check
                         id="png"
@@ -155,7 +155,7 @@ const RandomImage: React.FC = () => {
                     />
                 </Col>
             </Row>
-            <Row className="pb-3 justify-content-center">
+            <Row className="pb-5 justify-content-center">
                 <Col className="flex-grow-0">
                     <SpinnerButton active={loading === 'create'} disabled={loading !== 'none'} onClick={onSubmit}>Generate</SpinnerButton>
                 </Col>
