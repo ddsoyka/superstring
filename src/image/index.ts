@@ -66,6 +66,10 @@ import {
     ReactComponent as NotFound
 }
 from './404.svg';
+import {
+    ReactComponent as Calculator
+}
+from './calculator.svg';
 
 const Images = {
     Logo,
@@ -84,7 +88,8 @@ const Images = {
     Language,
     Word,
     Convert,
-    NotFound
+    NotFound,
+    Calculator
 };
 
 export default Images;
