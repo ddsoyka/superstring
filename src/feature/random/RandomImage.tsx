@@ -7,15 +7,14 @@ import {
     Button,
     Form,
     Image,
-    InputGroup,
-    Tab,
-    Nav
+    InputGroup
 }
 from 'react-bootstrap';
 import * as State from '../../app/store';
 import Wrapper from '../../component/Wrapper';
 import SpinnerButton from '../../component/SpinnerButton';
 import { createRandomImage, saveRandomData } from './randomSlice';
+import './RandomImage.css';
 
 const MAXIMUM_WIDTH = 2048;
 const MAXIMUM_HEIGHT = 2048;
@@ -30,7 +29,6 @@ const RandomImage: React.FC = () => {
     const [width, setWidth] = React.useState(DEFAULT_WIDTH);
     const [height, setHeight] = React.useState(DEFAULT_HEIGHT);
     const [grayscale, setGrayscale] = React.useState(true);
-    const [key, setKey] = React.useState('output');
 
     const loading = ReactRedux.useSelector((state: State.RootState) => state.random.loading);
 
@@ -76,117 +74,85 @@ const RandomImage: React.FC = () => {
 
     return (
         <Wrapper>
-            <Row className="py-3">
-                <Col>
-                    <Tab.Container activeKey={key} id="tabs" onSelect={key => setKey(key as string)}>
-                        <Wrapper>
-                            <Row className="mb-3">
-                                <Col className="flex-grow-0 flex-md-grow-1" />
-                                <Nav as={Col} variant="tabs">
-                                    <Nav.Item className="flex-grow-1">
-                                        <Nav.Link eventKey="output">Output</Nav.Link>
-                                    </Nav.Item>
-                                    <Nav.Item className="flex-grow-1">
-                                        <Nav.Link eventKey="options">Options</Nav.Link>
-                                    </Nav.Item>
-                                </Nav>
-                                <Col className="flex-grow-0 flex-md-grow-1" />
-                            </Row>
-                            <Row>
-                                <Tab.Content as={Col}>
-                                    <Tab.Pane eventKey="output" title="Output">
-                                        <Wrapper>
-                                            <Row>
-                                                <Col sm/>
-                                                <Col sm={6}>
-                                                    <Image id="output" className="bg-light border p-1 w-100" src={image} alt="Output" />
-                                                </Col>
-                                                <Col sm/>
-                                            </Row>
-                                        </Wrapper>
-                                    </Tab.Pane>
-                                    <Tab.Pane eventKey="options" title="Options">
-                                        <Wrapper reverse>
-                                            <Row className="py-3 mx-sm-3">
-                                                <InputGroup as={Col} className="flex-fill">
-                                                    <InputGroup.Prepend>
-                                                        <InputGroup.Text>Width</InputGroup.Text>
-                                                    </InputGroup.Prepend>
-                                                    <Form.Control
-                                                        id="width"
-                                                        type="number"
-                                                        min={1}
-                                                        max={MAXIMUM_WIDTH}
-                                                        value={width}
-                                                        onChange={(e) => setWidth(parseInt(e.target.value))}
-                                                    />
-                                                    <InputGroup.Append>
-                                                        <Button variant="secondary" onClick={() => setWidth(MAXIMUM_WIDTH)}>Max</Button>
-                                                        <Button variant="secondary" onClick={() => setWidth(1)}>Min</Button>
-                                                    </InputGroup.Append>
-                                                </InputGroup>
-                                                <InputGroup as={Col} className="flex-fill">
-                                                    <InputGroup.Prepend>
-                                                        <InputGroup.Text>Height</InputGroup.Text>
-                                                    </InputGroup.Prepend>
-                                                    <Form.Control
-                                                        id="height"
-                                                        type="number"
-                                                        min={1}
-                                                        max={MAXIMUM_HEIGHT}
-                                                        value={height}
-                                                        onChange={(e) => setHeight(parseInt(e.target.value))}
-                                                    />
-                                                    <InputGroup.Append>
-                                                        <Button variant="secondary" onClick={() => setHeight(MAXIMUM_HEIGHT)}>Max</Button>
-                                                        <Button variant="secondary" onClick={() => setHeight(1)}>Min</Button>
-                                                    </InputGroup.Append>
-                                                </InputGroup>
-                                            </Row>
-                                            <Row className="py-3 mx-sm-3 justify-content-center align-items-center">
-                                                <Col className="flex-grow-0">
-                                                    <Form.Check
-                                                        id="png"
-                                                        type="radio"
-                                                        label="PNG"
-                                                        checked={type === 'png'}
-                                                        onChange={() => setType('png')}
-                                                    />
-                                                </Col>
-                                                <Col className="flex-grow-0">
-                                                    <Form.Check
-                                                        id="jpeg"
-                                                        type="radio"
-                                                        label="JPEG"
-                                                        checked={type === 'jpeg'}
-                                                        onChange={() => setType('jpeg')}
-                                                    />
-                                                </Col>
-                                                <Col className="flex-grow-0">
-                                                    <Form.Check
-                                                        id="bmp"
-                                                        type="radio"
-                                                        label="Bitmap"
-                                                        checked={type === 'bmp'}
-                                                        onChange={() => setType('bmp')}
-                                                    />
-                                                </Col>
-                                                <Col className="flex-grow-0">
-                                                    <Form.Check
-                                                        id="symbols"
-                                                        type="switch"
-                                                        label="Grayscale"
-                                                        checked={grayscale}
-                                                        onChange={() => setGrayscale(!grayscale)}
-                                                    />
-                                                </Col>
-                                            </Row>
-                                        </Wrapper>
-                                    </Tab.Pane>
-                                </Tab.Content>
-                            </Row>
-                        </Wrapper>
-                    </Tab.Container>
+            <Row className="py-5">
+                <Col sm />
+                <Col sm={6}>
+                    <Image id="output" className="bg-light border p-1 w-100" src={image} alt="Output" />
+                </Col>
+                <Col sm />
+            </Row>
+            <Row className="pb-5 mx-sm-3">
+                <InputGroup as={Col} md={6} className="flex-fill">
+                    <InputGroup.Prepend>
+                        <InputGroup.Text className="resolution-label">Width</InputGroup.Text>
+                    </InputGroup.Prepend>
+                    <Form.Control
+                        id="width"
+                        type="number"
+                        min={1}
+                        max={MAXIMUM_WIDTH}
+                        value={width}
+                        onChange={(e) => setWidth(parseInt(e.target.value))}
+                    />
+                    <InputGroup.Append>
+                        <Button variant="secondary" onClick={() => setWidth(MAXIMUM_WIDTH)}>Max</Button>
+                        <Button variant="secondary" onClick={() => setWidth(1)}>Min</Button>
+                    </InputGroup.Append>
+                </InputGroup>
+                <InputGroup as={Col} md={6} className="flex-fill">
+                    <InputGroup.Prepend>
+                        <InputGroup.Text className="resolution-label">Height</InputGroup.Text>
+                    </InputGroup.Prepend>
+                    <Form.Control
+                        id="height"
+                        type="number"
+                        min={1}
+                        max={MAXIMUM_HEIGHT}
+                        value={height}
+                        onChange={(e) => setHeight(parseInt(e.target.value))}
+                    />
+                    <InputGroup.Append>
+                        <Button variant="secondary" onClick={() => setHeight(MAXIMUM_HEIGHT)}>Max</Button>
+                        <Button variant="secondary" onClick={() => setHeight(1)}>Min</Button>
+                    </InputGroup.Append>
+                </InputGroup>
+            </Row>
+            <Row className="pb-5 mx-sm-3 justify-content-center align-items-center">
+                <Col className="flex-grow-0">
+                    <Form.Check
+                        id="png"
+                        type="radio"
+                        label="PNG"
+                        checked={type === 'png'}
+                        onChange={() => setType('png')}
+                    />
+                </Col>
+                <Col className="flex-grow-0">
+                    <Form.Check
+                        id="jpeg"
+                        type="radio"
+                        label="JPEG"
+                        checked={type === 'jpeg'}
+                        onChange={() => setType('jpeg')}
+                    />
+                </Col>
+                <Col className="flex-grow-0">
+                    <Form.Check
+                        id="bmp"
+                        type="radio"
+                        label="Bitmap"
+                        checked={type === 'bmp'}
+                        onChange={() => setType('bmp')}
+                    />
+                </Col>
+                <Col className="flex-grow-0">
+                    <Form.Check
+                        id="symbols"
+                        type="switch"
+                        label="Grayscale"
+                        checked={grayscale}
+                        onChange={() => setGrayscale(!grayscale)}
+                    />
                 </Col>
             </Row>
             <Row className="pb-3 justify-content-center">
@@ -199,7 +165,7 @@ const RandomImage: React.FC = () => {
                         active={loading === 'save'}
                         disabled={loading !== 'none' || image === BLANK_IMAGE}
                         onClick={save}>
-                            Save
+                        Save
                     </SpinnerButton>
                 </Col>
                 <Col className="flex-grow-0">
