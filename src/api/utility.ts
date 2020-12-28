@@ -46,7 +46,7 @@ export const async = <T>(fn: () => T): Promise<T> => {
                     reject(error);
                 }
             };
-            setTimeout(executor, 0);
+            (window.requestAnimationFrame || window.setTimeout)(executor);
         }
     );
 };
