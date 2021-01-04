@@ -6,13 +6,11 @@ import {
     Button,
     Row,
     Col,
-    InputGroup,
-    Tab,
-    Nav
+    InputGroup
 }
-    from 'react-bootstrap';
+from 'react-bootstrap';
+import MissingDictionary from './MissingDictionary';
 import * as State from '../../app/store';
-import Images from '../../image';
 import SpinnerButton from '../../component/SpinnerButton';
 import Wrapper from '../../component/Wrapper';
 import {
@@ -21,59 +19,17 @@ import {
     saveRandomData,
     setRetry
 }
-    from './randomSlice';
+from './randomSlice';
 import { setError } from '../error/errorSlice';
 
 const MAXIMUM_LENGTH = 1000000;
 const DEFAULT_SEPARATOR = ' ';
 const DEFAULT_LENGTH = 1000;
 
-interface MissingDictionaryProps {
-    repeat: () => void;
-}
-
-const MissingDictionary: React.FC<MissingDictionaryProps> = props => {
-    return (
-        <Wrapper>
-            <Row className="p-5">
-                <Col sm />
-                <Col sm={6}>
-                    <Images.Unknown className="w-100" title="Random String" />
-                </Col>
-                <Col sm />
-            </Row>
-            <Row className="p-3">
-                <Col />
-                <Col className="text-center">
-                    <h1>Missing Dictionary</h1>
-                </Col>
-                <Col />
-            </Row>
-            <Row className="p-3">
-                <Col />
-                <Col className="text-center">
-                    <p>
-                        A list of words is required to use this component.
-                    </p>
-                </Col>
-                <Col />
-            </Row>
-            <Row className="p-3">
-                <Col />
-                <Col className="flex-grow-0">
-                    <Button onClick={props.repeat}>Retry</Button>
-                </Col>
-                <Col />
-            </Row>
-        </Wrapper>
-    );
-};
-
 const RandomWords: React.FC = () => {
     const [length, setLength] = React.useState(DEFAULT_LENGTH);
     const [separator, setSeparator] = React.useState(DEFAULT_SEPARATOR);
     const [output, setOutput] = React.useState('');
-    const [key, setKey] = React.useState('output');
 
     const { loading, dictionary, retry } = ReactRedux.useSelector((state: State.RootState) => state.random);
     const language = ReactRedux.useSelector((state: State.RootState) => state.i18n.language);
