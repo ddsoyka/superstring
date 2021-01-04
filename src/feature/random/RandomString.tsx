@@ -46,7 +46,7 @@ const RandomString: React.FC = () => {
         if (symbols) characters += "~`!@#$%^&*()-_=+[{]}\\|;:'\",<.>/?";
         if (whitespace) characters += " \n\t\r";
 
-        if (characters !== "") {
+        if (characters.length !== 0) {
             const arg = {
                 count: length,
                 characters: characters
@@ -108,23 +108,25 @@ const RandomString: React.FC = () => {
                 </Col>
             </Row>
             <Row className="pb-5 mx-sm-3 justify-content-center align-items-center">
-                <InputGroup as={Col} md={5} className="px-0">
-                    <InputGroup.Prepend>
-                        <InputGroup.Text>Length</InputGroup.Text>
-                    </InputGroup.Prepend>
-                    <Form.Control
-                        id="length"
-                        type="number"
-                        min={1}
-                        max={MAXIMUM_LENGTH}
-                        value={length}
-                        onChange={(e) => setLength(parseInt(e.target.value))}
-                    />
-                    <InputGroup.Append>
-                        <Button variant="secondary" onClick={() => setLength(MAXIMUM_LENGTH)}>Max</Button>
-                        <Button variant="secondary" onClick={() => setLength(1)}>Min</Button>
-                    </InputGroup.Append>
-                </InputGroup>
+                <Col md={5}>
+                    <InputGroup className="px-0">
+                        <InputGroup.Prepend>
+                            <InputGroup.Text>Length</InputGroup.Text>
+                        </InputGroup.Prepend>
+                        <Form.Control
+                            id="length"
+                            type="number"
+                            min={1}
+                            max={MAXIMUM_LENGTH}
+                            value={length}
+                            onChange={(e) => setLength(parseInt(e.target.value))}
+                        />
+                        <InputGroup.Append>
+                            <Button variant="secondary" onClick={() => setLength(MAXIMUM_LENGTH)}>Max</Button>
+                            <Button variant="secondary" onClick={() => setLength(1)}>Min</Button>
+                        </InputGroup.Append>
+                    </InputGroup>
+                </Col>
                 <Col className="flex-grow-0">
                     <Form.Check
                         id="lowercase"

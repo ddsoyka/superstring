@@ -82,40 +82,44 @@ const RandomImage: React.FC = () => {
                 <Col sm />
             </Row>
             <Row className="pb-5">
-                <InputGroup as={Col} md={6} className="flex-fill">
-                    <InputGroup.Prepend>
-                        <InputGroup.Text className="resolution-label">Width</InputGroup.Text>
-                    </InputGroup.Prepend>
-                    <Form.Control
-                        id="width"
-                        type="number"
-                        min={1}
-                        max={MAXIMUM_WIDTH}
-                        value={width}
-                        onChange={(e) => setWidth(parseInt(e.target.value))}
-                    />
-                    <InputGroup.Append>
-                        <Button variant="secondary" onClick={() => setWidth(MAXIMUM_WIDTH)}>Max</Button>
-                        <Button variant="secondary" onClick={() => setWidth(1)}>Min</Button>
-                    </InputGroup.Append>
-                </InputGroup>
-                <InputGroup as={Col} md={6} className="flex-fill">
-                    <InputGroup.Prepend>
-                        <InputGroup.Text className="resolution-label">Height</InputGroup.Text>
-                    </InputGroup.Prepend>
-                    <Form.Control
-                        id="height"
-                        type="number"
-                        min={1}
-                        max={MAXIMUM_HEIGHT}
-                        value={height}
-                        onChange={(e) => setHeight(parseInt(e.target.value))}
-                    />
-                    <InputGroup.Append>
-                        <Button variant="secondary" onClick={() => setHeight(MAXIMUM_HEIGHT)}>Max</Button>
-                        <Button variant="secondary" onClick={() => setHeight(1)}>Min</Button>
-                    </InputGroup.Append>
-                </InputGroup>
+                <Col md={6}>
+                    <InputGroup className="flex-fill">
+                        <InputGroup.Prepend>
+                            <InputGroup.Text className="resolution-label">Width</InputGroup.Text>
+                        </InputGroup.Prepend>
+                        <Form.Control
+                            id="width"
+                            type="number"
+                            min={1}
+                            max={MAXIMUM_WIDTH}
+                            value={width}
+                            onChange={(e) => setWidth(parseInt(e.target.value))}
+                        />
+                        <InputGroup.Append>
+                            <Button variant="secondary" onClick={() => setWidth(MAXIMUM_WIDTH)}>Max</Button>
+                            <Button variant="secondary" onClick={() => setWidth(1)}>Min</Button>
+                        </InputGroup.Append>
+                    </InputGroup>
+                </Col>
+                <Col md={6}>
+                    <InputGroup className="flex-fill">
+                        <InputGroup.Prepend>
+                            <InputGroup.Text className="resolution-label">Height</InputGroup.Text>
+                        </InputGroup.Prepend>
+                        <Form.Control
+                            id="height"
+                            type="number"
+                            min={1}
+                            max={MAXIMUM_HEIGHT}
+                            value={height}
+                            onChange={(e) => setHeight(parseInt(e.target.value))}
+                        />
+                        <InputGroup.Append>
+                            <Button variant="secondary" onClick={() => setHeight(MAXIMUM_HEIGHT)}>Max</Button>
+                            <Button variant="secondary" onClick={() => setHeight(1)}>Min</Button>
+                        </InputGroup.Append>
+                    </InputGroup>
+                </Col>
             </Row>
             <Row className="pb-5 justify-content-center align-items-center">
                 <Col className="flex-grow-0">
