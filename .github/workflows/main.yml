@@ -12,7 +12,7 @@ jobs:
         with:
           lfs: true
       - name: Setup
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
       - name: Cache Dependencies
         uses: actions/cache@v2
         with:
@@ -41,7 +41,7 @@ jobs:
         with:
           lfs: true
       - name: Setup
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
       - name: Cache Dependencies
         uses: actions/cache@v2
         with:
