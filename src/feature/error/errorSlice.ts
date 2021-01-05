@@ -19,6 +19,6 @@ const errorSlice = Toolkit.createSlice({
     }
 });
 
-export const {setError} = errorSlice.actions;
+export const { setError } = errorSlice.actions;
 
 export default errorSlice;

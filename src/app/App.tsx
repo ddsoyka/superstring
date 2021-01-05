@@ -30,15 +30,15 @@ const App: React.FC = () => {
                 <Switch>
                     <Route path="/about" component={About} />
                     <Route path="/help" component={Help} />
-                    <Route path="/random" exact component={Random}/>
+                    <Route path="/random" exact component={Random} />
                     <Route path="/random/string" component={RandomString} />
                     <Route path="/random/words" component={RandomWords} />
                     <Route path="/random/image" component={RandomImage} />
                     <Route path="/convert" exact component={Convert} />
                     <Route path="/calculator" exact component={Calculator} />
                     <Route path="/calculator/electrical" component={CalculatorElectrical} />
-                    <Route path="/" exact component={Home}/>
-                    <Route component={NotFound}/>
+                    <Route path="/" exact component={Home} />
+                    <Route component={NotFound} />
                 </Switch>
             </main>
             <Errors />
@@ -46,6 +46,6 @@ const App: React.FC = () => {
             <LanguageSelector />
         </Router>
     );
-}
+};
 
 export default App;

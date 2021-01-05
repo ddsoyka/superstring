@@ -73,7 +73,7 @@ export const loadDictionary = Toolkit.createAsyncThunk(
 
         const end = performance.now();
 
-        console.log(`Fetched ${sorted.length} words for ${arg} in ${end - start}ms`);
+        Utility.debug(`Fetched ${sorted.length} words for ${arg} in ${end - start}ms`);
 
         return sorted;
     }
@@ -120,7 +120,7 @@ export const saveRandomData: State.AppAsyncThunk<void, SaveRandomDataArgument> =
 
             const end = performance.now();
 
-            console.log(`Compressed a file in ${end - start}ms`);
+            Utility.debug(`Compressed a file in ${end - start}ms`);
         }
         else data = await Utility.base64ToBlob(arg.data);
 
@@ -136,7 +136,7 @@ export const saveRandomData: State.AppAsyncThunk<void, SaveRandomDataArgument> =
 
         const end = performance.now();
 
-        console.log(`Prepared item ${hash} for download in ${end - start}ms`);
+        Utility.debug(`Prepared item ${hash} for download in ${end - start}ms`);
 
         api.dispatch(showDownload(download));
     }

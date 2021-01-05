@@ -6,6 +6,13 @@ export type PendingAction = ReturnType<GenericAsyncThunk["pending"]>;
 export type RejectedAction = ReturnType<GenericAsyncThunk["rejected"]>;
 export type FulfilledAction = ReturnType<GenericAsyncThunk["fulfilled"]>;
 
+export enum Level {
+    DEBUG,
+    INFO,
+    WARN,
+    ERROR
+}
+
 export const getPublicPath = (file: string) => `${process.env.PUBLIC_URL}/${file}`;
 
 export const base64ToBlob = async (input: string) => {
@@ -56,3 +63,34 @@ export const isPendingAction = (action: Toolkit.AnyAction): action is PendingAct
 export const isRejectedAction = (action: Toolkit.AnyAction): action is RejectedAction => action.type.endsWith('/rejected');
 
 export const isFulfilledAction = (action: Toolkit.AnyAction): action is FulfilledAction => action.type.endsWith('/fulfilled');
+
+export const log = (message: any, level?: Level) => {
+    switch (level) {
+        case Level.DEBUG:
+            console.debug(message);
+            break;
+        case Level.INFO:
+            console.info(message);
+            break;
+        case Level.WARN:
+            console.warn(message);
+            break;
+        case Level.ERROR:
+            console.error(message);
+            break;
+        default:
+            console.log(message);
+            break;
+    }
+};
+
+export const debug = (message: any) => {
+    if (process.env.NODE_ENV === `production`) return;
+    log(message, Level.DEBUG);
+};
+
+export const info = (message: any) => log(message, Level.INFO);
+
+export const warn = (message: any) => log(message, Level.WARN);
+
+export const error = (message: any) => log(message, Level.ERROR);

@@ -43,7 +43,7 @@ export const getRandomNumbers = (type: DataType, size: number) => Utility.async(
         const output = data.flat();
         const end = performance.now();
 
-        console.log(`Generated ${size} random numbers in ${end - start}ms`);
+        Utility.debug(`Generated ${size} random numbers in ${end - start}ms`);
 
         return output;
     }
@@ -69,7 +69,7 @@ export const getRandomString = async (count: number, characters: string) => Util
 
         const end = performance.now();
 
-        console.log(`Generated ${count} random characters in ${end - start}ms`);
+        Utility.debug(`Generated ${count} random characters in ${end - start}ms`);
 
         return output;
     }
@@ -95,7 +95,7 @@ export const getRandomWords = async (count: number, dictionary: string[], separa
 
         const end = performance.now();
 
-        console.log(`Generated ${count} random words in ${end - start}ms`);
+        Utility.debug(`Generated ${count} random words in ${end - start}ms`);
 
         return output.join(separator);
     }
@@ -131,7 +131,7 @@ export const getRandomImage = (width: number, height: number, mime: string, gray
         const base64 = await image.getBase64Async(mime);
         const end = performance.now();
 
-        console.log(`Rendered an image of ${Utility.humanize(size)} in ${end - start}ms`);
+        Utility.debug(`Rendered an image of ${Utility.humanize(size)} in ${end - start}ms`);
 
         return base64;
     }

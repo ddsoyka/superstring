@@ -5,11 +5,11 @@ import {
 from 'react-bootstrap';
 import * as ReactRedux from 'react-redux';
 import * as State from '../../app/store';
-import {setError} from './errorSlice';
+import { setError } from './errorSlice';
 
 const Errors: React.FC = () => {
     const error = ReactRedux.useSelector((state: State.RootState) => state.error);
-    const dispatch = ReactRedux.useDispatch<State.AppDispatch>()
+    const dispatch = ReactRedux.useDispatch<State.AppDispatch>();
 
     return (
         <Alert

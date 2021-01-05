@@ -10,6 +10,7 @@ import {
 }
 from 'react-bootstrap';
 import * as State from '../../app/store';
+import * as Utility from '../../api/utility';
 import Wrapper from '../../component/Wrapper';
 import SpinnerButton from '../../component/SpinnerButton';
 import {
@@ -59,7 +60,7 @@ const RandomString: React.FC = () => {
                 setOutput(result);
             }
             catch (error) {
-                console.error(error);
+                Utility.error(error);
             }
         }
     };
@@ -86,10 +87,10 @@ const RandomString: React.FC = () => {
     const copy = async () => {
         try {
             await navigator.clipboard.writeText(output);
-            console.log(`Wrote ${output.length} characters to the clipboard`);
+            Utility.debug(`Wrote ${output.length} characters to the clipboard`);
         }
         catch (error) {
-            console.error(error);
+            Utility.error(error);
             dispatch(setError(error));
         }
     };

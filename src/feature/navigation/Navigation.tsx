@@ -14,7 +14,7 @@ from 'react-bootstrap';
 import * as State from '../../app/store';
 import Images from '../../image';
 import Language from '../../api/Language';
-import {showLanguages} from '../i18n/i18nSlice';
+import { showLanguages } from '../i18n/i18nSlice';
 import './Navigation.css';
 
 const Navigation: React.FC = () => {
