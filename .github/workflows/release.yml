@@ -1,4 +1,4 @@
-name: Docker
+name: Release
 
 on:
   push:
@@ -9,8 +9,8 @@ on:
       - published
 
 jobs:
-  build:
-    name: Build
+  publish:
+    name: Publish
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout
@@ -19,8 +19,6 @@ jobs:
           lfs: true
       - name: Build
         run: docker build -t ddsoyka/superstring .
-      - name: Tag Development
-        run: docker tag ddsoyka/superstring ddsoyka/superstring:development
       - name: Tag Version
         if: github.event_name == 'release'
         run: docker tag ddsoyka/superstring ddsoyka/superstring:$RELEASE_TAG_NAME
@@ -33,10 +31,7 @@ jobs:
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-      - name: Push Development
-        run: docker push ddsoyka/superstring:development
       - name: Push Latest
-        if: github.event_name == 'release'
         run: docker push ddsoyka/superstring:latest
       - name: Push Version
         if: github.event_name == 'release'
@@ -45,3 +40,35 @@ jobs:
           RELEASE_TAG_NAME: ${{ github.event.release.tag_name }}
       - name: Logout
         run: docker logout
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          lfs: true
+      - name: Setup
+        uses: actions/setup-node@v2
+      - name: Cache Dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.OS }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.OS }}-node-
+            ${{ runner.OS }}-
+      - name: Install
+        run: npm ci
+      - name: Build
+        run: npm run build
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: release-${{ github.sha }}
+          path: build/

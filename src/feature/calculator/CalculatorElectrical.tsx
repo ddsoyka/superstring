@@ -4,14 +4,13 @@ import {
     Button,
     Row,
     Col,
-    InputGroup,
-    Tab,
-    Nav
+    InputGroup
 }
 from 'react-bootstrap';
 import MathJax from 'react-mathjax';
 import Wrapper from '../../component/Wrapper';
 import * as Calculator from '../../api/calculator';
+import './CalculatorElectrical.css';
 
 const MAXIMUM_RESISTANCE = 1000000.0;
 const MAXIMUM_CURRENT = 1000000.0;
@@ -20,7 +19,6 @@ const MAXIMUM_POWER = 1000000.0;
 const CALCULATE_FAIL_MESSAGE = 'Unable to calculate missing values';
 
 const CalculatorElectrical: React.FC = () => {
-    const [key, setKey] = React.useState('calculator');
     const [resistance, setResistance] = React.useState(0.0);
     const [current, setCurrent] = React.useState(0.0);
     const [voltage, setVoltage] = React.useState(0.0);
@@ -113,176 +111,160 @@ const CalculatorElectrical: React.FC = () => {
         if (useable[3]) count++;
 
         return count < 2;
-    }
+    };
 
     return (
         <Wrapper>
-            <Row className="py-3">
-                <Col>
-                    <Tab.Container activeKey={key} id="tabs" onSelect={key => setKey(key as string)}>
-                        <Wrapper>
-                            <Row className="mb-3">
-                                <Col className="flex-grow-0 flex-md-grow-1" />
-                                <Nav as={Col} variant="tabs">
-                                    <Nav.Item className="flex-grow-1">
-                                        <Nav.Link eventKey="calculator">Calculator</Nav.Link>
-                                    </Nav.Item>
-                                    <Nav.Item className="flex-grow-1">
-                                        <Nav.Link eventKey="information">Information</Nav.Link>
-                                    </Nav.Item>
-                                </Nav>
-                                <Col className="flex-grow-0 flex-md-grow-1" />
-                            </Row>
-                            <Row>
-                                <Tab.Content as={Col}>
-                                    <Tab.Pane eventKey="calculator" title="Calculator">
-                                        <Wrapper reverse>
-                                            <Row>
-                                                <InputGroup as={Col}>
-                                                    <InputGroup.Prepend>
-                                                        <InputGroup.Text>Resistance (<b>Ω</b>)</InputGroup.Text>
-                                                    </InputGroup.Prepend>
-                                                    <Form.Control
-                                                        id="resistance"
-                                                        type="number"
-                                                        min={0.0}
-                                                        max={MAXIMUM_RESISTANCE}
-                                                        step="any"
-                                                        value={resistance}
-                                                        onChange={(e) => {
-                                                            const value = parseFloat(e.target.value);
-                                                            setResistance(value);
-                                                            update(0, value > 0.0);
-                                                        }}
-                                                    />
-                                                </InputGroup>
-                                                <InputGroup as={Col}>
-                                                    <InputGroup.Prepend>
-                                                        <InputGroup.Text>Current (<b>A</b>)</InputGroup.Text>
-                                                    </InputGroup.Prepend>
-                                                    <Form.Control
-                                                        id="current"
-                                                        type="number"
-                                                        min={0.0}
-                                                        max={MAXIMUM_CURRENT}
-                                                        step="any"
-                                                        value={current}
-                                                        onChange={(e) => {
-                                                            const value = parseFloat(e.target.value);
-                                                            setCurrent(value);
-                                                            update(1, value > 0.0);
-                                                        }}
-                                                    />
-                                                </InputGroup>
-                                                <InputGroup as={Col}>
-                                                    <InputGroup.Prepend>
-                                                        <InputGroup.Text>Voltage (<b>V</b>)</InputGroup.Text>
-                                                    </InputGroup.Prepend>
-                                                    <Form.Control
-                                                        id="voltage"
-                                                        type="number"
-                                                        min={0.0}
-                                                        max={MAXIMUM_VOLTAGE}
-                                                        step="any"
-                                                        value={voltage}
-                                                        onChange={(e) => {
-                                                            const value = parseFloat(e.target.value);
-                                                            setVoltage(value);
-                                                            update(2, value > 0.0);
-                                                        }}
-                                                    />
-                                                </InputGroup>
-                                                <InputGroup as={Col}>
-                                                    <InputGroup.Prepend>
-                                                        <InputGroup.Text>Power (<b>W</b>)</InputGroup.Text>
-                                                    </InputGroup.Prepend>
-                                                    <Form.Control
-                                                        id="power"
-                                                        type="number"
-                                                        min={0.0}
-                                                        max={MAXIMUM_POWER}
-                                                        step="any"
-                                                        value={power}
-                                                        onChange={(e) => {
-                                                            const value = parseFloat(e.target.value);
-                                                            setPower(value);
-                                                            update(3, value > 0.0);
-                                                        }}
-                                                    />
-                                                </InputGroup>
-                                            </Row>
-                                        </Wrapper>
-                                    </Tab.Pane>
-                                    <Tab.Pane eventKey="information" title="Information">
-                                        <Wrapper reverse>
-                                            <Row>
-                                                <Col>
-                                                    <MathJax.Provider>
-                                                        <h1 className="p-3 border-bottom">Ohms</h1>
-                                                        <br />
-                                                        <div className="p-3">
-                                                            <MathJax.Node formula={'R = \\frac{V}{I}'} />
-                                                            <br/>
-                                                            <MathJax.Node formula={'R = \\frac{V^2}{P}'} />
-                                                            <br/>
-                                                            <MathJax.Node formula={'R = \\frac{P}{I^2}'} />
-                                                        </div>
-                                                    </MathJax.Provider>
-                                                </Col>
-                                                <Col>
-                                                    <MathJax.Provider>
-                                                        <h1 className="p-3 border-bottom">Amps</h1>
-                                                        <br />
-                                                        <div className="p-3">
-                                                            <MathJax.Node formula={'I = \\frac{V}{R}'} />
-                                                            <br/>
-                                                            <MathJax.Node formula={'I = \\frac{P}{V}'} />
-                                                            <br/>
-                                                            <MathJax.Node formula={'I = \\sqrt{\\frac{P}{R}}'} />
-                                                        </div>
-                                                    </MathJax.Provider>
-                                                </Col>
-                                                <Col>
-                                                    <MathJax.Provider>
-                                                        <h1 className="p-3 border-bottom">Volts</h1>
-                                                        <br />
-                                                        <div className="p-3">
-                                                            <MathJax.Node formula={'V = I\\cdot{R}'} />
-                                                            <br/>
-                                                            <MathJax.Node formula={'V = \\frac{P}{I}'} />
-                                                            <br/>
-                                                            <MathJax.Node formula={'V = \\sqrt{P\\cdot{R}}'} />
-                                                        </div>
-                                                    </MathJax.Provider>
-                                                </Col>
-                                                <Col>
-                                                    <MathJax.Provider>
-                                                        <h1 className="p-3 border-bottom">Watts</h1>
-                                                        <br />
-                                                        <div className="p-3">
-                                                            <MathJax.Node formula={'P = V\\cdot{I}'} />
-                                                            <br/>
-                                                            <MathJax.Node formula={'P = \\frac{V^2}{R}'} />
-                                                            <br/>
-                                                            <MathJax.Node formula={'P = I^2\\cdot{R}'} />
-                                                        </div>
-                                                    </MathJax.Provider>
-                                                </Col>
-                                            </Row>
-                                        </Wrapper>
-                                    </Tab.Pane>
-                                </Tab.Content>
-                            </Row>
-                        </Wrapper>
-                    </Tab.Container>
+            <Row className="py-5">
+                <Col md={6}>
+                    <InputGroup>
+                        <InputGroup.Prepend>
+                            <InputGroup.Text className="unit-symbol">
+                                <em>Ω</em>
+                            </InputGroup.Text>
+                        </InputGroup.Prepend>
+                        <Form.Control
+                            id="resistance"
+                            type="number"
+                            min={0.0}
+                            max={MAXIMUM_RESISTANCE}
+                            step="any"
+                            value={resistance}
+                            onChange={(e) => {
+                                const value = parseFloat(e.target.value);
+                                setResistance(value);
+                                update(0, value > 0.0);
+                            }}
+                        />
+                    </InputGroup>
+                </Col>
+                <Col md={6}>
+                    <InputGroup>
+                        <InputGroup.Prepend>
+                            <InputGroup.Text className="unit-symbol">
+                                <em>A</em>
+                            </InputGroup.Text>
+                        </InputGroup.Prepend>
+                        <Form.Control
+                            id="current"
+                            type="number"
+                            min={0.0}
+                            max={MAXIMUM_CURRENT}
+                            step="any"
+                            value={current}
+                            onChange={(e) => {
+                                const value = parseFloat(e.target.value);
+                                setCurrent(value);
+                                update(1, value > 0.0);
+                            }}
+                        />
+                    </InputGroup>
+                </Col>
+                <Col md={6}>
+                    <InputGroup>
+                        <InputGroup.Prepend>
+                            <InputGroup.Text className="unit-symbol">
+                                <em>V</em>
+                            </InputGroup.Text>
+                        </InputGroup.Prepend>
+                        <Form.Control
+                            id="voltage"
+                            type="number"
+                            min={0.0}
+                            max={MAXIMUM_VOLTAGE}
+                            step="any"
+                            value={voltage}
+                            onChange={(e) => {
+                                const value = parseFloat(e.target.value);
+                                setVoltage(value);
+                                update(2, value > 0.0);
+                            }}
+                        />
+                    </InputGroup>
+                </Col>
+                <Col md={6}>
+                    <InputGroup>
+                        <InputGroup.Prepend>
+                            <InputGroup.Text className="unit-symbol">
+                                <em>W</em>
+                            </InputGroup.Text>
+                        </InputGroup.Prepend>
+                        <Form.Control
+                            id="power"
+                            type="number"
+                            min={0.0}
+                            max={MAXIMUM_POWER}
+                            step="any"
+                            value={power}
+                            onChange={(e) => {
+                                const value = parseFloat(e.target.value);
+                                setPower(value);
+                                update(3, value > 0.0);
+                            }}
+                        />
+                    </InputGroup>
                 </Col>
             </Row>
-            <Row className="pb-3 justify-content-center">
+            <Row className="pb-5 justify-content-center">
                 <Col className="flex-grow-0">
                     <Button disabled={isDisabled()} onClick={calculate}>Calculate</Button>
                 </Col>
                 <Col className="flex-grow-0">
                     <Button variant="secondary" onClick={reset}>Reset</Button>
+                </Col>
+            </Row>
+            <Row className="pb-5">
+                <Col>
+                    <MathJax.Provider>
+                        <h1 className="p-1 border-bottom text-center">Ohms</h1>
+                        <br />
+                        <div className="p-1">
+                            <MathJax.Node formula={'R = \\frac{V}{I}'} />
+                            <br />
+                            <MathJax.Node formula={'R = \\frac{V^2}{P}'} />
+                            <br />
+                            <MathJax.Node formula={'R = \\frac{P}{I^2}'} />
+                        </div>
+                    </MathJax.Provider>
+                </Col>
+                <Col>
+                    <MathJax.Provider>
+                        <h1 className="p-1 border-bottom text-center">Amps</h1>
+                        <br />
+                        <div className="p-1">
+                            <MathJax.Node formula={'I = \\frac{V}{R}'} />
+                            <br />
+                            <MathJax.Node formula={'I = \\frac{P}{V}'} />
+                            <br />
+                            <MathJax.Node formula={'I = \\sqrt{\\frac{P}{R}}'} />
+                        </div>
+                    </MathJax.Provider>
+                </Col>
+                <Col>
+                    <MathJax.Provider>
+                        <h1 className="p-1 border-bottom text-center">Volts</h1>
+                        <br />
+                        <div className="p-1">
+                            <MathJax.Node formula={'V = I\\cdot{R}'} />
+                            <br />
+                            <MathJax.Node formula={'V = \\frac{P}{I}'} />
+                            <br />
+                            <MathJax.Node formula={'V = \\sqrt{P\\cdot{R}}'} />
+                        </div>
+                    </MathJax.Provider>
+                </Col>
+                <Col>
+                    <MathJax.Provider>
+                        <h1 className="p-1 border-bottom text-center">Watts</h1>
+                        <br />
+                        <div className="p-1">
+                            <MathJax.Node formula={'P = V\\cdot{I}'} />
+                            <br />
+                            <MathJax.Node formula={'P = \\frac{V^2}{R}'} />
+                            <br />
+                            <MathJax.Node formula={'P = I^2\\cdot{R}'} />
+                        </div>
+                    </MathJax.Provider>
                 </Col>
             </Row>
         </Wrapper>
