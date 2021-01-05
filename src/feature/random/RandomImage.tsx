@@ -74,16 +74,16 @@ const RandomImage: React.FC = () => {
 
     return (
         <Wrapper>
-            <Row className="py-5">
+            <Row className="py-5 mx-0">
                 <Col sm />
                 <Col sm={6}>
                     <Image id="output" className="bg-light border p-1 w-100" src={image} alt="Output" />
                 </Col>
                 <Col sm />
             </Row>
-            <Row className="pb-5">
+            <Row className="pb-5 mx-0">
                 <Col md={6}>
-                    <InputGroup className="flex-fill">
+                    <InputGroup>
                         <InputGroup.Prepend>
                             <InputGroup.Text className="resolution-label">Width</InputGroup.Text>
                         </InputGroup.Prepend>
@@ -102,7 +102,7 @@ const RandomImage: React.FC = () => {
                     </InputGroup>
                 </Col>
                 <Col md={6}>
-                    <InputGroup className="flex-fill">
+                    <InputGroup>
                         <InputGroup.Prepend>
                             <InputGroup.Text className="resolution-label">Height</InputGroup.Text>
                         </InputGroup.Prepend>
@@ -121,8 +121,8 @@ const RandomImage: React.FC = () => {
                     </InputGroup>
                 </Col>
             </Row>
-            <Row className="pb-5 justify-content-center align-items-center">
-                <Col className="flex-grow-0">
+            <Row className="pb-5 mx-0 justify-content-center align-items-center">
+                <Col xs={12} md={3} className="d-flex justify-content-md-center">
                     <Form.Check
                         id="png"
                         type="radio"
@@ -131,7 +131,7 @@ const RandomImage: React.FC = () => {
                         onChange={() => setType('png')}
                     />
                 </Col>
-                <Col className="flex-grow-0">
+                <Col xs={12} md={3} className="d-flex justify-content-md-center">
                     <Form.Check
                         id="jpeg"
                         type="radio"
@@ -140,7 +140,7 @@ const RandomImage: React.FC = () => {
                         onChange={() => setType('jpeg')}
                     />
                 </Col>
-                <Col className="flex-grow-0">
+                <Col xs={12} md={3} className="d-flex justify-content-md-center">
                     <Form.Check
                         id="bmp"
                         type="radio"
@@ -149,7 +149,7 @@ const RandomImage: React.FC = () => {
                         onChange={() => setType('bmp')}
                     />
                 </Col>
-                <Col className="flex-grow-0">
+                <Col xs={12} md={3} className="d-flex justify-content-md-center">
                     <Form.Check
                         id="symbols"
                         type="switch"
@@ -159,12 +159,19 @@ const RandomImage: React.FC = () => {
                     />
                 </Col>
             </Row>
-            <Row className="pb-5 justify-content-center">
-                <Col className="flex-grow-0">
-                    <SpinnerButton active={loading === 'create'} disabled={loading !== 'none'} onClick={onSubmit}>Generate</SpinnerButton>
-                </Col>
-                <Col className="flex-grow-0">
+            <Row className="pb-5 mx-0 justify-content-center align-items-center">
+                <Col xs={12} md={4} className="pb-3 pb-md-0">
                     <SpinnerButton
+                        className="w-100"
+                        active={loading === 'create'}
+                        disabled={loading !== 'none'}
+                        onClick={onSubmit}>
+                        Generate
+                    </SpinnerButton>
+                </Col>
+                <Col xs={6} md={4}>
+                    <SpinnerButton
+                        className="w-100"
                         variant="secondary"
                         active={loading === 'save'}
                         disabled={loading !== 'none' || image === BLANK_IMAGE}
@@ -172,8 +179,14 @@ const RandomImage: React.FC = () => {
                         Save
                     </SpinnerButton>
                 </Col>
-                <Col className="flex-grow-0">
-                    <Button variant="secondary" disabled={loading !== 'none'} onClick={reset}>Reset</Button>
+                <Col xs={6} md={4}>
+                    <Button
+                        className="w-100"
+                        variant="secondary"
+                        disabled={loading !== 'none'}
+                        onClick={reset}>
+                        Reset
+                    </Button>
                 </Col>
             </Row>
         </Wrapper>

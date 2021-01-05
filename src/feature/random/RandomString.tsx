@@ -96,7 +96,7 @@ const RandomString: React.FC = () => {
 
     return (
         <Wrapper>
-            <Row className="py-5 mx-sm-3">
+            <Row className="py-5 mx-0 w-100">
                 <Col>
                     <Form.Control
                         id="output"
@@ -107,9 +107,9 @@ const RandomString: React.FC = () => {
                     />
                 </Col>
             </Row>
-            <Row className="pb-5 mx-sm-3 justify-content-center align-items-center">
-                <Col md={5}>
-                    <InputGroup className="px-0">
+            <Row className="pb-5 mx-0">
+                <Col>
+                    <InputGroup>
                         <InputGroup.Prepend>
                             <InputGroup.Text>Length</InputGroup.Text>
                         </InputGroup.Prepend>
@@ -127,7 +127,9 @@ const RandomString: React.FC = () => {
                         </InputGroup.Append>
                     </InputGroup>
                 </Col>
-                <Col className="flex-grow-0">
+            </Row>
+            <Row className="pb-5 mx-0 justify-content-center align-items-center">
+                <Col xs={6} md={2} className="d-flex justify-content-md-center">
                     <Form.Check
                         id="lowercase"
                         type="switch"
@@ -136,7 +138,7 @@ const RandomString: React.FC = () => {
                         onChange={() => setLowercase(!lowercase)}
                     />
                 </Col>
-                <Col className="flex-grow-0">
+                <Col xs={6} md={2} className="d-flex justify-content-md-center">
                     <Form.Check
                         id="uppercase"
                         type="switch"
@@ -145,7 +147,7 @@ const RandomString: React.FC = () => {
                         onChange={() => setUppercase(!uppercase)}
                     />
                 </Col>
-                <Col className="flex-grow-0">
+                <Col xs={6} md={2} className="d-flex justify-content-md-center">
                     <Form.Check
                         id="digits"
                         type="switch"
@@ -154,7 +156,7 @@ const RandomString: React.FC = () => {
                         onChange={() => setDigits(!digits)}
                     />
                 </Col>
-                <Col className="flex-grow-0">
+                <Col xs={6} md={2} className="d-flex justify-content-md-center">
                     <Form.Check
                         id="symbols"
                         type="switch"
@@ -163,7 +165,7 @@ const RandomString: React.FC = () => {
                         onChange={() => setSymbols(!symbols)}
                     />
                 </Col>
-                <Col className="flex-grow-0">
+                <Col xs={12} md={2} className="d-flex justify-content-md-center">
                     <Form.Check
                         id="whitespace"
                         type="switch"
@@ -173,15 +175,28 @@ const RandomString: React.FC = () => {
                     />
                 </Col>
             </Row>
-            <Row className="pb-5 justify-content-center">
-                <Col className="flex-grow-0">
-                    <SpinnerButton active={loading === 'create'} disabled={loading !== 'none'} onClick={generate}>Generate</SpinnerButton>
-                </Col>
-                <Col className="flex-grow-0">
-                    <Button variant="secondary" disabled={loading !== 'none' || output === ''} onClick={copy}>Copy</Button>
-                </Col>
-                <Col className="flex-grow-0">
+            <Row className="pb-5 mx-0 justify-content-center align-items-center">
+                <Col xs={12} md={3} className="pb-3 pb-md-0">
                     <SpinnerButton
+                        className="w-100"
+                        active={loading === 'create'}
+                        disabled={loading !== 'none'}
+                        onClick={generate}>
+                        Generate
+                    </SpinnerButton>
+                </Col>
+                <Col xs={4} md={3}>
+                    <Button
+                        className="w-100"
+                        variant="secondary"
+                        disabled={loading !== 'none' || output === ''}
+                        onClick={copy}>
+                        Copy
+                    </Button>
+                </Col>
+                <Col xs={4} md={3}>
+                    <SpinnerButton
+                        className="w-100"
                         variant="secondary"
                         active={loading === 'save'}
                         disabled={loading !== 'none' || output === ''}
@@ -189,8 +204,14 @@ const RandomString: React.FC = () => {
                         Save
                     </SpinnerButton>
                 </Col>
-                <Col className="flex-grow-0">
-                    <Button variant="secondary" disabled={loading !== 'none'} onClick={reset}>Reset</Button>
+                <Col xs={4} md={3}>
+                    <Button
+                        className="w-100"
+                        variant="secondary"
+                        disabled={loading !== 'none'}
+                        onClick={reset}>
+                        Reset
+                    </Button>
                 </Col>
             </Row>
         </Wrapper>

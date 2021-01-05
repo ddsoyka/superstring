@@ -9,3 +9,7 @@
 .modal-content > .modal-footer {
     justify-content: center;
 }
+
+.form-check {
+    width: fit-content;
+}

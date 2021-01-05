@@ -98,8 +98,8 @@ const RandomWords: React.FC = () => {
 
     return (
         <Wrapper>
-            <Row className="py-5">
-                <Col className="flex-grow-0 flex-md-grow-1" />
+            <Row className="py-5 mx-0 w-100">
+                <Col>
                     <Form.Control
                         id="output"
                         as="textarea"
@@ -107,11 +107,11 @@ const RandomWords: React.FC = () => {
                         rows={15}
                         readOnly
                     />
-                <Col className="flex-grow-0 flex-md-grow-1" />
+                </Col>
             </Row>
-            <Row className="pb-5 mx-sm-3">
+            <Row className="pb-5 mx-0">
                 <Col>
-                    <InputGroup className="px-0">
+                    <InputGroup>
                         <InputGroup.Prepend>
                             <InputGroup.Text>Length</InputGroup.Text>
                         </InputGroup.Prepend>
@@ -130,8 +130,8 @@ const RandomWords: React.FC = () => {
                     </InputGroup>
                 </Col>
             </Row>
-            <Row className="pb-5 mx-sm-3 justify-content-center align-items-center">
-                <Col className="flex-grow-0">
+            <Row className="pb-5 mx-0 justify-content-center align-items-center">
+                <Col xs={12} md={4} className="d-flex justify-content-md-center">
                     <Form.Check
                         id="none"
                         type="radio"
@@ -140,7 +140,7 @@ const RandomWords: React.FC = () => {
                         onChange={() => setSeparator("")}
                     />
                 </Col>
-                <Col className="flex-grow-0">
+                <Col xs={12} md={4} className="d-flex justify-content-md-center">
                     <Form.Check
                         id="space"
                         type="radio"
@@ -149,7 +149,7 @@ const RandomWords: React.FC = () => {
                         onChange={() => setSeparator(" ")}
                     />
                 </Col>
-                <Col className="flex-grow-0 text-nowrap">
+                <Col xs={12} md={4} className="d-flex justify-content-md-center text-nowrap">
                     <Form.Check
                         id="newline"
                         type="radio"
@@ -159,15 +159,28 @@ const RandomWords: React.FC = () => {
                     />
                 </Col>
             </Row>
-            <Row className="pb-5 justify-content-center">
-                <Col className="flex-grow-0">
-                    <SpinnerButton active={loading === 'create'} disabled={loading !== 'none'} onClick={onSubmit}>Generate</SpinnerButton>
-                </Col>
-                <Col className="flex-grow-0">
-                    <Button variant="secondary" disabled={loading !== 'none' || output === ''} onClick={copy}>Copy</Button>
-                </Col>
-                <Col className="flex-grow-0">
+            <Row className="pb-5 mx-0 justify-content-center align-items-center">
+                <Col xs={12} md={3} className="pb-3 pb-md-0">
                     <SpinnerButton
+                        className="w-100"
+                        active={loading === 'create'}
+                        disabled={loading !== 'none'}
+                        onClick={onSubmit}>
+                        Generate
+                    </SpinnerButton>
+                </Col>
+                <Col xs={4} md={3}>
+                    <Button
+                        className="w-100"
+                        variant="secondary"
+                        disabled={loading !== 'none' || output === ''}
+                        onClick={copy}>
+                        Copy
+                    </Button>
+                </Col>
+                <Col xs={4} md={3}>
+                    <SpinnerButton
+                        className="w-100"
                         variant="secondary"
                         active={loading === 'save'}
                         disabled={loading !== 'none' || output === ''}
@@ -175,8 +188,14 @@ const RandomWords: React.FC = () => {
                         Save
                     </SpinnerButton>
                 </Col>
-                <Col className="flex-grow-0">
-                    <Button variant="secondary" disabled={loading !== 'none'} onClick={reset}>Reset</Button>
+                <Col xs={4} md={3}>
+                    <Button
+                        className="w-100"
+                        variant="secondary"
+                        disabled={loading !== 'none'}
+                        onClick={reset}>
+                        Reset
+                    </Button>
                 </Col>
             </Row>
         </Wrapper>
