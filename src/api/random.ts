@@ -8,23 +8,21 @@ export enum DataType {
 
 const QUOTA = 16384;
 
-const entropy = (type: DataType, size: number): number[] => {
-    let output;
+const entropy = <T extends Uint8Array | Uint32Array>(type: DataType, size: number): T => {
+    let output: T;
 
     switch (type) {
         case DataType.Uint8:
-            output = new Uint8Array(size);
+            output = new Uint8Array(size) as T;
             break;
         case DataType.Uint32:
-            output = new Uint32Array(size);
+            output = new Uint32Array(size) as T;
             break;
         default:
             throw Error(`Unsupported data format ${type}`);
     }
 
-    crypto.getRandomValues(output);
-
-    return Array.from(output);
+    return crypto.getRandomValues<T>(output);
 };
 
 export const getRandomNumbers = (type: DataType, size: number) => Utility.async(
@@ -33,19 +31,22 @@ export const getRandomNumbers = (type: DataType, size: number) => Utility.async(
         if (size === 0) return [];
 
         const start = performance.now();
-        const data = [];
+        const data = [] as number[];
         const quotient = Math.floor(size / QUOTA);
         const remainder = size % QUOTA;
 
-        for (let index = 0; index < quotient; index++) data.push(entropy(type, QUOTA));
-        if (quotient === 0 || remainder > 0) data.push(entropy(type, remainder));
+        const add = (entropy: Uint8Array | Uint32Array) => {
+            for (let index = 0; index < entropy.length; index++) data.push(entropy[index]);
+        };
 
-        const output = data.flat();
+        for (let index = 0; index < quotient; index++) add(entropy(type, QUOTA));
+        if (quotient === 0 || remainder > 0) add(entropy(type, remainder));
+
         const end = performance.now();
 
         Utility.debug(`Generated ${size} random numbers in ${end - start}ms`);
 
-        return output;
+        return data;
     }
 );
 
