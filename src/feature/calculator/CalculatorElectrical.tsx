@@ -115,7 +115,7 @@ const CalculatorElectrical: React.FC = () => {
 
     return (
         <Wrapper>
-            <Row className="py-5">
+            <Row className="py-5 mx-0">
                 <Col md={6}>
                     <InputGroup>
                         <InputGroup.Prepend>
@@ -205,15 +205,17 @@ const CalculatorElectrical: React.FC = () => {
                     </InputGroup>
                 </Col>
             </Row>
-            <Row className="pb-5 justify-content-center">
-                <Col className="flex-grow-0">
-                    <Button disabled={isDisabled()} onClick={calculate}>Calculate</Button>
+            <Row className="pb-5 mx-0 justify-content-center align-items-center">
+                <Col md />
+                <Col>
+                    <Button className="w-100" disabled={isDisabled()} onClick={calculate}>Calculate</Button>
                 </Col>
-                <Col className="flex-grow-0">
-                    <Button variant="secondary" onClick={reset}>Reset</Button>
+                <Col>
+                    <Button className="w-100" variant="secondary" onClick={reset}>Reset</Button>
                 </Col>
+                <Col md />
             </Row>
-            <Row className="pb-5">
+            <Row className="pb-5 mx-0">
                 <Col>
                     <MathJax.Provider>
                         <h1 className="p-1 border-bottom text-center">Ohms</h1>
