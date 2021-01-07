@@ -216,7 +216,7 @@ const CalculatorElectrical: React.FC = () => {
                 <Col md />
             </Row>
             <Row className="pb-5 mx-0">
-                <Col>
+                <Col xs={6} md={3}>
                     <MathJax.Provider>
                         <h1 className="p-1 border-bottom text-center">Ohms</h1>
                         <br />
@@ -229,7 +229,7 @@ const CalculatorElectrical: React.FC = () => {
                         </div>
                     </MathJax.Provider>
                 </Col>
-                <Col>
+                <Col xs={6} md={3}>
                     <MathJax.Provider>
                         <h1 className="p-1 border-bottom text-center">Amps</h1>
                         <br />
@@ -242,7 +242,7 @@ const CalculatorElectrical: React.FC = () => {
                         </div>
                     </MathJax.Provider>
                 </Col>
-                <Col>
+                <Col xs={6} md={3}>
                     <MathJax.Provider>
                         <h1 className="p-1 border-bottom text-center">Volts</h1>
                         <br />
@@ -255,7 +255,7 @@ const CalculatorElectrical: React.FC = () => {
                         </div>
                     </MathJax.Provider>
                 </Col>
-                <Col>
+                <Col xs={6} md={3}>
                     <MathJax.Provider>
                         <h1 className="p-1 border-bottom text-center">Watts</h1>
                         <br />
