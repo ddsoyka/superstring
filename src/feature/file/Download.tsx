@@ -10,7 +10,7 @@ import {
 from 'react-bootstrap';
 import * as State from '../../app/store';
 import * as Utility from '../../api/utility';
-import {hideDownload} from './fileSlice';
+import { hideDownload } from './fileSlice';
 
 const Download: React.FC = () => {
     const { show, download } = ReactRedux.useSelector((state: State.RootState) => state.file);
@@ -20,7 +20,7 @@ const Download: React.FC = () => {
     const save = () => {
         if (!download.data) throw Error('No data to save');
 
-        FileSaver.saveAs(download.data, `${download.hash}.${download.type}`)
+        FileSaver.saveAs(download.data, `${download.hash}.${download.type}`);
 
         dispatch(hideDownload());
     };

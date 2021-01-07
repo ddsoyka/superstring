@@ -1,19 +1,19 @@
 import * as Toolkit from '@reduxjs/toolkit';
 
 interface FileState {
-    show: 'none' | 'upload' | 'download'
+    show: 'none' | 'upload' | 'download';
     download: {
-        type: string | undefined
-        data: Blob | null
-        hash: string | undefined
-    }
-    upload: FileList | null
+        type: string | undefined;
+        data: Blob | null;
+        hash: string | undefined;
+    };
+    upload: FileList | null;
 }
 
 interface Downloadable {
-    type: string
-    data: Blob
-    hash: string
+    type: string;
+    data: Blob;
+    hash: string;
 }
 
 const initialFileState: FileState = {
@@ -24,7 +24,7 @@ const initialFileState: FileState = {
         hash: undefined
     },
     upload: null
-}
+};
 
 const fileSlice = Toolkit.createSlice({
     name: 'file',
@@ -36,7 +36,7 @@ const fileSlice = Toolkit.createSlice({
                 type: action.payload.type,
                 data: action.payload.data,
                 hash: action.payload.hash
-            }
+            };
         },
         hideDownload(state) {
             state.show = 'none';
@@ -44,11 +44,11 @@ const fileSlice = Toolkit.createSlice({
                 type: undefined,
                 data: null,
                 hash: undefined
-            }
+            };
         }
     }
 });
 
-export const {showDownload, hideDownload} = fileSlice.actions;
+export const { showDownload, hideDownload } = fileSlice.actions;
 
 export default fileSlice;
