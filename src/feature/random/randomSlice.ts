@@ -5,7 +5,7 @@ import * as Files from '../../api/file';
 import * as Random from '../../api/random';
 import * as State from '../../app/store';
 import * as Utility from '../../api/utility';
-import { render } from '../../api/image';
+import { render, Resolution } from '../../api/image';
 import { showDownload } from '../file/fileSlice';
 import english from '../../assets/english.zip';
 
@@ -97,8 +97,9 @@ export const createRandomWords: State.AppAsyncThunk<string, WordsGenerationArgum
 export const createRandomImage = Toolkit.createAsyncThunk(
     'random/createRandomImage',
     async (arg: ImageGenerationArgument) => {
-        const data = await Random.getRandomNumbers(Random.DataType.Uint8, arg.width * arg.height);
-        const image = await render(data, arg.mime, arg.grayscale);
+        const data = await Random.getRandomNumbers(Random.DataType.Uint8, arg.width * arg.height * 3);
+        const resolution = new Resolution(arg.width, arg.height);
+        const image = await render(data, arg.mime, arg.grayscale, resolution);
         return image;
     }
 );

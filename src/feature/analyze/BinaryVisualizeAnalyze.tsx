@@ -38,6 +38,7 @@ const BinaryVisualizeAnalyze: React.FC = () => {
 
     const reset = () => {
         setImage(BLANK_IMAGE);
+        setFiles(null);
     };
 
     const onSubmit = async () => {
@@ -48,11 +49,17 @@ const BinaryVisualizeAnalyze: React.FC = () => {
             else {
                 const file = files[0];
 
-                Utility.debug(`Ready to upload "${file.name}" which is ${Utility.humanize(file.size)}`);
+                Utility.debug(`Selected "${file.name}" which is ${Utility.humanize(file.size)}`);
 
                 // Throw an exception if the file size is out of bounds.
-                if (file.size < 1) throw Error(`${file.name} is an empty file`);
-                if (file.size > MAXIMUM_SIZE) throw Error(`The input file size of ${Utility.humanize(file.size)} is too large`);
+                if (file.size < 1) {
+                    reset();
+                    throw Error(`${file.name} is an empty file`);
+                }
+                if (file.size > MAXIMUM_SIZE) {
+                    reset();
+                    throw Error(`The input file size of ${Utility.humanize(file.size)} is too large`);
+                }
 
                 setImage(BLANK_IMAGE);
 
