@@ -20,6 +20,8 @@ import Download from '../feature/file/Download';
 import Convert from '../feature/convert/Convert';
 import Calculator from '../feature/calculator/Calculator';
 import CalculatorElectrical from '../feature/calculator/CalculatorElectrical';
+import Analyze from '../feature/analyze/Analyze';
+import BinaryVisualizeAnalyze from '../feature/analyze/BinaryVisualizeAnalyze';
 import './App.css';
 
 const App: React.FC = () => {
@@ -37,6 +39,8 @@ const App: React.FC = () => {
                     <Route path="/convert" exact component={Convert} />
                     <Route path="/calculator" exact component={Calculator} />
                     <Route path="/calculator/electrical" component={CalculatorElectrical} />
+                    <Route path="/analyze" component={Analyze} />
+                    <Route path="analyze/binary-visualize" component={BinaryVisualizeAnalyze} />
                     <Route path="/" exact component={Home} />
                     <Route component={NotFound} />
                 </Switch>
