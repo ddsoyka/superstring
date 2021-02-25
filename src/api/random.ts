@@ -1,4 +1,3 @@
-import Jimp from 'jimp/es';
 import * as Utility from './utility';
 
 export enum DataType {
@@ -99,41 +98,5 @@ export const getRandomWords = async (count: number, dictionary: string[], separa
         Utility.debug(`Generated ${count} random words in ${end - start}ms`);
 
         return output.join(separator);
-    }
-);
-
-export const getRandomImage = (width: number, height: number, mime: string, grayscale: boolean) => Utility.async(
-    async () => {
-        if (width < 1 || height < 1) throw Error('All dimensions must be greater than zero');
-        if (!/image\/(png|jpeg|bmp)/.test(mime)) throw Error('Invalid mime type');
-
-        const array = new Uint8Array(width * height * 4);
-        const size = width * height * 3;
-        const data = await getRandomNumbers(DataType.Uint8, size);
-        const start = performance.now();
-
-        for (let i = 0, j = 0; i < size; i += 3, j += 4) {
-            array[j] = data[i];
-            array[j + 1] = data[i + 1];
-            array[j + 2] = data[i + 2];
-            array[j + 3] = 255;
-        }
-
-        const buffer = Buffer.from(array);
-        const raw = {
-            data: buffer,
-            width: width,
-            height: height
-        };
-        const image = new Jimp(raw);
-
-        if (grayscale) image.grayscale();
-
-        const base64 = await image.getBase64Async(mime);
-        const end = performance.now();
-
-        Utility.debug(`Rendered an image of ${Utility.humanize(size)} in ${end - start}ms`);
-
-        return base64;
     }
 );

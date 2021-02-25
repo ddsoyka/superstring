@@ -70,6 +70,14 @@ import {
     ReactComponent as Calculator
 }
 from './calculator.svg';
+import {
+    ReactComponent as Visualize
+}
+from './visualize.svg';
+import {
+    ReactComponent as Analyze
+}
+from './analyze.svg';
 
 const Images = {
     Logo,
@@ -89,7 +97,9 @@ const Images = {
     Word,
     Convert,
     NotFound,
-    Calculator
+    Calculator,
+    Visualize,
+    Analyze
 };
 
 export default Images;
