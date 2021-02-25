@@ -5,6 +5,7 @@ import * as Files from '../../api/file';
 import * as Random from '../../api/random';
 import * as State from '../../app/store';
 import * as Utility from '../../api/utility';
+import { render } from '../../api/image';
 import { showDownload } from '../file/fileSlice';
 import english from '../../assets/english.zip';
 
@@ -95,7 +96,11 @@ export const createRandomWords: State.AppAsyncThunk<string, WordsGenerationArgum
 
 export const createRandomImage = Toolkit.createAsyncThunk(
     'random/createRandomImage',
-    async (arg: ImageGenerationArgument) => await Random.getRandomImage(arg.width, arg.height, arg.mime, arg.grayscale)
+    async (arg: ImageGenerationArgument) => {
+        const data = await Random.getRandomNumbers(Random.DataType.Uint8, arg.width * arg.height);
+        const image = await render(data, arg.mime, arg.grayscale);
+        return image;
+    }
 );
 
 export const saveRandomData: State.AppAsyncThunk<void, SaveRandomDataArgument> = Toolkit.createAsyncThunk(
@@ -108,6 +113,7 @@ export const saveRandomData: State.AppAsyncThunk<void, SaveRandomDataArgument> =
 
         let data: Blob;
 
+        // Text data tends to compress well, so generate a ZIP archive from the input data.
         if (arg.type === 'txt') {
             const hash = await Files.hash(arg.data);
 
@@ -124,8 +130,10 @@ export const saveRandomData: State.AppAsyncThunk<void, SaveRandomDataArgument> =
         }
         else data = await Utility.base64ToBlob(arg.data);
 
+        // Transform Blob type to Buffer type.
         const arrayBuffer = await data.arrayBuffer();
         const buffer = Buffer.from(arrayBuffer);
+
         const hash = await Files.hash(buffer);
 
         const download = {

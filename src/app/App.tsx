@@ -39,8 +39,8 @@ const App: React.FC = () => {
                     <Route path="/convert" exact component={Convert} />
                     <Route path="/calculator" exact component={Calculator} />
                     <Route path="/calculator/electrical" component={CalculatorElectrical} />
-                    <Route path="/analyze" component={Analyze} />
-                    <Route path="analyze/binary-visualize" component={BinaryVisualizeAnalyze} />
+                    <Route path="/analyze" exact component={Analyze} />
+                    <Route path="/analyze/binary-visualize" component={BinaryVisualizeAnalyze} />
                     <Route path="/" exact component={Home} />
                     <Route component={NotFound} />
                 </Switch>

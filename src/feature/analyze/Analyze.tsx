@@ -29,7 +29,7 @@ const Analyze: React.FC = () => {
                 <CardDeck>
                     <Card>
                         <Card.Body>
-                            <Card.Title>Binary Data Visualizer</Card.Title>
+                            <Card.Title>Binary Visualizer</Card.Title>
                             <Card.Text>
                                 Create a graphical representation of any binary file.
                             </Card.Text>
