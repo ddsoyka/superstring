@@ -84,10 +84,7 @@ export const log = (message: any, level?: Level) => {
     }
 };
 
-export const debug = (message: any) => {
-    if (process.env.NODE_ENV === `production`) return;
-    log(message, Level.DEBUG);
-};
+export const debug = (message: any) => process.env.NODE_ENV === `development` && log(message, Level.DEBUG);
 
 export const info = (message: any) => log(message, Level.INFO);
 

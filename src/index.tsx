@@ -33,4 +33,4 @@ ReactDOM.render(
 
 serviceWorkerRegistration.register();
 
-reportWebVitals();
+if (process.env.NODE_ENV === `development`) reportWebVitals(console.log);
