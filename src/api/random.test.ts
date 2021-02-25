@@ -54,18 +54,4 @@ describe('random', () => {
             await expect(random.getRandomWords(0, [])).rejects.toThrow();
         });
     });
-    describe('image', () => {
-        it('can generate a PNG image', async () => {
-            const base64 = await random.getRandomImage(64, 64, 'image/png', false);
-            const expected = [0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A];
-            const bytes = Uint8Array.from(atob(base64.slice(22, 33)), c => c.charCodeAt(0));
-            expect(bytes).not.toEqual(expect.arrayContaining(expected));
-        });
-        it('throws on an invalid dimension', async () => {
-            await expect(random.getRandomImage(0, 0, 'image/png', false)).rejects.toThrow();
-        });
-        it('throws on invalid mime type', async () => {
-            await expect(random.getRandomImage(1, 1, '', false)).rejects.toThrow();
-        });
-    });
 });
