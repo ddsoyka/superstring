@@ -5,6 +5,7 @@ import {
     Route
 }
 from 'react-router-dom';
+import MathJax from 'react-mathjax';
 import Navigation from '../feature/navigation/Navigation';
 import Home from '../page/Home';
 import About from '../page/About';
@@ -29,21 +30,23 @@ const App: React.FC = () => {
         <Router basename={process.env.PUBLIC_URL}>
             <Navigation />
             <main>
-                <Switch>
-                    <Route path="/about" component={About} />
-                    <Route path="/help" component={Help} />
-                    <Route path="/random" exact component={Random} />
-                    <Route path="/random/string" component={RandomString} />
-                    <Route path="/random/words" component={RandomWords} />
-                    <Route path="/random/image" component={RandomImage} />
-                    <Route path="/convert" exact component={Convert} />
-                    <Route path="/calculator" exact component={Calculator} />
-                    <Route path="/calculator/electrical" component={CalculatorElectrical} />
-                    <Route path="/analyze" exact component={Analyze} />
-                    <Route path="/analyze/binary-visualize" component={BinaryVisualizeAnalyze} />
-                    <Route path="/" exact component={Home} />
-                    <Route component={NotFound} />
-                </Switch>
+                <MathJax.Provider>
+                    <Switch>
+                        <Route path="/about" component={About} />
+                        <Route path="/help" component={Help} />
+                        <Route path="/random" exact component={Random} />
+                        <Route path="/random/string" component={RandomString} />
+                        <Route path="/random/words" component={RandomWords} />
+                        <Route path="/random/image" component={RandomImage} />
+                        <Route path="/convert" exact component={Convert} />
+                        <Route path="/calculator" exact component={Calculator} />
+                        <Route path="/calculator/electrical" component={CalculatorElectrical} />
+                        <Route path="/analyze" exact component={Analyze} />
+                        <Route path="/analyze/binary-visualize" component={BinaryVisualizeAnalyze} />
+                        <Route path="/" exact component={Home} />
+                        <Route component={NotFound} />
+                    </Switch>
+                </MathJax.Provider>
             </main>
             <Errors />
             <Download />
