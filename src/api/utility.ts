@@ -44,13 +44,14 @@ export const humanize = (size?: number): string => {
  *
  * @param fn The function to execute.
  */
-export const async = <T>(fn: () => T): Promise<T> => {
+export const async = <T>(fn: () => T | Promise<T>): Promise<T> => {
     if (!fn) throw Error('No function was provided');
     return new Promise<T>(
         (resolve, reject) => {
-            const executor = () => {
+            const executor = async () => {
                 try {
-                    const result = fn();
+                    const value = fn();
+                    const result = await Promise.resolve(value);
                     resolve(result);
                 }
                 catch (error) {

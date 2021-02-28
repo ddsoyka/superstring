@@ -24,7 +24,11 @@ const entropy = <T extends Uint8Array | Uint32Array>(type: DataType, size: numbe
     return crypto.getRandomValues<T>(output);
 };
 
-export const getRandomNumbers = (type: DataType, size: number) => Utility.async(
+export
+const getRandomNumbers = (
+    type: DataType,
+    size: number
+): Promise<number[]> => Utility.async(
     () => {
         if (size < 0) throw Error('Argument must not be negative');
         if (size === 0) return [];
@@ -49,7 +53,11 @@ export const getRandomNumbers = (type: DataType, size: number) => Utility.async(
     }
 );
 
-export const getRandomString = async (count: number, characters: string) => Utility.async(
+export
+const getRandomString = (
+    count: number,
+    characters: string
+): Promise<string> => Utility.async(
     async () => {
         if (count < 0) throw Error('Argument must not be negative');
         if (characters.length === 0) throw Error('No characters provided');
@@ -75,7 +83,12 @@ export const getRandomString = async (count: number, characters: string) => Util
     }
 );
 
-export const getRandomWords = async (count: number, dictionary: string[], separator: string = '') => Utility.async(
+export
+const getRandomWords = (
+    count: number,
+    dictionary: string[],
+    separator: string = ''
+): Promise<string> => Utility.async(
     async () => {
         if (count < 0) throw Error('Argument must not be negative');
         if (dictionary.length === 0) throw Error('Dictionary is empty');

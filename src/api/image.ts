@@ -71,7 +71,13 @@ const transform = (resolution: Resolution, data: ArrayLike<number>): Uint8Array 
  * @param mime The MIME type of the image to create.
  * @param grayscale Toggle grayscale rendering.
  */
-export const render = (data: ArrayLike<number>, mime: string, grayscale: boolean, resolution?: Resolution) => Utility.async(
+export
+const render = (
+    data: ArrayLike<number>,
+    mime: string,
+    grayscale: boolean,
+    resolution?: Resolution
+): Promise<string> => Utility.async(
     async () => {
         const start = performance.now();
         const size = data.length;
