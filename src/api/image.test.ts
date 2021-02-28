@@ -8,12 +8,12 @@ const defaults = {
 
 
 describe('rendering', () => {
-    it('throws when passed an empty data buffer', () => {
+    it('throws when passed an empty data buffer', async () => {
         const data = [] as number[];
-        expect(render(data, defaults.mime, defaults.grayscale)).rejects.toThrow();
+        await expect(render(data, defaults.mime, defaults.grayscale)).rejects.toThrow();
     });
-    it('throws when passed an invalid MIME type', () => {
+    it('throws when passed an invalid MIME type', async () => {
         const mime = 'invalid';
-        expect(render(defaults.data, mime, defaults.grayscale)).rejects.toThrow();
+        await expect(render(defaults.data, mime, defaults.grayscale)).rejects.toThrow();
     });
 });

@@ -1,5 +1,5 @@
 import Jimp from 'jimp/es';
-import * as Utility from './utility';
+import { debug, async, humanize } from './utility';
 
 /**
  * Specifies a resolution for an image in pixels.
@@ -28,6 +28,8 @@ const calculate = (size: number): Resolution => {
     const square = Math.sqrt(size);
     const ceiling = Math.ceil(square);
     const width = ceiling, height = ceiling;
+
+    debug(`Calculated a resolution of ${width}x${height} pixels from an input size of ${humanize(size)}`);
 
     return new Resolution(width, height);
 };
@@ -77,7 +79,7 @@ const render = (
     mime: string,
     grayscale: boolean,
     resolution?: Resolution
-): Promise<string> => Utility.async(
+): Promise<string> => async(
     async () => {
         const start = performance.now();
         const size = data.length;
@@ -90,8 +92,6 @@ const render = (
 
         // If no resolution is provided, then calculate an appropriate resolution instead.
         if (!resolution) resolution = calculate(size);
-
-        Utility.debug(`Rendering an image of ${resolution.width}x${resolution.height} pixels from ${Utility.humanize(size)} of input data`);
 
         // Transform each byte into a single RGBA pixel.
         const array = transform(resolution, data);
@@ -110,10 +110,9 @@ const render = (
 
         // Encode image data as Base64.
         const base64 = await image.getBase64Async(mime);
-
         const end = performance.now();
 
-        Utility.debug(`Rendered an image in ${end - start} ms`);
+        debug(`Rendered an image in ${end - start}ms`);
 
         return base64;
     }

@@ -1,115 +1,113 @@
-import * as Utility from './utility';
+import { debug, async } from './utility';
 
+/**
+ * Defines primitive data types.
+ */
 export enum DataType {
     Uint8,
     Uint32
 }
 
-const QUOTA = 16384;
+type RandomValueArray = Uint8Array | Uint32Array;
 
-const entropy = <T extends Uint8Array | Uint32Array>(type: DataType, size: number): T => {
-    let output: T;
+// The amount of data requested in a single operation cannot exceed this value.
+const QUOTA = 2 ** 14;
 
-    switch (type) {
-        case DataType.Uint8:
-            output = new Uint8Array(size) as T;
-            break;
-        case DataType.Uint32:
-            output = new Uint32Array(size) as T;
-            break;
-        default:
-            throw Error(`Unsupported data format ${type}`);
-    }
-
-    return crypto.getRandomValues<T>(output);
-};
-
+/**
+ * Returns a list of random numbers.
+ * 
+ * @param size The number of values to return.
+ * @param type The data type of the values.
+ */
 export
-const getRandomNumbers = (
-    type: DataType,
-    size: number
-): Promise<number[]> => Utility.async(
+const getRandom = (
+    size: number,
+    type: DataType
+): Promise<number[]> => async(
     () => {
+        const start = performance.now();
+
+        // Perform sanity checks.
         if (size < 0) throw Error('Argument must not be negative');
         if (size === 0) return [];
-
-        const start = performance.now();
+    
         const data = [] as number[];
+    
+        // Split the requested output size into a number of chunks.
         const quotient = Math.floor(size / QUOTA);
         const remainder = size % QUOTA;
-
-        const add = (entropy: Uint8Array | Uint32Array) => {
-            for (let index = 0; index < entropy.length; index++) data.push(entropy[index]);
-        };
-
-        for (let index = 0; index < quotient; index++) add(entropy(type, QUOTA));
-        if (quotient === 0 || remainder > 0) add(entropy(type, remainder));
-
+    
+        let array: RandomValueArray;
+    
+        // Create a transfer buffer of the appropriate type.
+        switch (type) {
+            case DataType.Uint8:
+                array = new Uint8Array(QUOTA);
+                break;
+            case DataType.Uint32:
+                array = new Uint32Array(QUOTA);
+                break;
+            default:
+                throw Error('Unrecognized data type');
+        }
+    
+        // Fill a typed array with data and add it to the output.
+        for (let index = 0; index < quotient; index++) {
+            crypto.getRandomValues(array);
+            const values = Array.from(array);
+            data.push(...values);
+        }
+    
+        // Add any data that didn't fit into the previous quotas.
+        if (quotient === 0 || remainder > 0) {
+            crypto.getRandomValues(array);
+            const values = Array.from(array).slice(0, remainder);
+            data.push(...values);
+        }
+    
         const end = performance.now();
-
-        Utility.debug(`Generated ${size} random numbers in ${end - start}ms`);
-
+    
+        debug(`Generated ${size} random numbers in ${end - start}ms`);
+    
         return data;
     }
 );
 
+/**
+ * Returns a list of elements chosen randomly from an input list.
+ * 
+ * @param count The number of elements to return.
+ * @param set An array of input elements.
+ */
 export
-const getRandomString = (
+const pickRandom = <T> (
     count: number,
-    characters: string
-): Promise<string> => Utility.async(
+    choices: T[]
+): Promise<T[]> => async(
     async () => {
+        // Perform sanity checks.
         if (count < 0) throw Error('Argument must not be negative');
-        if (characters.length === 0) throw Error('No characters provided');
-        if (count === 0) return '';
+        if (!choices.length || count === 0) return [];
 
-        const values = await getRandomNumbers(DataType.Uint32, count);
-        const start = performance.now();
-        let output = '';
-
-        for (let index = 0; index < count; index++) {
-            const number = values[index] / (0xffffffff + 1);
-            const position = Math.floor(number * characters.length);
-            const character = characters.charAt(position);
-
-            output += character;
-        }
-
-        const end = performance.now();
-
-        Utility.debug(`Generated ${count} random characters in ${end - start}ms`);
-
-        return output;
-    }
-);
-
-export
-const getRandomWords = (
-    count: number,
-    dictionary: string[],
-    separator: string = ''
-): Promise<string> => Utility.async(
-    async () => {
-        if (count < 0) throw Error('Argument must not be negative');
-        if (dictionary.length === 0) throw Error('Dictionary is empty');
-        if (count === 0) return '';
-
-        const values = await getRandomNumbers(DataType.Uint32, count);
+        // Get entropy.
+        const values = await getRandom(count, DataType.Uint32);
+        
         const start = performance.now();
         let output = [];
 
+        // Pick elements from the input list randomly and add them to the output array.
         for (let index = 0; index < count; index++) {
             const number = values[index] / (0xffffffff + 1);
-            const position = Math.floor(number * dictionary.length);
-            const word = dictionary[position];
+            const position = Math.floor(number * choices.length);
+            const element = choices[position];
 
-            output.push(word);
+            output.push(element);
         }
 
         const end = performance.now();
 
-        Utility.debug(`Generated ${count} random words in ${end - start}ms`);
+        debug(`Picked ${count} random elements in ${end - start}ms`);
 
-        return output.join(separator);
+        return output;
     }
 );

@@ -2,9 +2,9 @@ import * as Toolkit from '@reduxjs/toolkit';
 import Language from '../../api/Language';
 import * as Network from '../../api/network';
 import * as Files from '../../api/file';
-import * as Random from '../../api/random';
 import * as State from '../../app/store';
-import * as Utility from '../../api/utility';
+import { debug, info, base64ToBlob, PendingAction, RejectedAction, FulfilledAction } from '../../api/utility';
+import { getRandom, pickRandom, DataType } from '../../api/random';
 import { render, Resolution } from '../../api/image';
 import { showDownload } from '../file/fileSlice';
 import english from '../../assets/english.zip';
@@ -74,7 +74,7 @@ export const loadDictionary = Toolkit.createAsyncThunk(
 
         const end = performance.now();
 
-        Utility.debug(`Fetched ${sorted.length} words for ${arg} in ${end - start}ms`);
+        info(`Fetched ${sorted.length} words for ${arg} in ${end - start}ms`);
 
         return sorted;
     }
@@ -82,24 +82,40 @@ export const loadDictionary = Toolkit.createAsyncThunk(
 
 export const createRandomString = Toolkit.createAsyncThunk(
     'random/createRandomString',
-    async (arg: StringGenerationArgument) => await Random.getRandomString(arg.count, arg.characters)
+    async (arg: StringGenerationArgument) => {
+        const start = performance.now();
+        const characters = arg.characters.split("");
+        const array = await pickRandom(arg.count, characters);
+        const output = array.join("");
+        const end = performance.now();
+        info(`Created a random string of ${output.length} characters in ${end - start}ms`);
+        return output;
+    }
 );
 
 export const createRandomWords: State.AppAsyncThunk<string, WordsGenerationArgument> = Toolkit.createAsyncThunk(
     'random/createRandomWords',
     async (arg, api) => {
+        const start = performance.now();
         const state = api.getState();
         if (!state.random.dictionary) throw Error('Missing word list');
-        return await Random.getRandomWords(arg.count, state.random.dictionary, arg.separator);
+        const array = await pickRandom(arg.count, state.random.dictionary);
+        const output = array.join(arg.separator);
+        const end = performance.now();
+        info(`Chose ${arg.count} random words in ${end - start}ms`);
+        return output;
     }
 );
 
 export const createRandomImage = Toolkit.createAsyncThunk(
     'random/createRandomImage',
     async (arg: ImageGenerationArgument) => {
-        const data = await Random.getRandomNumbers(Random.DataType.Uint8, arg.width * arg.height * 3);
+        const start = performance.now();
+        const data = await getRandom(arg.width * arg.height * 3, DataType.Uint8);
         const resolution = new Resolution(arg.width, arg.height);
         const image = await render(data, arg.mime, arg.grayscale, resolution);
+        const end = performance.now();
+        info(`Created a random image with ${arg.width}x${arg.height} pixels in ${end - start}ms`);
         return image;
     }
 );
@@ -127,9 +143,9 @@ export const saveRandomData: State.AppAsyncThunk<void, SaveRandomDataArgument> =
 
             const end = performance.now();
 
-            Utility.debug(`Compressed a file in ${end - start}ms`);
+            debug(`Compressed a file in ${end - start}ms`);
         }
-        else data = await Utility.base64ToBlob(arg.data);
+        else data = await base64ToBlob(arg.data);
 
         // Transform Blob type to Buffer type.
         const arrayBuffer = await data.arrayBuffer();
@@ -145,7 +161,7 @@ export const saveRandomData: State.AppAsyncThunk<void, SaveRandomDataArgument> =
 
         const end = performance.now();
 
-        Utility.debug(`Prepared item ${hash} for download in ${end - start}ms`);
+        info(`Prepared item ${hash} for download in ${end - start}ms`);
 
         api.dispatch(showDownload(download));
     }
@@ -182,21 +198,21 @@ const randomSlice = Toolkit.createSlice({
         );
 
         builder.addMatcher(
-            (action): action is Utility.PendingAction => /^random\/createRandom.*\/pending$/.test(action.type),
+            (action): action is PendingAction => /^random\/createRandom.*\/pending$/.test(action.type),
             state => {
                 state.loading = 'create';
             }
         );
 
         builder.addMatcher(
-            (action): action is Utility.RejectedAction => /^random\/.*\/rejected$/.test(action.type),
+            (action): action is RejectedAction => /^random\/.*\/rejected$/.test(action.type),
             state => {
                 state.loading = 'none';
             }
         );
 
         builder.addMatcher(
-            (action): action is Utility.FulfilledAction => /^random\/.*\/fulfilled$/.test(action.type),
+            (action): action is FulfilledAction => /^random\/.*\/fulfilled$/.test(action.type),
             state => {
                 state.loading = 'none';
             }
