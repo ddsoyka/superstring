@@ -1,36 +1,51 @@
-import { getRandom, pickRandom, DataType } from './random';
+import * as random from './random';
 
 describe('random', () => {
-    describe('get', () => {
+    describe('numbers', () => {
         it('can generate 1000 values', async () => {
-            const values = await getRandom(1000, DataType.Uint32);
+            const values = await random.getRandomUint32(1000);
             expect(values.length).toBe(1000);
         });
         it('can generate 1000000 values', async () => {
-            const values = await getRandom(1000000, DataType.Uint32);
+            const values = await random.getRandomUint32(1000000);
             expect(values.length).toBe(1000000);
         });
         it('returns an empty array', async () => {
-            const values = await getRandom(0, DataType.Uint32);
+            const values = await random.getRandomUint32(0);
             expect(values.length).toBe(0);
         });
         it('throws on negative argument', async () => {
-            await expect(getRandom(-1, DataType.Uint32)).rejects.toThrow();
+            await expect(random.getRandomUint32(-1)).rejects.toThrow();
         });
     });
-    describe('pick', () => {
-        const dictionary = ['ab', 'ac', 'ba', 'bc', 'ca', 'cb'];
+    describe('string', () => {
+        const characters = '0123456789';
 
-        it('can pick 1000 elements', async () => {
-            const array = await pickRandom(1000, dictionary);
-            expect(array.length).toBe(1000);
+        it('can generate 1000 characters', async () => {
+            const string = await random.getRandomString(1000, characters);
+            expect(string).toMatch(/[0-9]{1000}/);
         });
-        it('returns an empty value', async () => {
-            const result = await pickRandom(0, []);
-            expect(result.length).toBe(0);
+        it('returns an empty string', async () => {
+            const string = await random.getRandomString(0, '');
+            expect(string.length).toBe(0);
         });
         it('throws on negative argument', async () => {
-            await expect(pickRandom(-1, [])).rejects.toThrow();
+            await expect(random.getRandomString(-1, characters)).rejects.toThrow();
+        });
+    });
+    describe('words', () => {
+        const dictionary = ['ab', 'ac', 'ba', 'bc', 'ca', 'cb'];
+
+        it('can generate 1000 words', async () => {
+            const string = await random.getRandomWords(1000, dictionary, '-');
+            expect(string).toMatch(/([abc]-?){2000}/);
+        });
+        it('returns an empty string', async () => {
+            const string = await random.getRandomWords(0, [], "");
+            expect(string.length).toBe(0);
+        });
+        it('throws on negative argument', async () => {
+            await expect(random.getRandomWords(-1, dictionary, "")).rejects.toThrow();
         });
     });
 });

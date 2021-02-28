@@ -1,36 +1,25 @@
 import { debug, async } from './utility';
 
-/**
- * Defines primitive data types.
- */
-export enum DataType {
+enum DataType {
     Uint8,
     Uint32
 }
 
 type RandomValueArray = Uint8Array | Uint32Array;
 
-// The amount of data requested in a single operation cannot exceed this value.
+// The amount of entropy requested in a single operation cannot exceed this value.
 const QUOTA = 2 ** 14;
 
-/**
- * Returns a list of random numbers.
- * 
- * @param size The number of values to return.
- * @param type The data type of the values.
- */
-export
 const getRandom = (
     size: number,
     type: DataType
 ): Promise<number[]> => async(
     () => {
-        const start = performance.now();
-
         // Perform sanity checks.
         if (size < 0) throw Error('Argument must not be negative');
         if (size === 0) return [];
     
+        const start = performance.now();
         const data = [] as number[];
     
         // Split the requested output size into a number of chunks.
@@ -54,59 +43,120 @@ const getRandom = (
         // Fill a typed array with data and add it to the output.
         for (let index = 0; index < quotient; index++) {
             crypto.getRandomValues(array);
-            const values = Array.from(array);
-            data.push(...values);
+            array.forEach((value: number) => data.push(value));
         }
     
         // Add any data that didn't fit into the previous quotas.
         if (quotient === 0 || remainder > 0) {
             crypto.getRandomValues(array);
-            const values = Array.from(array).slice(0, remainder);
-            data.push(...values);
+            array.slice(0, remainder).forEach((value: number) => data.push(value));
         }
     
         const end = performance.now();
     
-        debug(`Generated ${size} random numbers in ${end - start}ms`);
+        debug(`Output ${size} numbers in ${end - start}ms`);
     
         return data;
     }
 );
 
 /**
- * Returns a list of elements chosen randomly from an input list.
+ * Returns a list of random 8-bit numbers.
  * 
- * @param count The number of elements to return.
- * @param set An array of input elements.
+ * @param size The number of values to return.
  */
 export
-const pickRandom = <T> (
-    count: number,
-    choices: T[]
-): Promise<T[]> => async(
+const getRandomUint8 = async (size: number): Promise<number[]> => await getRandom(size, DataType.Uint8);
+
+/**
+ * Returns a list of random 32-bit numbers.
+ * 
+ * @param size The number of values to return.
+ */
+export
+const getRandomUint32 = async (size: number): Promise<number[]> => await getRandom(size, DataType.Uint32);
+
+/**
+ * Returns a random string.
+ * 
+ * @param size The number of characters to output.
+ * @param characters A string containing the characters to use.
+ */
+export
+const getRandomString = (
+    size: number,
+    characters: string
+): Promise<string> => async(
     async () => {
         // Perform sanity checks.
-        if (count < 0) throw Error('Argument must not be negative');
-        if (!choices.length || count === 0) return [];
+        if (size < 0) throw Error('Argument must not be negative');
+        if (size === 0 || !characters.length) return '';
 
         // Get entropy.
-        const values = await getRandom(count, DataType.Uint32);
-        
+        const values = await getRandomUint32(size);
+
+        const array = [];
+
         const start = performance.now();
-        let output = [];
 
-        // Pick elements from the input list randomly and add them to the output array.
-        for (let index = 0; index < count; index++) {
+        // Pick a random character and append it to the output string.
+        for (let index = 0; index < size; index++) {
             const number = values[index] / (0xffffffff + 1);
-            const position = Math.floor(number * choices.length);
-            const element = choices[position];
+            const position = Math.floor(number * characters.length);
+            const character = characters.charAt(position);
 
-            output.push(element);
+            array.push(character);
         }
+
+        const output = array.join("");
 
         const end = performance.now();
 
-        debug(`Picked ${count} random elements in ${end - start}ms`);
+        debug(`Output ${output.length} characters in ${end - start}ms`);
+
+        return output;
+    }
+);
+
+/**
+ * Picks random words from a dictionary and returns them as a string.
+ * 
+ * @param size The number of words to pick.
+ * @param dictionary A dictionary containing words.
+ * @param separator How to separate words from each other.
+ */
+export
+const getRandomWords = (
+    size: number,
+    dictionary: string[],
+    separator: string
+): Promise<string> => async(
+    async () => {
+        // Perform sanity checks.
+        if (size < 0) throw Error('Argument must not be negative');
+        if (size === 0 || !dictionary.length) return '';
+
+        // Get entropy.
+        const values = await getRandom(size, DataType.Uint32);
+        
+        const start = performance.now();
+
+        const array = [];
+
+        // Pick elements from the input list randomly and add them to the output array.
+        for (let index = 0; index < size; index++) {
+            const number = values[index] / (0xffffffff + 1);
+            const position = Math.floor(number * dictionary.length);
+            const element = dictionary[position];
+
+            array.push(element);
+        }
+
+        const output = array.join(separator);
+
+        const end = performance.now();
+
+        debug(`Output ${output.length} characters in ${end - start}ms`);
 
         return output;
     }

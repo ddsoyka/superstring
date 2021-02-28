@@ -4,7 +4,7 @@ import * as Network from '../../api/network';
 import * as Files from '../../api/file';
 import * as State from '../../app/store';
 import { debug, info, base64ToBlob, PendingAction, RejectedAction, FulfilledAction } from '../../api/utility';
-import { getRandom, pickRandom, DataType } from '../../api/random';
+import { getRandomUint8, getRandomString, getRandomWords } from '../../api/random';
 import { render, Resolution } from '../../api/image';
 import { showDownload } from '../file/fileSlice';
 import english from '../../assets/english.zip';
@@ -84,9 +84,7 @@ export const createRandomString = Toolkit.createAsyncThunk(
     'random/createRandomString',
     async (arg: StringGenerationArgument) => {
         const start = performance.now();
-        const characters = arg.characters.split("");
-        const array = await pickRandom(arg.count, characters);
-        const output = array.join("");
+        const output = await getRandomString(arg.count, arg.characters);
         const end = performance.now();
         info(`Created a random string of ${output.length} characters in ${end - start}ms`);
         return output;
@@ -99,8 +97,7 @@ export const createRandomWords: State.AppAsyncThunk<string, WordsGenerationArgum
         const start = performance.now();
         const state = api.getState();
         if (!state.random.dictionary) throw Error('Missing word list');
-        const array = await pickRandom(arg.count, state.random.dictionary);
-        const output = array.join(arg.separator);
+        const output = await getRandomWords(arg.count, state.random.dictionary, arg.separator);
         const end = performance.now();
         info(`Chose ${arg.count} random words in ${end - start}ms`);
         return output;
@@ -111,7 +108,7 @@ export const createRandomImage = Toolkit.createAsyncThunk(
     'random/createRandomImage',
     async (arg: ImageGenerationArgument) => {
         const start = performance.now();
-        const data = await getRandom(arg.width * arg.height * 3, DataType.Uint8);
+        const data = await getRandomUint8(arg.width * arg.height * 3);
         const resolution = new Resolution(arg.width, arg.height);
         const image = await render(data, arg.mime, arg.grayscale, resolution);
         const end = performance.now();
