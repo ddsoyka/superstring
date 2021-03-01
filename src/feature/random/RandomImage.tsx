@@ -21,7 +21,7 @@ import './RandomImage.css';
 
 const MAXIMUM_WIDTH = 2048;
 const MAXIMUM_HEIGHT = 2048;
-// const BLANK_IMAGE = 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';
+const BLANK_IMAGE = 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';
 const DEFAULT_TYPE = 'png';
 const DEFAULT_WIDTH = 512;
 const DEFAULT_HEIGHT = 512;
@@ -84,7 +84,12 @@ const RandomImage: React.FC = () => {
             <Row className="py-5 mx-0">
                 <Col sm />
                 <Col sm={6}>
-                    <Image id="output" className="bg-light border p-1 w-100" src={url} alt="Output" />
+                    <Image
+                        id="output"
+                        className="bg-light border p-1 w-100"
+                        src={!url.length ? BLANK_IMAGE : url}
+                        alt="Output"
+                    />
                 </Col>
                 <Col sm />
             </Row>

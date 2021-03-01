@@ -17,7 +17,7 @@ import useImageBlob from '../../hook/useImageBlob';
 import { renderBinaryData, saveAnalysisData, VisualizeBinaryDataArgument } from './analyzeSlice';
 import { setError } from '../error/errorSlice';
 
-// const BLANK_IMAGE = 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';
+const BLANK_IMAGE = 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';
 const MAXIMUM_SIZE = 2500000;
 
 const BinaryVisualizeAnalyze: React.FC = () => {
@@ -92,7 +92,12 @@ const BinaryVisualizeAnalyze: React.FC = () => {
             <Row className="py-5 mx-0">
                 <Col sm />
                 <Col sm={6}>
-                    <Image id="output" className="bg-light border p-1 w-100" src={url} alt="Output" />
+                    <Image
+                        id="output"
+                        className="bg-light border p-1 w-100"
+                        src={!url.length ? BLANK_IMAGE : url}
+                        alt="Output"
+                    />
                 </Col>
                 <Col sm />
             </Row>
