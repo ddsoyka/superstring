@@ -13,32 +13,35 @@ import * as State from '../../app/store';
 import * as Utility from '../../api/utility';
 import Wrapper from '../../component/Wrapper';
 import SpinnerButton from '../../component/SpinnerButton';
+import useImageBlob from '../../hook/useImageBlob';
 import { renderBinaryData, saveAnalysisData, VisualizeBinaryDataArgument } from './analyzeSlice';
 import { setError } from '../error/errorSlice';
 
-const BLANK_IMAGE = 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';
+// const BLANK_IMAGE = 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';
 const MAXIMUM_SIZE = 2500000;
 
 const BinaryVisualizeAnalyze: React.FC = () => {
-    const [image, setImage] = React.useState(BLANK_IMAGE);
     const [files, setFiles] = React.useState<FileList | null>(null)
 
     const loading = ReactRedux.useSelector((state: State.RootState) => state.random.loading);
 
     const dispatch = ReactRedux.useDispatch<State.AppDispatch>();
 
+    const [url, blob, setValue] = useImageBlob();
+
     const save = () => {
+        if (!blob) return;
+
         const argument = {
             type: 'image/png',
-            data: image
+            data: blob as Blob
         };
 
         dispatch(saveAnalysisData(argument));
     };
 
     const reset = () => {
-        if (image !== BLANK_IMAGE) URL.revokeObjectURL(image);
-        setImage(BLANK_IMAGE);
+        setValue(null);
         setFiles(null);
     };
 
@@ -62,8 +65,7 @@ const BinaryVisualizeAnalyze: React.FC = () => {
                     throw Error(`The input file size of ${Utility.humanize(file.size)} is too large`);
                 }
 
-                if (image !== BLANK_IMAGE) URL.revokeObjectURL(image);
-                setImage(BLANK_IMAGE);
+                setValue(null);
 
                 // Read file into memory.
                 const data = await file.arrayBuffer();
@@ -75,9 +77,8 @@ const BinaryVisualizeAnalyze: React.FC = () => {
                 // Render the image.
                 const action = await dispatch(renderBinaryData(argument));
                 const result = Toolkit.unwrapResult(action);
-                const url = URL.createObjectURL(result);
 
-                setImage(url);
+                setValue(result);
             }
         }
         catch (error) {
@@ -91,7 +92,7 @@ const BinaryVisualizeAnalyze: React.FC = () => {
             <Row className="py-5 mx-0">
                 <Col sm />
                 <Col sm={6}>
-                    <Image id="output" className="bg-light border p-1 w-100" src={image} alt="Output" />
+                    <Image id="output" className="bg-light border p-1 w-100" src={url} alt="Output" />
                 </Col>
                 <Col sm />
             </Row>
@@ -118,7 +119,7 @@ const BinaryVisualizeAnalyze: React.FC = () => {
                         className="w-100"
                         variant="secondary"
                         active={loading === 'save'}
-                        disabled={loading !== 'none' || image === BLANK_IMAGE}
+                        disabled={loading !== 'none' || !url.length}
                         onClick={save}>
                         Save
                     </SpinnerButton>
@@ -127,7 +128,7 @@ const BinaryVisualizeAnalyze: React.FC = () => {
                     <Button
                         className="w-100"
                         variant="secondary"
-                        disabled={loading !== 'none' || image === BLANK_IMAGE}
+                        disabled={loading !== 'none' || !url.length}
                         onClick={reset}>
                         Reset
                     </Button>

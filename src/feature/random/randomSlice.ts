@@ -3,7 +3,7 @@ import Language from '../../api/Language';
 import * as Network from '../../api/network';
 import * as Files from '../../api/file';
 import * as State from '../../app/store';
-import { debug, info, base64ToBlob, PendingAction, RejectedAction, FulfilledAction } from '../../api/utility';
+import { debug, info, PendingAction, RejectedAction, FulfilledAction } from '../../api/utility';
 import { getRandomUint8, getRandomString, getRandomWords } from '../../api/random';
 import { render, Resolution } from '../../api/image';
 import { showDownload } from '../file/fileSlice';
@@ -34,7 +34,7 @@ interface WordsGenerationArgument {
 
 interface SaveRandomDataArgument {
     type: string;
-    data: string;
+    data: string | Blob;
 }
 
 const initialRandomState: RandomState = {
@@ -129,7 +129,7 @@ export const saveRandomData: State.AppAsyncThunk<void, SaveRandomDataArgument> =
 
         // Text data tends to compress well, so generate a ZIP archive from the input data.
         if (arg.type === 'txt') {
-            const hash = await Files.hash(arg.data);
+            const hash = await Files.hash(arg.data as string);
 
             const argument = {
                 name: `${hash}.${arg.type}`,
@@ -142,7 +142,7 @@ export const saveRandomData: State.AppAsyncThunk<void, SaveRandomDataArgument> =
 
             debug(`Compressed a file in ${end - start}ms`);
         }
-        else data = await base64ToBlob(arg.data);
+        else data = arg.data as Blob;
 
         // Transform Blob type to Buffer type.
         const arrayBuffer = await data.arrayBuffer();
