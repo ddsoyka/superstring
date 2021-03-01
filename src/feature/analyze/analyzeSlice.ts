@@ -6,7 +6,7 @@ import { render } from '../../api/image';
 import { showDownload } from '../file/fileSlice';
 
 interface AnalyzeState {
-    loading: 'none' | 'create' | 'save' | 'dictionary';
+    loading: 'none' | 'create' | 'save';
 }
 
 export interface VisualizeBinaryDataArgument {

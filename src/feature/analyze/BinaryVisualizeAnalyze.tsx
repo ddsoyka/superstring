@@ -23,7 +23,7 @@ const MAXIMUM_SIZE = 2500000;
 const BinaryVisualizeAnalyze: React.FC = () => {
     const [files, setFiles] = React.useState<FileList | null>(null)
 
-    const loading = ReactRedux.useSelector((state: State.RootState) => state.random.loading);
+    const loading = ReactRedux.useSelector((state: State.RootState) => state.analyze.loading);
 
     const dispatch = ReactRedux.useDispatch<State.AppDispatch>();
 
