@@ -79,9 +79,10 @@ const render = (
     mime: string,
     grayscale: boolean,
     resolution?: Resolution
-): Promise<string> => async(
+): Promise<Blob> => async(
     async () => {
         const start = performance.now();
+
         const size = data.length;
 
         // Perform safety checks.
@@ -97,9 +98,8 @@ const render = (
         const array = transform(resolution, data);
 
         // Pass the rendered image data to Jimp.
-        const buffer = Buffer.from(array);
         const raw = {
-            data: buffer,
+            data: Buffer.from(array),
             width: resolution.width,
             height: resolution.height
         };
@@ -109,11 +109,13 @@ const render = (
         if (grayscale) image.grayscale();
 
         // Encode image data as Base64.
-        const base64 = await image.getBase64Async(mime);
+        const buffer = await image.getBufferAsync(mime);
+        const blob = new Blob([buffer]);
+    
         const end = performance.now();
 
         debug(`Rendered an image in ${end - start}ms`);
 
-        return base64;
+        return blob;
     }
 );

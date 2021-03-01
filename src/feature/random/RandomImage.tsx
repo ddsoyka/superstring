@@ -14,6 +14,7 @@ import * as Utility from '../../api/utility';
 import * as State from '../../app/store';
 import Wrapper from '../../component/Wrapper';
 import SpinnerButton from '../../component/SpinnerButton';
+import { setError } from '../error/errorSlice';
 import { createRandomImage, saveRandomData } from './randomSlice';
 import './RandomImage.css';
 
@@ -45,6 +46,7 @@ const RandomImage: React.FC = () => {
     };
 
     const reset = () => {
+        if (image !== BLANK_IMAGE) URL.revokeObjectURL(image);
         setImage(BLANK_IMAGE);
         setType(DEFAULT_TYPE);
         setWidth(DEFAULT_WIDTH);
@@ -53,6 +55,7 @@ const RandomImage: React.FC = () => {
     };
 
     const onSubmit = async () => {
+        if (image !== BLANK_IMAGE) URL.revokeObjectURL(image);
         setImage(BLANK_IMAGE);
 
         const argument = {
@@ -65,11 +68,13 @@ const RandomImage: React.FC = () => {
         try {
             const action = await dispatch(createRandomImage(argument));
             const result = Toolkit.unwrapResult(action);
+            const url = URL.createObjectURL(result);
 
-            setImage(result);
+            setImage(url);
         }
         catch (error) {
             Utility.error(error);
+            dispatch(setError(error));
         }
     };
 

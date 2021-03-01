@@ -37,6 +37,7 @@ const BinaryVisualizeAnalyze: React.FC = () => {
     };
 
     const reset = () => {
+        if (image !== BLANK_IMAGE) URL.revokeObjectURL(image);
         setImage(BLANK_IMAGE);
         setFiles(null);
     };
@@ -61,6 +62,7 @@ const BinaryVisualizeAnalyze: React.FC = () => {
                     throw Error(`The input file size of ${Utility.humanize(file.size)} is too large`);
                 }
 
+                if (image !== BLANK_IMAGE) URL.revokeObjectURL(image);
                 setImage(BLANK_IMAGE);
 
                 // Read file into memory.
@@ -73,8 +75,9 @@ const BinaryVisualizeAnalyze: React.FC = () => {
                 // Render the image.
                 const action = await dispatch(renderBinaryData(argument));
                 const result = Toolkit.unwrapResult(action);
+                const url = URL.createObjectURL(result);
 
-                setImage(result);
+                setImage(url);
             }
         }
         catch (error) {
