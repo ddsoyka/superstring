@@ -58,8 +58,6 @@ const RandomImage: React.FC = () => {
     };
 
     const onSubmit = async () => {
-        setValue(null);
-
         const argument = {
             mime: `image/${type}` as 'image/png' | 'image/jpeg' | 'image/bmp',
             width: width,

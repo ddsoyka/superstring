@@ -37,8 +37,6 @@ const RandomString: React.FC = () => {
     const dispatch = ReactRedux.useDispatch<State.AppDispatch>();
 
     const generate = async () => {
-        setOutput('');
-
         let characters = "";
 
         if (lowercase) characters += "abcdefghijklmnopqrstuvwxyz";
@@ -61,6 +59,7 @@ const RandomString: React.FC = () => {
             }
             catch (error) {
                 Utility.error(error);
+                dispatch(setError(error));
             }
         }
     };

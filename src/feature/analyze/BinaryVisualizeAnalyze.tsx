@@ -65,8 +65,6 @@ const BinaryVisualizeAnalyze: React.FC = () => {
                     throw Error(`The input file size of ${Utility.humanize(file.size)} is too large`);
                 }
 
-                setValue(null);
-
                 // Read file into memory.
                 const data = await file.arrayBuffer();
                 const argument: VisualizeBinaryDataArgument = {
