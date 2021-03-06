@@ -2,7 +2,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Launch",
+            "name": "Launch (Firefox)",
             "type": "firefox",
             "request": "launch",
             "reAttach": true,
@@ -10,9 +10,16 @@
             "webRoot": "${workspaceFolder}/public"
         },
         {
-            "name": "Attach",
+            "name": "Attach (Firefox)",
             "type": "firefox",
             "request": "attach",
+            "url": "http://localhost:3000",
+            "webRoot": "${workspaceFolder}/public"
+        },
+        {
+            "name": "Launch (Chrome)",
+            "type": "chrome",
+            "request": "launch",
             "url": "http://localhost:3000",
             "webRoot": "${workspaceFolder}/public"
         },
