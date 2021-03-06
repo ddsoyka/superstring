@@ -4,8 +4,8 @@ import * as Network from '../../api/network';
 import * as Files from '../../api/file';
 import * as State from '../../app/store';
 import { debug, info, PendingAction, RejectedAction, FulfilledAction } from '../../api/utility';
-import { getRandomUint8, getRandomString, getRandomWords } from '../../api/random';
-import { render, Resolution } from '../../api/image';
+import { render, getRandomUint8, getRandomString, getRandomWords } from '../../api/worker';
+import { Resolution } from '../../api/image';
 import { showDownload } from '../file/fileSlice';
 import english from '../../assets/english.zip';
 
