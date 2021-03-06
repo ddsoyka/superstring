@@ -1,11 +1,8 @@
-FROM node:15.3.0 AS builder
+FROM node:15.11.0-alpine3.13 AS builder
+RUN apk update && apk add git
 WORKDIR /superstring
-COPY package.json package-lock.json /superstring/
-RUN npm install
-COPY tsconfig.json /superstring/
-COPY public /superstring/public
-COPY src /superstring/src
-RUN npm run build
+COPY . .
+RUN npm install && npm run build
 
 FROM nginx:1.19.5
 COPY --from=builder /superstring/build /usr/share/nginx/html
