@@ -6,7 +6,7 @@ import { render } from '../../api/image';
 import { showDownload } from '../file/fileSlice';
 
 interface AnalyzeState {
-    loading: 'none' | 'create' | 'save' | 'dictionary';
+    loading: 'none' | 'create' | 'save';
 }
 
 export interface VisualizeBinaryDataArgument {
@@ -16,7 +16,7 @@ export interface VisualizeBinaryDataArgument {
 
 interface SaveAnalysisDataArgument {
     type: string;
-    data: string;
+    data: Blob;
 }
 
 const initialAnalyzeState: AnalyzeState = {
@@ -34,19 +34,16 @@ export const saveAnalysisData: State.AppAsyncThunk<void, SaveAnalysisDataArgumen
         const start = performance.now();
 
         if (arg.type === '') throw Error('Unknown data type');
-        if (arg.data === '') throw Error('No data to save');
-
-        const data = await Utility.base64ToBlob(arg.data);
 
         // Transform Blob type to Buffer type.
-        const arrayBuffer = await data.arrayBuffer();
+        const arrayBuffer = await arg.data.arrayBuffer();
         const buffer = Buffer.from(arrayBuffer);
 
         const hash = await Files.hash(buffer);
 
         const download = {
             type: arg.type,
-            data: data,
+            data: arg.data,
             hash: hash
         };
 

@@ -38,8 +38,6 @@ const RandomWords: React.FC = () => {
     const dispatch = ReactRedux.useDispatch<State.AppDispatch>();
 
     const onSubmit = async () => {
-        setOutput('');
-
         if (dictionary && language) {
             const arg = {
                 count: length,
@@ -55,6 +53,7 @@ const RandomWords: React.FC = () => {
             }
             catch (error) {
                 Utility.error(error);
+                dispatch(setError(error));
             }
         }
     };

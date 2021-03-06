@@ -4,6 +4,7 @@ import i18nSlice from '../feature/i18n/i18nSlice';
 import randomSlice from '../feature/random/randomSlice';
 import errorSlice from '../feature/error/errorSlice';
 import fileSlice from '../feature/file/fileSlice';
+import analyzeSlice from '../feature/analyze/analyzeSlice';
 
 interface AsyncThunkConfig {
     dispatch: typeof store.dispatch;
@@ -15,7 +16,8 @@ const store = Toolkit.configureStore({
         i18n: i18nSlice.reducer,
         random: randomSlice.reducer,
         error: errorSlice.reducer,
-        file: fileSlice.reducer
+        file: fileSlice.reducer,
+        analyze: analyzeSlice.reducer
     },
     middleware: getDefaultMiddleware => {
         const middleware = getDefaultMiddleware({

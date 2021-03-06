@@ -1,5 +1,5 @@
 import Jimp from 'jimp/es';
-import * as Utility from './utility';
+import { debug, async, humanize } from './utility';
 
 /**
  * Specifies a resolution for an image in pixels.
@@ -28,6 +28,8 @@ const calculate = (size: number): Resolution => {
     const square = Math.sqrt(size);
     const ceiling = Math.ceil(square);
     const width = ceiling, height = ceiling;
+
+    debug(`Calculated a resolution of ${width}x${height} pixels from an input size of ${humanize(size)}`);
 
     return new Resolution(width, height);
 };
@@ -71,9 +73,16 @@ const transform = (resolution: Resolution, data: ArrayLike<number>): Uint8Array 
  * @param mime The MIME type of the image to create.
  * @param grayscale Toggle grayscale rendering.
  */
-export const render = (data: ArrayLike<number>, mime: string, grayscale: boolean, resolution?: Resolution) => Utility.async(
+export
+const render = (
+    data: ArrayLike<number>,
+    mime: string,
+    grayscale: boolean,
+    resolution?: Resolution
+): Promise<Blob> => async(
     async () => {
         const start = performance.now();
+
         const size = data.length;
 
         // Perform safety checks.
@@ -85,15 +94,12 @@ export const render = (data: ArrayLike<number>, mime: string, grayscale: boolean
         // If no resolution is provided, then calculate an appropriate resolution instead.
         if (!resolution) resolution = calculate(size);
 
-        Utility.debug(`Rendering an image of ${resolution.width}x${resolution.height} pixels from ${Utility.humanize(size)} of input data`);
-
         // Transform each byte into a single RGBA pixel.
         const array = transform(resolution, data);
 
         // Pass the rendered image data to Jimp.
-        const buffer = Buffer.from(array);
         const raw = {
-            data: buffer,
+            data: Buffer.from(array),
             width: resolution.width,
             height: resolution.height
         };
@@ -103,12 +109,13 @@ export const render = (data: ArrayLike<number>, mime: string, grayscale: boolean
         if (grayscale) image.grayscale();
 
         // Encode image data as Base64.
-        const base64 = await image.getBase64Async(mime);
-
+        const buffer = await image.getBufferAsync(mime);
+        const blob = new Blob([buffer]);
+    
         const end = performance.now();
 
-        Utility.debug(`Rendered an image in ${end - start} ms`);
+        debug(`Rendered an image in ${end - start}ms`);
 
-        return base64;
+        return blob;
     }
 );

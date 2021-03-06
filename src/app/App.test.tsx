@@ -7,7 +7,7 @@ import App from './App';
 test('renders the home page', () => {
     const element = <ReactRedux.Provider store={Store}><App /></ReactRedux.Provider>;
     const { getByText } = Test.render(element);
-    const text = getByText(/v0.1.0/i);
+    const text = getByText(/Welcome to Superstring!/i);
 
     expect(text).toBeInTheDocument();
 });

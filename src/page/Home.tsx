@@ -4,6 +4,10 @@ import Header from '../component/Header';
 import Segment from '../component/Segment';
 
 const Home: React.FC = () => {
+    const major = process.env.PROJECT_VERSION_MAJOR;
+    const minor = process.env.PROJECT_VERSION_MINOR;
+    const patch = process.env.PROJECT_VERSION_PATCH;
+    const version = `v${major}.${minor}.${patch}`;
     return (
         <>
             <Header>
@@ -13,7 +17,7 @@ const Home: React.FC = () => {
                     <p>
                         Welcome to Superstring!
                         <br />
-                        <i><small>v0.1.0</small></i>
+                        <i><small>{version}</small></i>
                     </p>
                 </Header.Body>
             </Header>
