@@ -12,6 +12,7 @@ jobs:
         with:
           lfs: true
           clean: false
+          fetch-depth: 0
       - name: Setup
         uses: actions/setup-node@v2
       - name: Cache Dependencies
