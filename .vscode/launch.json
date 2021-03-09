@@ -27,8 +27,8 @@
             "name": "Test",
             "type": "node",
             "request": "launch",
-            "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/react-scripts",
-            "args": [
+            "runtimeExecutable": "npm",
+            "runtimeArgs": [
                 "test",
                 "--runInBand",
                 "--no-cache",
