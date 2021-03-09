@@ -1,3 +1,5 @@
+/* eslint no-restricted-globals: 1 */
+
 import Jimp from 'jimp/es';
 import { debug, humanize } from '../api/utility';
 import { Resolution, RenderImageMessage } from '../api/image';
