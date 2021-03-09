@@ -61,6 +61,7 @@
         "jszip": "3.6.0",
         "md5": "2.3.0",
         "mini-css-extract-plugin": "0.11.3",
+        "mitt": "^2.1.0",
         "optimize-css-assets-webpack-plugin": "5.0.4",
         "pnp-webpack-plugin": "1.6.4",
         "postcss-flexbugs-fixes": "4.2.1",
@@ -153,6 +154,7 @@
         "testEnvironment": "jsdom",
         "testRunner": "jest-circus/runner",
         "transform": {
+            "^.+\\.worker\\.(js|jsx|mjs|cjs|ts|tsx)$": "<rootDir>/config/jest/workerTransform.js",
             "^.+\\.(js|jsx|mjs|cjs|ts|tsx)$": "<rootDir>/config/jest/babelTransform.js",
             "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
             "^(?!.*\\.(js|jsx|mjs|cjs|ts|tsx|css|json)$)": "<rootDir>/config/jest/fileTransform.js"

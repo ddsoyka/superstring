@@ -116,7 +116,7 @@ function getRandomWords(size: number, dictionary: string[], separator: string): 
     return output;
 };
 
-onmessage = (event: MessageEvent<GetRandomMessage>) => {
+self.onmessage = (event: MessageEvent<GetRandomMessage>) => {
     const message = event.data;
     const size = message.size;
     if ('type' in message) {

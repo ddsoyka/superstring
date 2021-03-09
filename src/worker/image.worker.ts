@@ -91,8 +91,8 @@ async function render(data: ArrayLike<number>, mime: string, grayscale: boolean,
     return blob;
 };
 
-onmessage = async (event: MessageEvent<RenderImageMessage>) => {
+self.onmessage = async (event: MessageEvent<RenderImageMessage>) => {
     const { data, mime, grayscale, resolution } = event.data;
     const blob = await render(data, mime, grayscale, resolution);
     postMessage(blob);
-}
+};

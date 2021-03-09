@@ -27,7 +27,8 @@ export function render(data: ArrayLike<number>, mime: string, grayscale: boolean
         resolution: resolution
     };
     return new Promise<Blob>(
-        resolve => {
+        (resolve, reject) => {
+            image.onerror = event => reject(event.error);
             image.onmessage = event => resolve(event.data);
             image.postMessage(message);
         }
@@ -45,7 +46,8 @@ export function getRandomUint8(size: number): Promise<number[]> {
         type: DataType.Uint8
     };
     return new Promise<number[]>(
-        resolve => {
+        (resolve, reject) => {
+            random.onerror = event => reject(event.error);
             random.onmessage = event => resolve(event.data);
             random.postMessage(message);
         }
@@ -63,7 +65,8 @@ export function getRandomUint32(size: number): Promise<number[]> {
         type: DataType.Uint32
     };
     return new Promise<number[]>(
-        resolve => {
+        (resolve, reject) => {
+            random.onerror = event => reject(event.error);
             random.onmessage = event => resolve(event.data);
             random.postMessage(message);
         }
@@ -82,7 +85,8 @@ export function getRandomString(size: number, characters: string): Promise<strin
         characters: characters
     };
     return new Promise<string>(
-        resolve => {
+        (resolve, reject) => {
+            random.onerror = event => reject(event.error);
             random.onmessage = event => resolve(event.data);
             random.postMessage(message);
         }
@@ -103,7 +107,8 @@ export function getRandomWords(size: number, dictionary: string[], separator: st
         separator: separator
     };
     return new Promise<string>(
-        resolve => {
+        (resolve, reject) => {
+            random.onerror = event => reject(event.error);
             random.onmessage = event => resolve(event.data);
             random.postMessage(message);
         }
