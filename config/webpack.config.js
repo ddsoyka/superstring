@@ -396,7 +396,12 @@ module.exports = function (webpackEnv) {
                 {
                   loader: require.resolve('worker-loader'),
                   options: {
-                    filename: '[name].js'
+                    filename: isEnvProduction
+                      ? 'static/js/[name].[contenthash:8].js'
+                      : isEnvDevelopment && 'static/js/[name].js',
+                    chunkFilename: isEnvProduction
+                      ? 'static/js/[name].[contenthash:8].chunk.js'
+                      : isEnvDevelopment && 'static/js/[name].chunk.js',
                   },
                 },
                 {
