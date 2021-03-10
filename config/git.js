@@ -14,10 +14,10 @@ function gitDescribe() {
     const string = buffer.toString().trim();
     const matches = GIT_DESCRIBE.exec(string);
     return {
-        major: matches[1],
-        minor: matches[2],
-        patch: matches[3],
-        tweak: matches[4],
+        major: parseInt(matches[1]),
+        minor: parseInt(matches[2]),
+        patch: parseInt(matches[3]),
+        tweak: parseInt(matches[4]),
         hash: matches[5]
     };
 }
