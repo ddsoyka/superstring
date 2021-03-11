@@ -47,9 +47,9 @@ const About: React.FC = () => {
                 <Header.Title>About</Header.Title>
             </Header>
             <Segment>
-                <h3>Version</h3>
+                <h3>Version Details</h3>
                 <br />
-                <ListGroup horizontal={'sm'}>
+                <ListGroup>
                     <ListGroup.Item>
                         <h5>Ref: <code>{process.env.VERSION_REF}</code></h5>
                     </ListGroup.Item>
