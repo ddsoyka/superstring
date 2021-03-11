@@ -15,9 +15,9 @@ import * as State from '../../app/store';
 import US from '../../image/usa.svg';
 import GB from '../../image/uk.svg';
 import CA from '../../image/canada.svg';
-import Language from '../../image/language.svg'
-import Logo from '../../image/logo.svg'
-import GitHub from '../../image/github.svg'
+import Language from '../../image/language.svg';
+import Logo from '../../image/logo.svg';
+import GitHub from '../../image/github.svg';
 import Languages from '../../api/Languages';
 import { showLanguages } from '../i18n/i18nSlice';
 import './Navigation.css';

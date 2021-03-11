@@ -19,11 +19,6 @@ const Analyze: React.FC = () => {
             <Header>
                 <Header.Image src={Icon} title="Analyze" />
                 <Header.Title>Analyze</Header.Title>
-                <Header.Body>
-                    <p>
-                        Tools for analyzing data in varying formats.
-                    </p>
-                </Header.Body>
             </Header>
             <Segment>
                 <CardDeck>

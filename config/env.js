@@ -63,7 +63,7 @@ const REACT_APP = /^REACT_APP_/i;
 
 function getClientEnvironment(publicUrl) {
   const branch = gitBranch();
-  const { major, minor, patch, tweak, hash } = gitDescribe();
+  const { major, minor, patch, tweak, commit } = gitDescribe();
   const raw = Object.keys(process.env)
     .filter(key => REACT_APP.test(key))
     .reduce(
@@ -94,13 +94,13 @@ function getClientEnvironment(publicUrl) {
         // It is defined here so it is available in the webpackHotDevClient.
         FAST_REFRESH: process.env.FAST_REFRESH !== 'false',
         // Provide data from the output of Git as part of the environment.
-        PROJECT_VERSION: `${branch}-${major}.${minor}.${patch}.${tweak}-${hash}`,
-        PROJECT_VERSION_MAJOR: major,
-        PROJECT_VERSION_MINOR: minor,
-        PROJECT_VERSION_PATCH: patch,
-        PROJECT_VERSION_TWEAK: tweak,
-        PROJECT_VERSION_HASH: hash,
-        PROJECT_VERSION_BRANCH: branch
+        VERSION: `${major}.${minor}.${patch}.${tweak}`,
+        VERSION_MAJOR: major,
+        VERSION_MINOR: minor,
+        VERSION_PATCH: patch,
+        VERSION_TWEAK: tweak,
+        VERSION_COMMIT: commit,
+        VERSION_BRANCH: branch
       }
     );
   // Stringify all values so we can feed into webpack DefinePlugin

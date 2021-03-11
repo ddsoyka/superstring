@@ -19,11 +19,6 @@ const Random: React.FC = () => {
             <Header>
                 <Header.Image src={Icon} title="Random" />
                 <Header.Title>Random</Header.Title>
-                <Header.Body>
-                    <p>
-                        Tools for creating strings of random data.
-                    </p>
-                </Header.Body>
             </Header>
             <Segment>
                 <CardDeck>

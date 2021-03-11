@@ -18,7 +18,7 @@ function gitDescribe() {
         minor: parseInt(matches[2]),
         patch: parseInt(matches[3]),
         tweak: parseInt(matches[4]),
-        hash: matches[5]
+        commit: matches[5]
     };
 }
 

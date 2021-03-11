@@ -13,11 +13,6 @@ const Convert: React.FC = () => {
             <Header>
                 <Header.Image src={Icon} title="Convert" />
                 <Header.Title>Convert</Header.Title>
-                <Header.Body>
-                    <p>
-                        Tools for converting data.
-                    </p>
-                </Header.Body>
             </Header>
             <Segment>
                 <CardDeck>

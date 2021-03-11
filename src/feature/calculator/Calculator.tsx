@@ -19,11 +19,6 @@ const Calculator: React.FC = () => {
             <Header>
                 <Header.Image src={Icon} title="Calculator" />
                 <Header.Title>Calculator</Header.Title>
-                <Header.Body>
-                    <p>
-                        Calculators for different data types.
-                    </p>
-                </Header.Body>
             </Header>
             <Segment>
                 <CardDeck>

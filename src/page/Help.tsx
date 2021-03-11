@@ -27,11 +27,6 @@ const Help: React.FC = () => {
             <Header>
                 <Header.Image src={Icon} title="Help" />
                 <Header.Title>Help</Header.Title>
-                <Header.Body>
-                    <p>
-                        Find information and guidance here.
-                    </p>
-                </Header.Body>
             </Header>
             <TableofContents />
             <Segment>
