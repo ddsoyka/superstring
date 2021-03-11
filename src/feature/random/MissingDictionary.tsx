@@ -5,7 +5,7 @@ import {
     Col
 }
 from 'react-bootstrap';
-import Images from '../../image';
+import Unknown from '../../image/unknown.svg';
 import Wrapper from '../../component/Wrapper';
 
 interface MissingDictionaryProps {
@@ -18,7 +18,7 @@ const MissingDictionary: React.FC<MissingDictionaryProps> = props => {
             <Row className="p-5">
                 <Col sm />
                 <Col sm={6}>
-                    <Images.Unknown className="w-100" title="Random String" />
+                    <Unknown className="w-100" title="Random String" />
                 </Col>
                 <Col sm />
             </Row>

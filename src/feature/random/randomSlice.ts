@@ -1,5 +1,5 @@
 import * as Toolkit from '@reduxjs/toolkit';
-import Language from '../../api/Language';
+import Languages from '../../api/Languages';
 import { IO } from '../../utility';
 import * as State from '../../app/store';
 import { debug, info, PendingAction, RejectedAction, FulfilledAction } from '../../api/utility';
@@ -44,20 +44,20 @@ const initialRandomState: RandomState = {
 
 export const loadDictionary = Toolkit.createAsyncThunk(
     'random/loadDictionary',
-    async (arg: Language) => {
+    async (arg: Languages) => {
         const start = performance.now();
 
         let archive: Blob | null = null;
 
         switch (arg) {
-            case Language.EN_US:
-            case Language.EN_GB:
-            case Language.EN_CA:
+            case Languages.EN_US:
+            case Languages.EN_GB:
+            case Languages.EN_CA:
                 const response = await fetch(english);
                 if (!response.ok) throw Error(`Failed to fetch file from ${response.url}`);
                 archive = await response.blob();
                 break;
-            case Language.UNKNOWN:
+            case Languages.UNKNOWN:
                 throw Error('Unknown language');
             default:
                 throw Error(`Cannot get dictionary for ${arg}`);

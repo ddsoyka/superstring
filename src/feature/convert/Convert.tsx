@@ -3,7 +3,7 @@ import {
     CardDeck
 }
 from 'react-bootstrap';
-import Images from '../../image';
+import Icon from '../../image/convert.svg';
 import Header from '../../component/Header';
 import Segment from '../../component/Segment';
 
@@ -11,7 +11,7 @@ const Convert: React.FC = () => {
     return (
         <>
             <Header>
-                <Header.Image src={Images.Convert} title="Convert" />
+                <Header.Image src={Icon} title="Convert" />
                 <Header.Title>Convert</Header.Title>
                 <Header.Body>
                     <p>

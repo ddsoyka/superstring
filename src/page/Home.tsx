@@ -1,5 +1,5 @@
 import React from 'react';
-import Images from '../image';
+import Logo from '../image/logo.svg';
 import Header from '../component/Header';
 import Segment from '../component/Segment';
 
@@ -11,7 +11,7 @@ const Home: React.FC = () => {
     return (
         <>
             <Header>
-                <Header.Image src={Images.Logo} title="Superstring" />
+                <Header.Image src={Logo} title="Superstring" />
                 <Header.Title>Superstring</Header.Title>
                 <Header.Body>
                     <p>

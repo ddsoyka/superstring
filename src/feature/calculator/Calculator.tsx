@@ -9,7 +9,7 @@ import {
     Button
 }
 from 'react-bootstrap';
-import Images from '../../image';
+import Icon from '../../image/calculator.svg';
 import Header from '../../component/Header';
 import Segment from '../../component/Segment';
 
@@ -17,7 +17,7 @@ const Calculator: React.FC = () => {
     return (
         <>
             <Header>
-                <Header.Image src={Images.Calculator} title="Calculator" />
+                <Header.Image src={Icon} title="Calculator" />
                 <Header.Title>Calculator</Header.Title>
                 <Header.Body>
                     <p>

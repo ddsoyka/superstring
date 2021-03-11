@@ -5,7 +5,10 @@ import {
     ListGroup
 }
 from 'react-bootstrap';
-import Images from '../image';
+import Mail from '../image/mail.svg';
+import Facebook from '../image/facebook.svg';
+import Twitter from '../image/twitter.svg';
+import Group from '../image/group.svg';
 import Header from '../component/Header';
 import Segment from '../component/Segment';
 import './About.css';
@@ -16,17 +19,17 @@ const Social: React.FC = () => {
             <Row>
                 <Col>
                     <a href="mailto:ddsoyka@pm.me">
-                        <Images.Mail className="social-icon" title="Email" />
+                        <Mail className="social-icon" title="Email" />
                     </a>
                 </Col>
                 <Col>
                     <a href="https://www.facebook.com/ddsoyka">
-                        <Images.Facebook className="social-icon" title="Facebook" />
+                        <Facebook className="social-icon" title="Facebook" />
                     </a>
                 </Col>
                 <Col>
                     <a href="https://twitter.com/ddsoyka">
-                        <Images.Twitter className="social-icon" title="Twitter" />
+                        <Twitter className="social-icon" title="Twitter" />
                     </a>
                 </Col>
             </Row>
@@ -43,7 +46,7 @@ const About: React.FC = () => {
     return (
         <>
             <Header>
-                <Header.Image src={Images.Group} title="About" />
+                <Header.Image src={Group} title="About" />
                 <Header.Title>About</Header.Title>
             </Header>
             <Segment>

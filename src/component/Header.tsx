@@ -4,10 +4,11 @@ import {
     Row
 }
 from 'react-bootstrap';
+import { SvgrComponent } from '*.svg';
 import './Header.css';
 
 type HeaderImageProps = {
-    src: React.FC<React.SVGProps<SVGSVGElement> & { title?: string }>,
+    src: SvgrComponent,
     title?: string
 }
 

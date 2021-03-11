@@ -7,8 +7,10 @@ import {
 }
 from 'react-bootstrap';
 import * as State from '../../app/store';
-import Language from '../../api/Language';
-import Images from '../../image';
+import Languages from '../../api/Languages';
+import US from '../../image/usa.svg';
+import GB from '../../image/uk.svg';
+import CA from '../../image/canada.svg';
 import {
     setLanguage,
     hideLanguages
@@ -19,14 +21,14 @@ import './LanguageSelector.css';
 const LanguageSelector: React.FC = () => {
     const { show, language } = ReactRedux.useSelector((state: State.RootState) => state.i18n);
 
-    const [index, setIndex] = React.useState(Object.values(Language).indexOf(language || Language.EN_US) - 1);
+    const [index, setIndex] = React.useState(Object.values(Languages).indexOf(language || Languages.EN_US) - 1);
 
     const dispatch = ReactRedux.useDispatch<State.AppDispatch>();
 
     const save = () => {
         dispatch(hideLanguages());
 
-        const language = Object.values(Language)[index + 1];
+        const language = Object.values(Languages)[index + 1];
 
         dispatch(setLanguage(language));
     };
@@ -39,21 +41,21 @@ const LanguageSelector: React.FC = () => {
             <Modal.Body>
                 <Carousel interval={null} activeIndex={index} onSelect={(selectedIndex) => setIndex(selectedIndex)}>
                     <Carousel.Item >
-                        <Images.US className="flag d-block w-100" title="United States of America" />
+                        <US className="flag d-block w-100" title="United States of America" />
                         <Carousel.Caption>
                             <h3>English</h3>
                             <p>USA</p>
                         </Carousel.Caption>
                     </Carousel.Item>
                     <Carousel.Item>
-                        <Images.GB className="flag d-block w-100" title="United Kingdom" />
+                        <GB className="flag d-block w-100" title="United Kingdom" />
                         <Carousel.Caption>
                             <h3>English</h3>
                             <p>United Kingdom</p>
                         </Carousel.Caption>
                     </Carousel.Item>
                     <Carousel.Item>
-                        <Images.CA className="flag d-block w-100" title="Canada" />
+                        <CA className="flag d-block w-100" title="Canada" />
                         <Carousel.Caption>
                             <h3>English</h3>
                             <p>Canada</p>

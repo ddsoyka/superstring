@@ -1,105 +1,20 @@
-import {
-    ReactComponent as Logo
-}
-from './logo.svg';
-import {
-    ReactComponent as GitHub
-}
-from './github.svg';
-import {
-    ReactComponent as US
-}
-from './usa.svg';
-import {
-    ReactComponent as GB
-}
-from './uk.svg';
-import {
-    ReactComponent as CA
-}
-from './canada.svg';
-import {
-    ReactComponent as Unknown
-}
-from './unknown.svg';
-import {
-    ReactComponent as Password
-}
-from './password.svg';
-import {
-    ReactComponent as Random
-}
-from './random.svg';
-import {
-    ReactComponent as Group
-}
-from './group.svg';
-import {
-    ReactComponent as Mail
-}
-from './mail.svg';
-import {
-    ReactComponent as Facebook
-}
-from './facebook.svg';
-import {
-    ReactComponent as Twitter
-}
-from './twitter.svg';
-import {
-    ReactComponent as Help
-}
-from './help.svg';
-import {
-    ReactComponent as Language
-}
-from './language.svg';
-import {
-    ReactComponent as Word
-}
-from './word.svg';
-import {
-    ReactComponent as Convert
-}
-from './convert.svg';
-import {
-    ReactComponent as NotFound
-}
-from './404.svg';
-import {
-    ReactComponent as Calculator
-}
-from './calculator.svg';
-import {
-    ReactComponent as Visualize
-}
-from './visualize.svg';
-import {
-    ReactComponent as Analyze
-}
-from './analyze.svg';
-
-const Images = {
-    Logo,
-    GitHub,
-    US,
-    GB,
-    CA,
-    Unknown,
-    Password,
-    Random,
-    Group,
-    Mail,
-    Facebook,
-    Twitter,
-    Help,
-    Language,
-    Word,
-    Convert,
-    NotFound,
-    Calculator,
-    Visualize,
-    Analyze
-};
-
-export default Images;
+export { default as Logo } from './logo.svg';
+export { default as GitHub } from './github.svg';
+export { default as US } from './usa.svg';
+export { default as GB } from './uk.svg';
+export { default as CA } from './canada.svg';
+export { default as Unknown } from './unknown.svg';
+export { default as Password } from './password.svg';
+export { default as Random } from './random.svg';
+export { default as Group } from './group.svg';
+export { default as Mail } from './mail.svg';
+export { default as Facebook } from './facebook.svg';
+export { default as Twitter } from './twitter.svg';
+export { default as Help } from './help.svg';
+export { default as Language } from './language.svg';
+export { default as Word } from './word.svg';
+export { default as Convert } from './convert.svg';
+export { default as NotFound } from './404.svg';
+export { default as Calculator } from './calculator.svg';
+export { default as Visualize } from './visualize.svg';
+export { default as Analyze } from './analyze.svg';
