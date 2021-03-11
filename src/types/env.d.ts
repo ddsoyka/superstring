@@ -9,5 +9,6 @@ declare namespace NodeJS {
         readonly VERSION_TWEAK: number;
         readonly VERSION_COMMIT: string;
         readonly VERSION_BRANCH: string;
+        readonly BUILD_DATE: number;
     }
 }

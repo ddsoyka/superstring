@@ -13,6 +13,8 @@ import Header from '../component/Header';
 import Segment from '../component/Segment';
 import './About.css';
 
+const date = new Date(process.env.BUILD_DATE);
+
 const Social: React.FC = () => {
     return (
         <div id="social">
@@ -56,6 +58,9 @@ const About: React.FC = () => {
                     </ListGroup.Item>
                     <ListGroup.Item>
                         <h5>Commit: <code>{process.env.VERSION_COMMIT}</code></h5>
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                        <h5>Build Date: <code>{date.toLocaleString()}</code></h5>
                     </ListGroup.Item>
                 </ListGroup>
             </Segment>

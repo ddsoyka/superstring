@@ -100,7 +100,9 @@ function getClientEnvironment(publicUrl) {
         VERSION_PATCH: patch,
         VERSION_TWEAK: tweak,
         VERSION_COMMIT: commit,
-        VERSION_BRANCH: branch
+        VERSION_BRANCH: branch,
+        // Embed the build date.
+        BUILD_DATE: Date.now(),
       }
     );
   // Stringify all values so we can feed into webpack DefinePlugin
