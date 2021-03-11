@@ -8,7 +8,7 @@ declare namespace NodeJS {
         readonly VERSION_PATCH: number;
         readonly VERSION_TWEAK: number;
         readonly VERSION_COMMIT: string;
-        readonly VERSION_BRANCH: string;
+        readonly VERSION_REF: string;
         readonly BUILD_DATE: number;
     }
 }

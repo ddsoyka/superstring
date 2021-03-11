@@ -3,7 +3,7 @@
 const fs = require('fs');
 const path = require('path');
 const paths = require('./paths');
-const { gitBranch, gitDescribe } = require('./git');
+const git = require('./git');
 
 // Make sure that including paths.js after env.js will read .env variables.
 delete require.cache[require.resolve('./paths')];
@@ -62,8 +62,10 @@ process.env.NODE_PATH = (process.env.NODE_PATH || '')
 const REACT_APP = /^REACT_APP_/i;
 
 function getClientEnvironment(publicUrl) {
-  const branch = gitBranch();
-  const { major, minor, patch, tweak, commit } = gitDescribe();
+  const ref = git.gitNameRev();
+  const tag = git.gitDescribe();
+  if (!ref || !tag) throw new Error('Not in a Git repository');
+  const { major, minor, patch, tweak, commit } = tag;
   const raw = Object.keys(process.env)
     .filter(key => REACT_APP.test(key))
     .reduce(
@@ -100,7 +102,7 @@ function getClientEnvironment(publicUrl) {
         VERSION_PATCH: patch,
         VERSION_TWEAK: tweak,
         VERSION_COMMIT: commit,
-        VERSION_BRANCH: branch,
+        VERSION_REF: ref,
         // Embed the build date.
         BUILD_DATE: Date.now(),
       }

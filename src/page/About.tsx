@@ -51,7 +51,7 @@ const About: React.FC = () => {
                 <br />
                 <ListGroup horizontal={'sm'}>
                     <ListGroup.Item>
-                        <h5>Branch: <code>{process.env.VERSION_BRANCH}</code></h5>
+                        <h5>Ref: <code>{process.env.VERSION_REF}</code></h5>
                     </ListGroup.Item>
                     <ListGroup.Item>
                         <h5>Version: <code>{process.env.VERSION}</code></h5>
