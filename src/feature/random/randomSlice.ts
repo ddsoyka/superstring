@@ -1,7 +1,6 @@
 import * as Toolkit from '@reduxjs/toolkit';
 import Language from '../../api/Language';
-import * as Network from '../../api/network';
-import * as Files from '../../api/file';
+import { IO } from '../../utility';
 import * as State from '../../app/store';
 import { debug, info, PendingAction, RejectedAction, FulfilledAction } from '../../api/utility';
 import { render, getRandomUint8, getRandomString, getRandomWords } from '../../api/worker';
@@ -54,7 +53,9 @@ export const loadDictionary = Toolkit.createAsyncThunk(
             case Language.EN_US:
             case Language.EN_GB:
             case Language.EN_CA:
-                archive = await Network.fetchLocalFile(english);
+                const response = await fetch(english);
+                if (!response.ok) throw Error(`Failed to fetch file from ${response.url}`);
+                archive = await response.blob();
                 break;
             case Language.UNKNOWN:
                 throw Error('Unknown language');
@@ -65,7 +66,7 @@ export const loadDictionary = Toolkit.createAsyncThunk(
         if (!archive.type.includes('application/zip'))
             throw Error(`Expected an archive but got "${archive.type}"`);
 
-        const file = await Files.extract(archive, 'blob', 'english.txt');
+        const file = await IO.extract(archive, 'blob', 'english.txt');
         const text = await file[0].text();
 
         const dictionary = text.split('\n');
@@ -129,14 +130,14 @@ export const saveRandomData: State.AppAsyncThunk<void, SaveRandomDataArgument> =
 
         // Text data tends to compress well, so generate a ZIP archive from the input data.
         if (arg.type === 'txt') {
-            const hash = await Files.hash(arg.data as string);
+            const hash = await IO.hash(arg.data as string);
 
             const argument = {
                 name: `${hash}.${arg.type}`,
                 data: arg.data
             };
 
-            data = await Files.compress([argument], 'blob');
+            data = await IO.compress([argument], 'blob');
 
             const end = performance.now();
 
@@ -148,7 +149,7 @@ export const saveRandomData: State.AppAsyncThunk<void, SaveRandomDataArgument> =
         const arrayBuffer = await data.arrayBuffer();
         const buffer = Buffer.from(arrayBuffer);
 
-        const hash = await Files.hash(buffer);
+        const hash = await IO.hash(buffer);
 
         const download = {
             type: arg.type === 'txt' ? 'zip' : arg.type,
