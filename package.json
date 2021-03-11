@@ -134,6 +134,7 @@
         ]
     },
     "jest": {
+        "verbose": true,
         "roots": [
             "<rootDir>/src"
         ],
