@@ -9,7 +9,7 @@ import {
     CardDeck
 }
 from 'react-bootstrap';
-import Images from '../../image';
+import Icon from '../../image/random.svg';
 import Header from '../../component/Header';
 import Segment from '../../component/Segment';
 
@@ -17,13 +17,8 @@ const Random: React.FC = () => {
     return (
         <>
             <Header>
-                <Header.Image src={Images.Random} title="Random" />
+                <Header.Image src={Icon} title="Random" />
                 <Header.Title>Random</Header.Title>
-                <Header.Body>
-                    <p>
-                        Tools for creating strings of random data.
-                    </p>
-                </Header.Body>
             </Header>
             <Segment>
                 <CardDeck>

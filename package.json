@@ -1,6 +1,5 @@
 {
     "name": "superstring",
-    "version": "0.1.0",
     "homepage": "https://superstring.tools",
     "repository": "https://github.com/ddsoyka/superstring",
     "private": true,
@@ -113,7 +112,8 @@
     "scripts": {
         "start": "node scripts/start.js",
         "build": "node scripts/build.js",
-        "test": "node scripts/test.js"
+        "test": "node scripts/test.js",
+        "coverage": "node scripts/test.js --coverage"
     },
     "eslintConfig": {
         "extends": [
@@ -134,6 +134,7 @@
         ]
     },
     "jest": {
+        "verbose": true,
         "roots": [
             "<rootDir>/src"
         ],

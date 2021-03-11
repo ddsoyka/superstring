@@ -1,5 +1,5 @@
 import React from 'react';
-import Images from '../image';
+import Icon from '../image/404.svg';
 import Header from '../component/Header';
 import Segment from '../component/Segment';
 
@@ -7,7 +7,7 @@ const NotFound: React.FC = () => {
     return (
         <>
             <Header>
-                <Header.Image src={Images.NotFound} title="Not Found" />
+                <Header.Image src={Icon} title="Not Found" />
                 <Header.Title>Not Found</Header.Title>
             </Header>
             <Segment>

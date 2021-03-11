@@ -1,9 +1,9 @@
 import * as Toolkit from '@reduxjs/toolkit';
-import Language from '../../api/Language';
+import Languages from '../../api/Languages';
 
 interface i18nState {
     show: boolean;
-    language: Language | null,
+    language: Languages | null,
 }
 
 const initiali18nState: i18nState = {
@@ -15,7 +15,7 @@ const i18nSlice = Toolkit.createSlice({
     name: 'i18n',
     initialState: initiali18nState,
     reducers: {
-        setLanguage: (state, action: Toolkit.PayloadAction<Language | null>) => {
+        setLanguage: (state, action: Toolkit.PayloadAction<Languages | null>) => {
             state.language = action.payload;
         },
         showLanguages: state => {

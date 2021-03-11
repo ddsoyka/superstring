@@ -4,10 +4,11 @@ import {
     Row
 }
 from 'react-bootstrap';
+import { SvgrComponent } from '*.svg';
 import './Header.css';
 
 type HeaderImageProps = {
-    src: React.FC<React.SVGProps<SVGSVGElement> & { title?: string }>,
+    src: SvgrComponent,
     title?: string
 }
 
@@ -37,6 +38,14 @@ const HeaderTitle: React.FC = (props) => {
     );
 };
 
+const HeaderSubtitle: React.FC = (props) => {
+    return (
+        <Row className="header-subtitle py-3 justify-content-center">
+            <h2>{props.children}</h2>
+        </Row>
+    );
+};
+
 const HeaderBody: React.FC = (props) => {
     return (
         <Row className="header-body py-3 justify-content-center">
@@ -48,6 +57,7 @@ const HeaderBody: React.FC = (props) => {
 type Header = typeof HeaderBase & {
     Image: typeof HeaderImage,
     Title: typeof HeaderTitle,
+    Subtitle: typeof HeaderSubtitle,
     Body: typeof HeaderBody
 };
 
@@ -56,6 +66,7 @@ const instance: Header = Object.assign(
     {
         Image: HeaderImage,
         Title: HeaderTitle,
+        Subtitle: HeaderSubtitle,
         Body: HeaderBody
     }
 );

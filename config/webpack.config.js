@@ -396,7 +396,12 @@ module.exports = function (webpackEnv) {
                 {
                   loader: require.resolve('worker-loader'),
                   options: {
-                    filename: '[name].js'
+                    filename: isEnvProduction
+                      ? 'static/js/[name].[contenthash:8].js'
+                      : isEnvDevelopment && 'static/js/[name].js',
+                    chunkFilename: isEnvProduction
+                      ? 'static/js/[name].[contenthash:8].chunk.js'
+                      : isEnvDevelopment && 'static/js/[name].chunk.js',
                   },
                 },
                 {
@@ -410,19 +415,6 @@ module.exports = function (webpackEnv) {
                         require.resolve('babel-preset-react-app'),
                         {
                           runtime: hasJsxRuntime ? 'automatic' : 'classic',
-                        },
-                      ],
-                    ],
-                    plugins: [
-                      [
-                        require.resolve('babel-plugin-named-asset-import'),
-                        {
-                          loaderMap: {
-                            svg: {
-                              ReactComponent:
-                                '@svgr/webpack?-prettier,-svgo![path]',
-                            },
-                          },
                         },
                       ],
                     ],
@@ -455,17 +447,6 @@ module.exports = function (webpackEnv) {
                   ],
                 ],
                 plugins: [
-                  [
-                    require.resolve('babel-plugin-named-asset-import'),
-                    {
-                      loaderMap: {
-                        svg: {
-                          ReactComponent:
-                            '@svgr/webpack?-svgo,+titleProp,+ref![path]',
-                        },
-                      },
-                    },
-                  ],
                   isEnvDevelopment &&
                     shouldUseReactRefresh &&
                     require.resolve('react-refresh/babel'),
@@ -579,6 +560,15 @@ module.exports = function (webpackEnv) {
                 },
                 'sass-loader'
               ),
+            },
+            {
+              test: /\.svg$/,
+              loader: '@svgr/webpack',
+              options: {
+                prettier: true,
+                svgo: true,
+                titleProp: true
+              }
             },
             // "file" loader makes sure those assets get served by WebpackDevServer.
             // When you `import` an asset, you get its (virtual) filename.

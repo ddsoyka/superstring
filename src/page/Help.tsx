@@ -3,7 +3,7 @@ import {
     ListGroup
 }
 from 'react-bootstrap';
-import Images from '../image';
+import Icon from '../image/help.svg';
 import Header from '../component/Header';
 import Segment from '../component/Segment';
 
@@ -25,13 +25,8 @@ const Help: React.FC = () => {
     return (
         <>
             <Header>
-                <Header.Image src={Images.Help} title="Help" />
+                <Header.Image src={Icon} title="Help" />
                 <Header.Title>Help</Header.Title>
-                <Header.Body>
-                    <p>
-                        Find information and guidance here.
-                    </p>
-                </Header.Body>
             </Header>
             <TableofContents />
             <Segment>

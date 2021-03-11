@@ -12,6 +12,8 @@ jobs:
   publish:
     name: Publish
     runs-on: ubuntu-20.04
+    env:
+      RELEASE_TAG_NAME: ${{ github.event.release.tag_name }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -24,8 +26,6 @@ jobs:
       - name: Tag Version
         if: github.event_name == 'release'
         run: docker tag ddsoyka/superstring ddsoyka/superstring:$RELEASE_TAG_NAME
-        env:
-          RELEASE_TAG_NAME: ${{ github.event.release.tag_name }}
       - name: List Images
         run: docker images
       - name: Login
@@ -38,13 +38,12 @@ jobs:
       - name: Push Version
         if: github.event_name == 'release'
         run: docker push ddsoyka/superstring:$RELEASE_TAG_NAME
-        env:
-          RELEASE_TAG_NAME: ${{ github.event.release.tag_name }}
       - name: Logout
         run: docker logout
   deploy:
     name: Deploy
     runs-on: ubuntu-20.04
+    if: github.event_name == 'release'
     steps:
       - name: Checkout
         uses: actions/checkout@v2

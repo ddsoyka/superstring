@@ -1,7 +1,7 @@
 import * as Toolkit from '@reduxjs/toolkit';
 import * as State from '../../app/store';
 import * as Utility from '../../api/utility';
-import * as Files from '../../api/file';
+import { IO } from '../../utility';
 import { render } from '../../api/worker';
 import { showDownload } from '../file/fileSlice';
 
@@ -39,7 +39,7 @@ export const saveAnalysisData: State.AppAsyncThunk<void, SaveAnalysisDataArgumen
         const arrayBuffer = await arg.data.arrayBuffer();
         const buffer = Buffer.from(arrayBuffer);
 
-        const hash = await Files.hash(buffer);
+        const hash = await IO.hash(buffer);
 
         const download = {
             type: arg.type,

@@ -9,7 +9,7 @@ import {
     CardDeck
 }
 from 'react-bootstrap';
-import Images from '../../image';
+import Icon from '../../image/analyze.svg';
 import Header from '../../component/Header';
 import Segment from '../../component/Segment';
 
@@ -17,13 +17,8 @@ const Analyze: React.FC = () => {
     return (
         <>
             <Header>
-                <Header.Image src={Images.Analyze} title="Analyze" />
+                <Header.Image src={Icon} title="Analyze" />
                 <Header.Title>Analyze</Header.Title>
-                <Header.Body>
-                    <p>
-                        Tools for analyzing data in varying formats.
-                    </p>
-                </Header.Body>
             </Header>
             <Segment>
                 <CardDeck>

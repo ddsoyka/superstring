@@ -5,19 +5,19 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import * as Utility from './api/utility';
 import App from './app/App';
 import Store from './app/store';
-import Language from './api/Language';
+import Languages from './api/Languages';
 import { setLanguage } from './feature/i18n/i18nSlice';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.css';
 import './index.css';
 
 const language = navigator.language;
-const languages = Object.values(Language) as string[];
+const languages = Object.values(Languages) as string[];
 
 if (languages.includes(language))
-    Store.dispatch(setLanguage(language as Language));
+    Store.dispatch(setLanguage(language as Languages));
 else
-    Store.dispatch(setLanguage(Language.UNKNOWN));
+    Store.dispatch(setLanguage(Languages.UNKNOWN));
 
 Utility.debug(`The browser reports that the current language is ${language}`);
 Utility.debug(`The viewport is ${window.innerWidth}x${window.innerHeight}`);
