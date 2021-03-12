@@ -1,4 +1,4 @@
-import { Resolution, RenderImageMessage } from './image';
+import { Resolution, RenderImageMessage } from '../api/image';
 import {
     DataType,
     GetRandomValuesMessage,
@@ -6,8 +6,8 @@ import {
     GetRandomWordsMessage
 }
 from '../api/random';
-import ImageWorker from '../worker/image.worker.ts';
-import RandomWorker from '../worker/random.worker.ts';
+import ImageWorker from './image.worker.ts';
+import RandomWorker from './random.worker.ts';
 
 const image = new ImageWorker();
 const random = new RandomWorker();

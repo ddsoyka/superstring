@@ -1,4 +1,4 @@
-import { render, getRandomUint32, getRandomString, getRandomWords } from './worker';
+import { render, getRandomUint32, getRandomString, getRandomWords } from '.';
 
 describe('worker', () => {
     describe('random', () => {

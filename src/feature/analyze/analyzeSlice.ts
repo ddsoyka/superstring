@@ -2,7 +2,7 @@ import * as Toolkit from '@reduxjs/toolkit';
 import * as State from '../../app/store';
 import * as Utility from '../../api/utility';
 import { IO } from '../../utility';
-import { render } from '../../api/worker';
+import { render } from '../../worker';
 import { showDownload } from '../file/fileSlice';
 
 interface AnalyzeState {

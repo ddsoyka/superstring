@@ -3,7 +3,7 @@ import Languages from '../../api/Languages';
 import { IO } from '../../utility';
 import * as State from '../../app/store';
 import { debug, info, PendingAction, RejectedAction, FulfilledAction } from '../../api/utility';
-import { render, getRandomUint8, getRandomString, getRandomWords } from '../../api/worker';
+import { render, getRandomUint8, getRandomString, getRandomWords } from '../../worker';
 import { Resolution } from '../../api/image';
 import { showDownload } from '../file/fileSlice';
 import english from '../../assets/english.zip';
