@@ -2,7 +2,7 @@
 
 import Jimp from 'jimp/es';
 import { debug, humanize } from '../utility';
-import { Resolution, RenderImageMessage } from '../api/image';
+import { Resolution, RenderImageMessage } from './image';
 
 function calculate(size: number): Resolution {
     // Each RGBA pixel can fit up to three input data bytes,

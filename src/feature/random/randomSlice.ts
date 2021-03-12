@@ -12,8 +12,7 @@ import {
     hash
 }
 from '../../utility';
-import { render, getRandomUint8, getRandomString, getRandomWords } from '../../worker';
-import { Resolution } from '../../api/image';
+import { render, getRandomUint8, getRandomString, getRandomWords, Resolution } from '../../worker';
 import { showDownload } from '../file/fileSlice';
 import english from '../../assets/english.zip';
 

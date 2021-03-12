@@ -8,7 +8,7 @@ import {
     GetRandomStringMessage,
     GetRandomWordsMessage
 }
-from '../api/random';
+from './random';
 
 type RandomValueArray = Uint8Array | Uint32Array;
 
