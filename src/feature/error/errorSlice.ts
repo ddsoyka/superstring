@@ -1,5 +1,5 @@
 import * as Toolkit from '@reduxjs/toolkit';
-import * as Utility from '../../api/utility';
+import { isRejectedAction } from '../../utility';
 
 type ErrorState = Error | null;
 
@@ -13,7 +13,7 @@ const errorSlice = Toolkit.createSlice({
     },
     extraReducers: builder => {
         builder.addMatcher(
-            Utility.isRejectedAction,
+            isRejectedAction,
             (_, action) => action.error as Error
         );
     }

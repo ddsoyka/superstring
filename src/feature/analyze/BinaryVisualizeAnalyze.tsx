@@ -10,7 +10,7 @@ import {
 }
 from 'react-bootstrap';
 import * as State from '../../app/store';
-import * as Utility from '../../api/utility';
+import { debug, error, humanize } from '../../utility';
 import Wrapper from '../../component/Wrapper';
 import SpinnerButton from '../../component/SpinnerButton';
 import useImageBlob from '../../hook/useImageBlob';
@@ -48,12 +48,12 @@ const BinaryVisualizeAnalyze: React.FC = () => {
     const onSubmit = async () => {
         try {
             if (!files) {
-                Utility.debug('No file was selected by the user')
+                debug('No file was selected by the user')
             }
             else {
                 const file = files[0];
 
-                Utility.debug(`Selected "${file.name}" which is ${Utility.humanize(file.size)}`);
+                debug(`Selected "${file.name}" which is ${humanize(file.size)}`);
 
                 // Throw an exception if the file size is out of bounds.
                 if (file.size < 1) {
@@ -62,7 +62,7 @@ const BinaryVisualizeAnalyze: React.FC = () => {
                 }
                 if (file.size > MAXIMUM_SIZE) {
                     reset();
-                    throw Error(`The input file size of ${Utility.humanize(file.size)} is too large`);
+                    throw Error(`The input file size of ${humanize(file.size)} is too large`);
                 }
 
                 // Read file into memory.
@@ -79,9 +79,9 @@ const BinaryVisualizeAnalyze: React.FC = () => {
                 setValue(result);
             }
         }
-        catch (error) {
-            Utility.error(error);
-            dispatch(setError(error));
+        catch (exception) {
+            error(exception);
+            dispatch(setError(exception));
         }
     };
 

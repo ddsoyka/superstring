@@ -1,7 +1,7 @@
 /* eslint no-restricted-globals: 1 */
 
 import Jimp from 'jimp/es';
-import { debug, humanize } from '../api/utility';
+import { debug, humanize } from '../utility';
 import { Resolution, RenderImageMessage } from '../api/image';
 
 function calculate(size: number): Resolution {

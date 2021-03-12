@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import * as ReactRedux from 'react-redux';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
-import * as Utility from './api/utility';
+import { debug } from './utility';
 import App from './app/App';
 import Store from './app/store';
 import Languages from './api/Languages';
@@ -19,8 +19,8 @@ if (languages.includes(language))
 else
     Store.dispatch(setLanguage(Languages.UNKNOWN));
 
-Utility.debug(`The browser reports that the current language is ${language}`);
-Utility.debug(`The viewport is ${window.innerWidth}x${window.innerHeight}`);
+debug(`The browser reports that the current language is ${language}`);
+debug(`The viewport is ${window.innerWidth}x${window.innerHeight}`);
 
 ReactDOM.render(
     <React.StrictMode>

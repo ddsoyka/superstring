@@ -1,7 +1,6 @@
 import * as Toolkit from '@reduxjs/toolkit';
 import * as State from '../../app/store';
-import * as Utility from '../../api/utility';
-import { IO } from '../../utility';
+import { debug, hash, RejectedAction, FulfilledAction } from '../../utility';
 import { render } from '../../worker';
 import { showDownload } from '../file/fileSlice';
 
@@ -39,17 +38,17 @@ export const saveAnalysisData: State.AppAsyncThunk<void, SaveAnalysisDataArgumen
         const arrayBuffer = await arg.data.arrayBuffer();
         const buffer = Buffer.from(arrayBuffer);
 
-        const hash = await IO.hash(buffer);
+        const checksum = await hash(buffer);
 
         const download = {
             type: arg.type,
             data: arg.data,
-            hash: hash
+            hash: checksum
         };
 
         const end = performance.now();
 
-        Utility.debug(`Prepared item ${hash} for download in ${end - start}ms`);
+        debug(`Prepared item ${checksum} for download in ${end - start}ms`);
 
         api.dispatch(showDownload(download));
     }
@@ -75,14 +74,14 @@ const analyzeSlice = Toolkit.createSlice({
         );
 
         builder.addMatcher(
-            (action): action is Utility.RejectedAction => /^analyze\/.*\/rejected$/.test(action.type),
+            (action): action is RejectedAction => /^analyze\/.*\/rejected$/.test(action.type),
             state => {
                 state.loading = 'none';
             }
         );
 
         builder.addMatcher(
-            (action): action is Utility.FulfilledAction => /^analyze\/.*\/fulfilled$/.test(action.type),
+            (action): action is FulfilledAction => /^analyze\/.*\/fulfilled$/.test(action.type),
             state => {
                 state.loading = 'none';
             }

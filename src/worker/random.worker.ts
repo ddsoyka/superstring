@@ -1,6 +1,6 @@
 /* eslint no-restricted-globals: 1 */
 
-import { debug } from '../api/utility';
+import { debug } from '../utility';
 import {
     DataType,
     GetRandomMessage,
