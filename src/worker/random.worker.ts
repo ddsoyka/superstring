@@ -2,6 +2,7 @@
 
 import { debug } from '../utility';
 import {
+    TypedArray,
     DataType,
     GetRandomMessage,
     GetRandomValuesMessage,
@@ -10,54 +11,55 @@ import {
 }
 from './random';
 
-type RandomValueArray = Uint8Array | Uint32Array;
-
 // The amount of entropy requested in a single operation cannot exceed this value.
 const QUOTA = 2 ** 14;
 
-function getRandomValues(size: number, type: DataType): number[] {
+function getRandomValues<T extends TypedArray>(size: number, type: DataType): T {
     // Perform sanity checks.
     if (size < 0) throw Error('Argument must not be negative');
-    if (size === 0) return [];
 
     const start = performance.now();
-    const data = [] as number[];
+    
+    let output: T;
+    let buffer: T;
 
-    // Split the requested output size into a number of chunks.
-    const quotient = Math.floor(size / QUOTA);
-    const remainder = size % QUOTA;
-
-    let array: RandomValueArray;
-
-    // Create a transfer buffer of the appropriate type.
+    // Create buffer and output arrays of the appropriate type.
     switch (type) {
         case DataType.Uint8:
-            array = new Uint8Array(QUOTA);
+            if (size === 0) return new Uint8Array(0) as T;
+            output = new Uint8Array(size) as T;
+            buffer = new Uint8Array(QUOTA) as T;
             break;
         case DataType.Uint32:
-            array = new Uint32Array(QUOTA);
+            if (size === 0) return new Uint32Array(0) as T;
+            output = new Uint32Array(size) as T;
+            buffer = new Uint32Array(QUOTA) as T;
             break;
         default:
             throw Error('Unrecognized data type');
     }
 
-    // Fill a typed array with data and add it to the output.
+    // Split the requested output size into a number of chunks.
+    const quotient = Math.floor(size / QUOTA);
+    const remainder = size % QUOTA;
+
+    // Fill the output array with the new data.
     for (let index = 0; index < quotient; index++) {
-        crypto.getRandomValues(array);
-        array.forEach((value: number) => data.push(value));
+        crypto.getRandomValues(buffer);
+        output.set(buffer, QUOTA * index);
     }
 
-    // Add any data that didn't fit into the previous quotas.
+    // Add any data that didn't fit into the previous quota iterations.
     if (quotient === 0 || remainder > 0) {
-        crypto.getRandomValues(array);
-        array.slice(0, remainder).forEach((value: number) => data.push(value));
+        crypto.getRandomValues(buffer);
+        output.set(buffer.slice(0, remainder), size - remainder);
     }
 
     const end = performance.now();
 
-    debug(`Output ${size} numbers in ${end - start}ms`);
+    debug(`Output ${output.length} numbers in ${end - start}ms`);
 
-    return data;
+    return output;
 };
 
 function getRandomString(size: number, characters: string): string {
@@ -66,8 +68,7 @@ function getRandomString(size: number, characters: string): string {
     if (size === 0 || !characters.length) return '';
 
     // Get entropy.
-    const values = getRandomValues(size, DataType.Uint32);
-
+    const values = getRandomValues<Uint32Array>(size, DataType.Uint32);
     const start = performance.now();
     const array = [];
 
@@ -81,7 +82,6 @@ function getRandomString(size: number, characters: string): string {
     }
 
     const output = array.join("");
-
     const end = performance.now();
 
     debug(`Output ${output.length} characters in ${end - start}ms`);
@@ -95,8 +95,7 @@ function getRandomWords(size: number, dictionary: string[], separator: string): 
     if (size === 0 || !dictionary.length) return '';
 
     // Get entropy.
-    const values = getRandomValues(size, DataType.Uint32);
-
+    const values = getRandomValues<Uint32Array>(size, DataType.Uint32);
     const start = performance.now();
     const array = [];
 
@@ -110,7 +109,6 @@ function getRandomWords(size: number, dictionary: string[], separator: string): 
     }
 
     const output = array.join(separator);
-
     const end = performance.now();
 
     debug(`Output ${output.length} characters in ${end - start}ms`);
