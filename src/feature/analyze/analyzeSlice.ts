@@ -10,7 +10,7 @@ interface AnalyzeState {
 
 export interface VisualizeBinaryDataArgument {
     mime: 'image/png' | 'image/jpeg' | 'image/bmp';
-    data: ArrayLike<number>;
+    data: Uint8Array;
 }
 
 interface SaveAnalysisDataArgument {

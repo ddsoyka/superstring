@@ -22,7 +22,7 @@ const random = new RandomWorker();
  * @param mime The MIME type of the image to create.
  * @param grayscale Toggle grayscale rendering.
  */
-export function render(data: ArrayLike<number>, mime: string, grayscale: boolean, resolution?: Resolution): Promise<Blob> {
+export function render(data: Uint8Array, mime: string, grayscale: boolean, resolution?: Resolution): Promise<Blob> {
     const message: RenderImageMessage = {
         data: data,
         mime: mime,

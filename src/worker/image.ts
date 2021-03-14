@@ -20,7 +20,7 @@ export class Resolution {
  * Encapsulates data which is required to render an image.
  */
 export interface RenderImageMessage {
-    data: ArrayLike<number>;
+    data: Uint8Array;
     mime: string;
     grayscale: boolean;
     resolution?: Resolution;

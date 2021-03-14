@@ -19,7 +19,7 @@ function calculate(size: number): Resolution {
     return new Resolution(width, height);
 };
 
-function transform(resolution: Resolution, data: ArrayLike<number>): Uint8Array {
+function transform(resolution: Resolution, data: Uint8Array): Uint8Array {
     const size = data.length;
     // const array = new Uint8Array(resolution.pixels * 4);
     const array = new Uint8Array(resolution.width * resolution.height * 4);
@@ -52,7 +52,7 @@ function transform(resolution: Resolution, data: ArrayLike<number>): Uint8Array 
     return array;
 };
 
-async function render(data: ArrayLike<number>, mime: string, grayscale: boolean, resolution?: Resolution): Promise<Blob> {
+async function render(data: Uint8Array, mime: string, grayscale: boolean, resolution?: Resolution): Promise<Blob> {
     const start = performance.now();
 
     const size = data.length;
