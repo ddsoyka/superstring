@@ -1,5 +1,3 @@
-export type TypedArray = Uint8Array | Uint32Array;
-
 export enum DataType {
     Uint8,
     Uint32

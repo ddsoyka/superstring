@@ -1,8 +1,7 @@
 /* eslint no-restricted-globals: 1 */
 
-import { debug } from '../utility';
+import { debug, TypedArray } from '../utility';
 import {
-    TypedArray,
     DataType,
     GetRandomMessage,
     GetRandomValuesMessage,
