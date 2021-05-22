@@ -1,10 +1,18 @@
 import * as Toolkit from '@reduxjs/toolkit';
 import Languages from '../../api/Languages';
-import { IO } from '../../utility';
 import * as State from '../../app/store';
-import { debug, info, PendingAction, RejectedAction, FulfilledAction } from '../../api/utility';
-import { render, getRandomUint8, getRandomString, getRandomWords } from '../../api/worker';
-import { Resolution } from '../../api/image';
+import {
+    debug,
+    info,
+    PendingAction,
+    RejectedAction,
+    FulfilledAction,
+    extract,
+    compress,
+    hash
+}
+from '../../utility';
+import { render, getRandomUint8, getRandomString, getRandomWords, Resolution } from '../../worker';
 import { showDownload } from '../file/fileSlice';
 import english from '../../assets/english.zip';
 
@@ -66,7 +74,7 @@ export const loadDictionary = Toolkit.createAsyncThunk(
         if (!archive.type.includes('application/zip'))
             throw Error(`Expected an archive but got "${archive.type}"`);
 
-        const file = await IO.extract(archive, 'blob', 'english.txt');
+        const file = await extract(archive, 'blob', 'english.txt');
         const text = await file[0].text();
 
         const dictionary = text.split('\n');
@@ -130,14 +138,14 @@ export const saveRandomData: State.AppAsyncThunk<void, SaveRandomDataArgument> =
 
         // Text data tends to compress well, so generate a ZIP archive from the input data.
         if (arg.type === 'txt') {
-            const hash = await IO.hash(arg.data as string);
+            const checksum = await hash(arg.data as string);
 
             const argument = {
-                name: `${hash}.${arg.type}`,
+                name: `${checksum}.${arg.type}`,
                 data: arg.data
             };
 
-            data = await IO.compress([argument], 'blob');
+            data = await compress([argument], 'blob');
 
             const end = performance.now();
 
@@ -149,17 +157,17 @@ export const saveRandomData: State.AppAsyncThunk<void, SaveRandomDataArgument> =
         const arrayBuffer = await data.arrayBuffer();
         const buffer = Buffer.from(arrayBuffer);
 
-        const hash = await IO.hash(buffer);
+        const checksum = await hash(buffer);
 
         const download = {
             type: arg.type === 'txt' ? 'zip' : arg.type,
             data: data,
-            hash: hash
+            hash: checksum
         };
 
         const end = performance.now();
 
-        info(`Prepared item ${hash} for download in ${end - start}ms`);
+        info(`Prepared item ${checksum} for download in ${end - start}ms`);
 
         api.dispatch(showDownload(download));
     }

@@ -2,7 +2,7 @@ import React from 'react';
 import {
     Row,
     Col,
-    ListGroup
+    Table
 }
 from 'react-bootstrap';
 import Mail from '../image/mail.svg';
@@ -47,22 +47,28 @@ const About: React.FC = () => {
                 <Header.Title>About</Header.Title>
             </Header>
             <Segment>
-                <h3>Version</h3>
+                <h3>Version Details</h3>
                 <br />
-                <ListGroup horizontal={'sm'}>
-                    <ListGroup.Item>
-                        <h5>Branch: <code>{process.env.VERSION_BRANCH}</code></h5>
-                    </ListGroup.Item>
-                    <ListGroup.Item>
-                        <h5>Version: <code>{process.env.VERSION}</code></h5>
-                    </ListGroup.Item>
-                    <ListGroup.Item>
-                        <h5>Commit: <code>{process.env.VERSION_COMMIT}</code></h5>
-                    </ListGroup.Item>
-                    <ListGroup.Item>
-                        <h5>Build Date: <code>{date.toLocaleString()}</code></h5>
-                    </ListGroup.Item>
-                </ListGroup>
+                <Table striped bordered hover>
+                    <tbody>
+                        <tr>
+                            <td><h5>Ref</h5></td>
+                            <td><code>{process.env.VERSION_REF}</code></td>
+                        </tr>
+                        <tr>
+                            <td><h5>SemVer</h5></td>
+                            <td><code>{process.env.VERSION}</code></td>
+                        </tr>
+                        <tr>
+                            <td><h5>Commit</h5></td>
+                            <td><code>{process.env.VERSION_COMMIT}</code></td>
+                        </tr>
+                        <tr>
+                            <td><h5>Build Date</h5></td>
+                            <td><code>{date.toLocaleString()}</code></td>
+                        </tr>
+                    </tbody>
+                </Table>
             </Segment>
             <Segment>
                 <h3>Contact Us</h3>

@@ -9,7 +9,7 @@ import {
 }
 from 'react-bootstrap';
 import * as State from '../../app/store';
-import * as Utility from '../../api/utility';
+import { humanize } from '../../utility';
 import { hideDownload } from './fileSlice';
 
 const Download: React.FC = () => {
@@ -48,7 +48,7 @@ const Download: React.FC = () => {
                             <ListGroup.Item>
                                 <b>Size:</b>
                                 <br />
-                                {Utility.humanize(download.data?.size)}
+                                {humanize(download.data?.size)}
                             </ListGroup.Item>
                         </ListGroup>
                     </Card.Body>

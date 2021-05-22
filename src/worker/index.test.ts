@@ -1,4 +1,4 @@
-import { render, getRandomUint32, getRandomString, getRandomWords } from './worker';
+import { render, getRandomUint32, getRandomString, getRandomWords, Resolution } from '.';
 
 describe('worker', () => {
     describe('random', () => {
@@ -52,12 +52,12 @@ describe('worker', () => {
     });
     describe('rendering', () => {
         const defaults = {
-            data: [1, 255, 214],
+            data: new Uint8Array([1, 255, 214]),
             mime: 'image/png',
             grayscale: false
         };
         it('throws when passed an empty data buffer', async () => {
-            const data = [] as number[];
+            const data = new Uint8Array(0);
             await expect(render(data, defaults.mime, defaults.grayscale)).rejects.toThrow();
         });
         it('throws when passed an invalid MIME type', async () => {

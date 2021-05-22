@@ -10,7 +10,7 @@ import {
     InputGroup
 }
 from 'react-bootstrap';
-import * as Utility from '../../api/utility';
+import { error } from '../../utility';
 import * as State from '../../app/store';
 import Wrapper from '../../component/Wrapper';
 import SpinnerButton from '../../component/SpinnerButton';
@@ -71,9 +71,9 @@ const RandomImage: React.FC = () => {
 
             setValue(result);
         }
-        catch (error) {
-            Utility.error(error);
-            dispatch(setError(error));
+        catch (exception) {
+            error(exception);
+            dispatch(setError(exception));
         }
     };
 

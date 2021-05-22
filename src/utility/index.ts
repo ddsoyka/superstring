@@ -1,1 +1,4 @@
-export * as IO from './io'
+export * from './io';
+export * from './log';
+export * from './thunk';
+export * from './types';

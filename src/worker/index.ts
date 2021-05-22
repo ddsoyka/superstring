@@ -5,9 +5,12 @@ import {
     GetRandomStringMessage,
     GetRandomWordsMessage
 }
-from '../api/random';
-import ImageWorker from '../worker/image.worker.ts';
-import RandomWorker from '../worker/random.worker.ts';
+from './random';
+import ImageWorker from './image.worker.ts';
+import RandomWorker from './random.worker.ts';
+
+export * from './image';
+export * from './random';
 
 const image = new ImageWorker();
 const random = new RandomWorker();
@@ -19,7 +22,7 @@ const random = new RandomWorker();
  * @param mime The MIME type of the image to create.
  * @param grayscale Toggle grayscale rendering.
  */
-export function render(data: ArrayLike<number>, mime: string, grayscale: boolean, resolution?: Resolution): Promise<Blob> {
+export function render(data: Uint8Array, mime: string, grayscale: boolean, resolution?: Resolution): Promise<Blob> {
     const message: RenderImageMessage = {
         data: data,
         mime: mime,
@@ -29,7 +32,7 @@ export function render(data: ArrayLike<number>, mime: string, grayscale: boolean
     return new Promise<Blob>(
         (resolve, reject) => {
             image.onerror = event => reject(event.error);
-            image.onmessage = event => resolve(event.data);
+            image.onmessage = event => resolve(event.data as Blob);
             image.postMessage(message);
         }
     );
@@ -40,15 +43,15 @@ export function render(data: ArrayLike<number>, mime: string, grayscale: boolean
 * 
 * @param size The number of values to return.
 */
-export function getRandomUint8(size: number): Promise<number[]> {
+export function getRandomUint8(size: number): Promise<Uint8Array> {
     const message: GetRandomValuesMessage = {
         size: size,
         type: DataType.Uint8
     };
-    return new Promise<number[]>(
+    return new Promise<Uint8Array>(
         (resolve, reject) => {
             random.onerror = event => reject(event.error);
-            random.onmessage = event => resolve(event.data);
+            random.onmessage = event => resolve(event.data as Uint8Array);
             random.postMessage(message);
         }
     );
@@ -59,15 +62,15 @@ export function getRandomUint8(size: number): Promise<number[]> {
  * 
  * @param size The number of values to return.
  */
-export function getRandomUint32(size: number): Promise<number[]> {
+export function getRandomUint32(size: number): Promise<Uint32Array> {
     const message: GetRandomValuesMessage = {
         size: size,
         type: DataType.Uint32
     };
-    return new Promise<number[]>(
+    return new Promise<Uint32Array>(
         (resolve, reject) => {
             random.onerror = event => reject(event.error);
-            random.onmessage = event => resolve(event.data);
+            random.onmessage = event => resolve(event.data as Uint32Array);
             random.postMessage(message);
         }
     );
@@ -87,7 +90,7 @@ export function getRandomString(size: number, characters: string): Promise<strin
     return new Promise<string>(
         (resolve, reject) => {
             random.onerror = event => reject(event.error);
-            random.onmessage = event => resolve(event.data);
+            random.onmessage = event => resolve(event.data as string);
             random.postMessage(message);
         }
     );
@@ -109,7 +112,7 @@ export function getRandomWords(size: number, dictionary: string[], separator: st
     return new Promise<string>(
         (resolve, reject) => {
             random.onerror = event => reject(event.error);
-            random.onmessage = event => resolve(event.data);
+            random.onmessage = event => resolve(event.data as string);
             random.postMessage(message);
         }
     );

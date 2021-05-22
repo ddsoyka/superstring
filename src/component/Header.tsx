@@ -41,7 +41,7 @@ const HeaderTitle: React.FC = (props) => {
 const HeaderSubtitle: React.FC = (props) => {
     return (
         <Row className="header-subtitle py-3 justify-content-center">
-            <h2>{props.children}</h2>
+            <h3>{props.children}</h3>
         </Row>
     );
 };

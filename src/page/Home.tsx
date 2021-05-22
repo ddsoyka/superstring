@@ -8,6 +8,7 @@ import Calculator from '../image/calculator.svg';
 import Analyze from '../image/analyze.svg';
 import Header from '../component/Header';
 import Segment from '../component/Segment';
+import './Home.css'
 
 function version(): string {
     const major = process.env.VERSION_MAJOR;
