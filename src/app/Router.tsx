@@ -1,4 +1,4 @@
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route } from 'react-router-dom';
 import Convert from '../feature/convert/Convert';
 import Calculator from '../feature/calculator/Calculator';
 import CalculatorElectrical from '../feature/calculator/CalculatorElectrical';
@@ -19,18 +19,42 @@ const Router: React.FC = () => {
             <Route path="/about">
                 <About />
             </Route>
-            <Route path="/help" component={Help} />
-            <Route path="/random" exact component={Random} />
-            <Route path="/random/string" component={RandomString} />
-            <Route path="/random/words" component={RandomWords} />
-            <Route path="/random/image" component={RandomImage} />
-            <Route path="/convert" exact component={Convert} />
-            <Route path="/calculator" exact component={Calculator} />
-            <Route path="/calculator/electrical" component={CalculatorElectrical} />
-            <Route path="/analyze" exact component={Analyze} />
-            <Route path="/analyze/binary-visualize" component={BinaryVisualizeAnalyze} />
-            <Route path="/" exact component={Home} />
-            <Route component={NotFound} />
+            <Route path="/help">
+                <Help />
+            </Route>
+            <Route path="/random" exact>
+                <Random />
+            </Route>
+            <Route path="/random/string">
+                <RandomString />
+            </Route>
+            <Route path="/random/words">
+                <RandomWords />
+            </Route>
+            <Route path="/random/image">
+                <RandomImage />
+            </Route>
+            <Route path="/convert" exact>
+                <Convert />
+            </Route>
+            <Route path="/calculator" exact>
+                <Calculator />
+            </Route>
+            <Route path="/calculator/electrical">
+                <CalculatorElectrical />
+            </Route>
+            <Route path="/analyze" exact>
+                <Analyze />
+            </Route>
+            <Route path="/analyze/binary-visualize">
+                <BinaryVisualizeAnalyze />
+            </Route>
+            <Route path="/" exact>
+                <Home />
+            </Route>
+            <Route>
+                <NotFound />
+            </Route>
         </Switch>
     );
 };
