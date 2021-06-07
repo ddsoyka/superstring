@@ -27,6 +27,13 @@
 			},
 			"problemMatcher": [],
 			"label": "Build"
+		},
+		{
+			"type": "npm",
+			"script": "clean",
+			"group": "none",
+			"problemMatcher": [],
+			"label": "Clean"
 		}
 	]
 }
